@@ -1,6 +1,7 @@
 let validate = require('validate.js')
 let studentSchema = require('./student-schema')
 let teacherSchema = require('./teacher-schema')
+let productSchema = require('./product-schema')
 
 let validator = (payload, schema) => {
   let result = validate(payload, schema)
@@ -18,6 +19,7 @@ let validator = (payload, schema) => {
 
 module.exports = {
   studentValidator: (payload) => validator(payload, studentSchema),
-  teacherValidator: (payload) => validator(payload, teacherSchema)
+  teacherValidator: (payload) => validator(payload, teacherSchema),
+  productValidator: (payload) => validator(payload, productSchema)
 }
 

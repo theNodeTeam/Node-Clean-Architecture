@@ -13,7 +13,7 @@ products.show = (req, res, next) => {
   ProductsDb.findProduct('id', req.params.id)
     .then(data => {
       res.send(data)
-    })
+    }) 
 }
 
 products.create = (req, res, next) => {

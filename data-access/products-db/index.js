@@ -9,10 +9,9 @@ let {
 // = require('./pg/index')
 
 let productsDb = {
-
   listproducts,
   findProduct,
-  addProduct
+  addProduct 
 }
 
 

@@ -1,6 +1,7 @@
 let Joi = require('joi')
 let studentSchema = require('./student-schema')
 let teacherSchema = require('./teacher-schema')
+let productSchema = require('./product-schema')
 
 let JoiValidator = (payload, schema) => {
   let {error} = Joi.validate(payload, schema, {abortEarly: false})
@@ -15,7 +16,8 @@ let JoiValidator = (payload, schema) => {
 
 let validator = {
   studentValidator: (payload) => JoiValidator(payload, studentSchema),
-  teacherValidator: (payload) => JoiValidator(payload, teacherSchema)
+  teacherValidator: (payload) => JoiValidator(payload, teacherSchema),
+  productValidator: (payload) => validator(payload, productSchema)
 }
 
 module.exports = validator

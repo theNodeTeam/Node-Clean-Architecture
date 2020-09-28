@@ -1,10 +1,10 @@
 const _serializeSingle = (student) => {
   return {
-    'id': student.serial,
-    'grade': student.year,
-    'name': student.name,
-    'age': student.age,
-    'prefect': student.prefect
+    'productID': student.productID,
+    'productName': student.productName,
+    'productDescription': student.productDescription,
+    'productType': student.productType,
+    'productBarcode': student.productBarcode
   };
 };
 

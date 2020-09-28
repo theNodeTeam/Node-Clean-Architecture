@@ -16,4 +16,4 @@ module.exports = validator
 //   name: 21
 // }
 
-// let result = validator.studentValidator(student) //?
+// let result = validator.studentValidator(student) //? 
