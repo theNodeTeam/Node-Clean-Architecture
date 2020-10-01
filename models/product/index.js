@@ -1,10 +1,10 @@
-let buildMakeStudent = require('./product')
+let buildMakeProduct = require('./product')
 let productSchema = require('./product-schema')
 // let {studentValidator} = require('../../validator')
 let productValidator = require('../validator')(productSchema)
 
-let makeStudent = buildMakeStudent(productValidator)
+let makeProduct = buildMakeProduct(productValidator)
 
-module.exports = makeStudent
+module.exports = makeProduct
 
  

@@ -16,13 +16,13 @@ let findProduct = (prop, val) => {
 
 
 let addProduct = (productInfo) => {
-  let student = makeProduct(productInfo)
+  let product = makeProduct(productInfo)
   let newProduct = { 
     productID: PRODUCTS.length + 1, 
-    productName: student.getProductName(),
-    productDescription: student.getProductDescription(),
-    productType: student.getProductType(),
-    productBarcode: student.getProductBarcode()
+    productName: product.getProductName(),
+    productDescription: product.getProductDescription(),
+    productType: product.getProductType(),
+    productBarcode: product.getProductBarcode()
   } 
   PRODUCTS.push(newProduct)
   return findProduct('productID', newProduct.productID)
