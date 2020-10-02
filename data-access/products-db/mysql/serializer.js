@@ -1,10 +1,10 @@
-const _serializeSingle = (student) => {
+const _serializeSingle = (product) => {
   return {
-    'productID': student.productID,
-    'productName': student.productName,
-    'productDescription': student.productDescription,
-    'productType': student.productType,
-    'productBarcode': student.productBarcode
+    'productID': product.productID,
+    'productName': product.productName,
+    'productDescription': product.productDescription,
+    'productType': product.productType,
+    'productBarcode': product.productBarcode
   };
 };
 
