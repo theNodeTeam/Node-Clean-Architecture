@@ -4,7 +4,7 @@ let serialize = require('./serializer') // serializer custom to db
 const products = require('../../../db/memory/products')
 
 let listproducts = () => {
-  return Promise.resolve(serialize(PRODUCTS))
+  return Promise.resolve(serialize(PRODUCTS)) 
 }
 
 let findProduct = (prop, val) => {

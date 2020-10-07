@@ -7,7 +7,7 @@ products.index = (req, res, next) => {
     .then(data => { 
       res.send(data)
     })
-}
+} 
 
 products.show = (req, res, next) => {
   ProductsDb.findProduct('id', req.params.id)

@@ -6,4 +6,4 @@ let makeProduct = buildMakeProduct(productValidator)
 
 module.exports = makeProduct
 
- 
+  
