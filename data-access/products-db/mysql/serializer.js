@@ -1,10 +1,22 @@
-const _serializeSingle = (product) => {
+const _serializeSingle = (item) => {
   return {
-    'productID': product.productID,
-    'productName': product.productName,
-    'productDescription': product.productDescription,
-    'productType': product.productType,
-    'productBarcode': product.productBarcode
+    'productID': item.productID,
+    'storeID': item.storeID,
+    'productPrice': item.productPrice,
+    'productDiscount': item.productDiscount,
+    'isFeatured': item.isFeatured,
+    'isOutOfStock': item.isOutOfStock,
+    'outOfStockDate': item.outOfStockDate,
+    'expDate': item.expDate,
+    'featuredDetails': item.featuredDetails,
+    'quantity': item.quantity,
+    'speciaIInstructions': item.speciaIInstructions,
+    'discount': item.discount,
+    'itemBarcode': item.itemBarcode,
+    'noOfImage': item.noOfImage,
+    'disclaimer': item.disclaimer,
+    'nutritionFacts': item.nutritionFacts,
+    'itemActive': item.itemActive
   };
 };
 
