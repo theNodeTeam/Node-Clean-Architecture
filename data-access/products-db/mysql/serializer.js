@@ -1,4 +1,4 @@
-const _serializeSingle = (item) => {
+const _serializeSingle = (product) => {
   return {
     'productID': product.productID,
     'productName': product.productName,

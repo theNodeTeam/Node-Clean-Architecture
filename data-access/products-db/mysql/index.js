@@ -11,7 +11,7 @@ let itemsSerializer = require('./itemsSerializer') // serializer custom to db
 let favouriteSerializer = require('./favouriteSerializer') // serializer custom to db
 let transProdSerializer = require('./transProduct') // serializer custom to db
 
-const products = require('../../../db/memory/products')
+// const products = require('../../../db/memory/products')
 
 let listproducts = () => {
   return Promise.resolve(serialize(PRODUCTS)) 
