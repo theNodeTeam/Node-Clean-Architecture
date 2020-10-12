@@ -31,8 +31,8 @@ let {
   deleteRef_trans_prod
 } 
  // switch out db as required
-// = require('./memory/index')
-= require('./mysql/index')
+= require('./memory/index')
+// = require('./mysql/index')
 // = require('./mongod/index')
 // = require('./pg/index')
  
