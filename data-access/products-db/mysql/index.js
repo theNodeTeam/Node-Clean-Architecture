@@ -4,15 +4,17 @@ let serialize = require('./serializer') // serializer custom to db
 let categorySerializer = require('./categorySerializer') // serializer custom to db
 let subCategorySerializer = require('./subCategorySerializer') // serializer custom to db
 let itemsSerializer = require('./itemsSerializer') // serializer custom to db
+let favouriteSerializer = require('./favouriteSerializer') // serializer custom to db
 
 let makeProduct = require('../../../models/product/index') // model
 let makeCategory = require('../../../models/category/index') // model
 let makeSubCategory = require('../../../models/subCategory/index') // model
 let makeItem = require('../../../models/item/index') // model
+let makeFavItem = require('../../../models/favItem/index') // model yasir
 
 
 let makeTransProduct = require('../../../models/transProduct/index') // model
-let favouriteSerializer = require('./favouriteSerializer') // serializer custom to db
+
 let transProdSerializer = require('./transProduct') // serializer custom to db
 
 // const products = require('../../../db/memory/products')
@@ -287,7 +289,7 @@ let editItem = (id,itemInfo) => {
     disclaimer= item.getdisclaimer(),
     nutritionFacts= item.getnutritionFacts(),
     itemActive= item.getitemActive()
-    let insertQuery =  "INSERT INTO items SET productID=" + "'" + productID + "'" + "," + "storeID=" + "'" + storeID + "'" + "," + "productPrice=" + "'" + productPrice + "'" + "," + "productDiscount=" + "'" + productDiscount + "'" + "," + "isFeatured=" + "'" + isFeatured + "'" + "," + "isOutOfStock=" + "'" + isOutOfStock + "'" + "," + "outOfStockDate=" + "'" + outOfStockDate + "'" + "," + "expDate=" + "'" + expDate + "'" + "," + "featuredDetails=" + "'" + featuredDetails + "'" + "," + "quantity=" + "'" + quantity + "'" + "," + "specialInstrauctions=" + "'" + specialInstrauctions + "'" + "," + "discount=" + "'" + discount + "'" + "," + "itemBarcode=" + "'" + itemBarcode + "' WHERE itemID='"+id+"'"
+    let insertQuery =  "UPDATE items SET productID=" + "'" + productID + "'" + "," + "storeID=" + "'" + storeID + "'" + "," + "productPrice=" + "'" + productPrice + "'" + "," + "productDiscount=" + "'" + productDiscount + "'" + "," + "isFeatured=" + "'" + isFeatured + "'" + "," + "isOutOfStock=" + "'" + isOutOfStock + "'" + "," + "outOfStockDate=" + "'" + outOfStockDate + "'" + "," + "expDate=" + "'" + expDate + "'" + "," + "featuredDetails=" + "'" + featuredDetails + "'" + "," + "quantity=" + "'" + quantity + "'" + "," + "specialInstrauctions=" + "'" + specialInstrauctions + "'" + "," + "discount=" + "'" + discount + "'" + "," + "itemBarcode=" + "'" + itemBarcode + "' WHERE itemID='"+id+""
     return new Promise(function (resolve, reject) {
       connection.query(insertQuery, (error, result) => {
         if (!error) {
@@ -341,7 +343,7 @@ let deleteItem = (prop, val) => {
     connection.query(run_query, function (err, result, fields) {
       // console.log(result)
       if (!err) {
-        resolve(getItems)
+        resolve(getItem('itemID',val))
       }
       else reject(err);
     });
@@ -363,97 +365,194 @@ let getStoreItem = (prop, val) => {
 }
 
 let getStoreAllItem = (prop, val) => {
-  if (prop === 'id') { prop = 'storeID' }
-  //logic here 
-  return Promise.resolve(itemsSerializer("data")) 
+  return new Promise(function (resolve, reject) {
+    let run_query="SELECT * FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.productType WHERE items.storeID=" +val;
+    connection.query(run_query, function (err, result, fields) {
+      // console.log(result)
+      if (!err) {
+        resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
+      }
+      else reject(err);
+    });
+  });
 }
 
 let getFeaturedItem = (prop, val) => {
-  if (prop === 'id') { prop = 'storeID' }
-  //logic here 
-  return Promise.resolve(itemsSerializer("data")) 
+  return new Promise(function (resolve, reject) {
+    let run_query="SELECT * FROM `items` LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.productType WHERE items.storeID=" +val;
+    connection.query(run_query, function (err, result, fields) {
+      // console.log(result)
+      if (!err) {
+        resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
+      }
+      else reject(err);
+    });
+  });
 }
 
 
 let getRef_prod_fav = (prop, val) => {
-  //logic here 
-  return Promise.resolve(favouriteSerializer("data")) 
+  return new Promise(function (resolve, reject) {
+    let run_query="SELECT * FROM ref_prod_fav WHERE favID=" +val;
+    connection.query(run_query, function (err, result, fields) {
+      // console.log(result)
+      if (!err) {
+        let getVal={}
+        if (result.length > 0) {
+           getVal = {
+            "userID": result[0].userID,
+            "itemID": result[0].itemID,
+          }
+        } else {
+           getVal = { }
+        }
+        
+        resolve(Promise.resolve(favouriteSerializer(JSON.parse(JSON.stringify(getVal)))))
+      }
+      else reject(err);
+    });
+  });
 }
 
 
 let addRef_prod_fav = (favInfo) => {
   let favItem = makeFavItem(favInfo)
-  let newFavItem = { 
-    userID: favItem.getUserID(),
-    itemID: favItem.getItemID()
-  } 
-  //query logic
-  return getFavItem('favID', newFavItem.favID)
+    let userID= favItem.getUserID()
+    let itemID= favItem.getItemID()
+    let insertQuery =  "INSERT INTO ref_prod_fav SET userID=" + "'" + userID + "'" + "," + "itemID=" + "'" + itemID + "'"
+    return new Promise(function (resolve, reject) {
+      connection.query(insertQuery, (error, result) => {
+        if (!error) {
+          resolve(getRef_prod_fav('favID', result.insertId))
+        }
+        else return error
+      })
+    })
 }
 
 
-let editRef_prod_fav = (favInfo) => {
+let editRef_prod_fav = (id,favInfo) => {
   let favItem = makeFavItem(favInfo)
-  let newFavItem = { 
-    userID: favItem.getUserID(),
-    itemID: favItem.getItemID()
-  } 
-  //query logic
-  return getFavItem('favID', newFavItem.favID)
+    let userID= favItem.getUserID()
+    let itemID= favItem.getItemID()
+    let insertQuery =  "UPDATE ref_prod_fav SET userID=" + "'" + userID + "'" + "," + "itemID=" + "'" + itemID + "' WHERE favID='"+id+"'"
+    return new Promise(function (resolve, reject) {
+      connection.query(insertQuery, (error, result) => {
+        if (!error) {
+          resolve(getRef_prod_fav('favID', id))
+        }
+        else return error
+      })
+    })
 }
 
 
 let deleteRef_prod_fav = (prop, val) => {
-  if (prop === 'id') { prop = 'favID' }
-  //logic here 
-  return Promise.resolve(favouriteSerializer("data")) 
+  let insertQuery =  "DELETE FROM ref_prod_fav  WHERE favID='"+val+"'"
+    return new Promise(function (resolve, reject) {
+      connection.query(insertQuery, (error, result) => {
+        if (!error) {
+          resolve(getRef_prod_fav('favID', val))
+        }
+        else return error
+      })
+    })
 }
 
 
 let userRef_prod_fav = (prop, val) => {
-  if (prop === 'id') { prop = 'favID' }
-  //logic here 
-  return Promise.resolve(favouriteSerializer("data")) 
+  let insertQuery =  "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN store on items.storeID = store.storeID  where ref_prod_fav.userID="+val
+  return new Promise(function (resolve, reject) {
+    connection.query(insertQuery, (error, result) => {
+      if (!error) {
+        resolve(getRef_prod_fav('favID', val))
+      }
+      else return error
+    })
+  })
 }
 
-let userStoreRef_prod_fav = (prop, val) => {
-  if (prop === 'id') { prop = 'userID' }
-  //logic here 
-  return Promise.resolve(favouriteSerializer("data")) 
+let userStoreRef_prod_fav = (prop, val,val2) => {
+  let insertQuery =  "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID where ref_prod_fav.userID=" + val + " AND items.storeID=" + val2;
+  return new Promise(function (resolve, reject) {
+    connection.query(insertQuery, (error, result) => {
+      if (!error) {
+        resolve(Promise.resolve(favouriteSerializer(JSON.parse(JSON.stringify(result)))))
+      }
+      else return error
+    })
+  })
 }
 
 let getRef_trans_prod = (prop, val) => {
-  if (prop === 'id') { prop = 'orderID' }
-  //logic here 
-  return Promise.resolve(transProdSerializer("data")) 
+  let insertQuery =  "SELECT * FROM ref_trans_items WHERE id=" + val;
+  return new Promise(function (resolve, reject) {
+    connection.query(insertQuery, (err, result) => {
+      if (!err) {
+        let getVal={}
+        if (result.length > 0) {
+           getVal = {
+            "orderID": result[0].orderID,
+            "itemID": result[0].itemID,
+          }
+        } else {
+           getVal = { }
+        }
+        
+        resolve(Promise.resolve(transProdSerializer(JSON.parse(JSON.stringify(getVal)))))
+      }
+      else reject(err);
+    })
+  })
+   
 }
 
 let addRef_trans_products = (transProdInfo) => {
   let transProdItem = makeTransProduct(transProdInfo)
-  let newTransProd = { 
-    orderID: transProdItem.getUserID(),
-    itemID: transProdItem.getItemID(),
-    itemQuantity: transProdItem.getItemID(),
-  } 
-  //query logic
-  return getRef_trans_prod('orderID', newTransProd.orderID)
+  
+  let  orderID= transProdItem.getUserID()
+    let itemID= transProdItem.getItemID()
+    // itemQuantity: transProdItem.getItemID(),
+    let insertQuery =  "INSERT INTO ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "'"
+    return new Promise(function (resolve, reject) {
+      connection.query(insertQuery, (error, result) => {
+        if (!error) {
+          resolve(getRef_trans_prod('id', result.insertId))
+        }
+        else return error
+      })
+    })
+  
 }
 
-let editRef_trans_prod = (transProdInfo) => {
+let editRef_trans_prod = (id,transProdInfo) => {
   let transProdItem = makeTransProduct(transProdInfo)
-  let newTransProd = { 
-    orderID: transProdItem.getUserID(),
-    itemID: transProdItem.getItemID(),
-    itemQuantity: transProdItem.getItemID(),
-  } 
-  //query logic
-  return getRef_trans_prod('orderID', newTransProd.orderID)
+  
+  let  orderID= transProdItem.getUserID()
+    let itemID= transProdItem.getItemID()
+    // itemQuantity: transProdItem.getItemID(),
+    let insertQuery =  "UPDATE ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "' WHERE id='"+id+"'"
+    return new Promise(function (resolve, reject) {
+      connection.query(insertQuery, (error, result) => {
+        if (!error) {
+          resolve(getRef_trans_prod('id', id))
+        }
+        else return error
+      })
+    })
 }
 
 let deleteRef_trans_prod = (prop, val) => {
-  if (prop === 'id') { prop = 'id' }
-  //logic here 
-  return Promise.resolve(transProdSerializer("data")) 
+  let insertQuery =  "DELETE FROM ref_trans_items WHERE id="+val
+  console.log(insertQuery)
+  return new Promise(function (resolve, reject) {
+    connection.query(insertQuery, (error, result) => {
+      if (!error) {
+        resolve(getRef_trans_prod('id', val))
+      }
+      else return error
+    })
+  })
 }
 
 module.exports = {

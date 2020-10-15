@@ -187,7 +187,7 @@ products.addRef_prod_fav = (req, res, next) => {
 
 
 products.editRef_prod_fav = (req, res, next) => {
-  ProductsDb.editRef_prod_fav(re.params.id,req.body)
+  ProductsDb.editRef_prod_fav(req.params.id,req.body)
     .then(data => {
       res.send(data)
     })
@@ -212,9 +212,9 @@ products.userRef_prod_fav = (req, res, next) => {
     .catch(next)
 }
 
-
+// missing storID 
 products.userStoreRef_prod_fav = (req, res, next) => {
-  ProductsDb.userStoreRef_prod_fav('id', req.params.id)
+  ProductsDb.userStoreRef_prod_fav('id', req.params.id,'storeID',req.params.storeID)
     .then(data => {
       res.send(data)
     })
@@ -239,9 +239,9 @@ products.addRef_trans_products = (req, res, next) => {
     .catch(next)
 }
 
-
+// id params missing
 products.editRef_trans_prod = (req, res, next) => {
-  ProductsDb.editRef_trans_prod()
+  ProductsDb.editRef_trans_prod('id',req.params.id)
     .then(data => {
       res.send(data)
     })
@@ -250,7 +250,7 @@ products.editRef_trans_prod = (req, res, next) => {
 
 
 products.deleteRef_trans_prod = (req, res, next) => {
-  ProductsDb.deleteRef_trans_prod()
+  ProductsDb.deleteRef_trans_prod('id',req.params.id)
     .then(data => {
       res.send(data)
     })
