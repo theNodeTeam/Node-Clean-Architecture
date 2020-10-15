@@ -1,14 +1,23 @@
 let buildMakeSubCategory = function(subCategoryValidator) {
   return ({
     subCategoryName,
-    subCategoryDescription
+    subCategoryDescription,
+    categoryID,
+    // productID
   } = {}) => {
-    let {error} = subCategoryValidator({subCategoryName, subCategoryDescription})
+    let {error} = subCategoryValidator({
+      subCategoryName, 
+      subCategoryDescription, 
+      categoryID,
+      // productID
+    })
     if (error) throw new Error(error)
 
     return {
       getSubCategoryName: () => subCategoryName,
-      getSubCategoryDescription: () => subCategoryDescription
+      getSubCategoryDescription: () => subCategoryDescription,
+      getCategoryID: () => categoryID,
+      // getProductID: () => productID
     }
   }
 }

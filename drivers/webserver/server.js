@@ -35,7 +35,7 @@ app.use(function (req, res) {
 });
 
 
-const PORT = config.PORT || 3000
+const PORT = config.PORT || 5007
 
 app.listen(PORT, () => {
   console.log(`Listening on PORT: ${PORT}`);

@@ -1,8 +1,10 @@
-const _serializeSingle = (subcategory) => {
+const _serializeSingle = (subCategory) => {
     return {
       'subCategoryID': subCategory.subCategoryID,
       'subCategoryName': subCategory.subCategoryName,
-      'subCategoryDescription': subCategory.subCategoryDescription
+      'subCategoryDescription': subCategory.subCategoryDescription,
+      'categoryID': subCategory.categoryID,
+      'productID': subCategory.productID
     };
   };
   

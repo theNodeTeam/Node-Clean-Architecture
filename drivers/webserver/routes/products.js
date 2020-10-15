@@ -25,7 +25,7 @@ products.create = (req, res, next) => {
 }
 
 products.editProduct = (req, res, next) => {
-  ProductsDb.editProduct(re.params.id,req.body)
+  ProductsDb.editProduct(req.params.id,req.body)
     .then(data => {
       res.send(data)
     })
@@ -59,7 +59,7 @@ products.getCategory = (req, res, next) => {
 
 
 products.editCategory = (req, res, next) => {
-  ProductsDb.editCategory(re.params.id,req.body)
+  ProductsDb.editCategory(req.params.id,req.body)
     .then(data => {
       res.send(data)
     })
@@ -92,7 +92,7 @@ products.getSubCategory = (req, res, next) => {
 }
 
 products.editSubCategory = (req, res, next) => {
-  ProductsDb.editSubCategory(re.params.id,req.body)
+  ProductsDb.editSubCategory(req.params.id,req.body)
     .then(data => {
       res.send(data)
     })
@@ -117,7 +117,7 @@ products.addItem = (req, res, next) => {
 }
 
 products.editItem = (req, res, next) => {
-  ProductsDb.editItem(re.params.id,req.body)
+  ProductsDb.editItem(req.params.id,req.body)
     .then(data => {
       res.send(data)
     })

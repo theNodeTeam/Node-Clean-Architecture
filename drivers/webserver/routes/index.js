@@ -5,34 +5,34 @@ const products = require('./products')
 
 //products
 router
-  .get('/products', products.index)
-  .get('/products/:id', products.show)
-  .post('/products', products.create)
-  .put("/v1/product/:id", products.editProduct);
+  .get('/products', products.index) // mysq done
+  .get('/products/:id', products.show)  // mysql done
+  .post('/products', products.create) // mysql done
+  .put("/v1/product/:id", products.editProduct) // mysql done
 
 //category
 router
-  .post("/v1/category", products.addCategory)
-  .get("/v1/category", products.getCategories)
-  .get("/v1/category/:id", products.getCategory)
-  .put("/v1/category/:id", products.editCategory)
+  .post("/v1/category", products.addCategory) // mysql done but
+  .get("/v1/category", products.getCategories) // mysql done
+  .get("/v1/category/:id", products.getCategory) // mysql done
+  .put("/v1/category/:id", products.editCategory) // mysql done
 
 //subcategory
 router
-  .post("/v1/subCategory", products.addSubCategory)
-  .get("/v1/subCategory", products.getSubCategories)
-  .post("/v1/subCategory/:id", products.getSubCategory)
-  .put("/v1/subCategory/:id", products.editSubCategory);
+  .post("/v1/subCategory", products.addSubCategory) // mysql done but
+  .get("/v1/subCategory", products.getSubCategories) // mysql done
+  .get("/v1/subCategory/:id", products.getSubCategory) // mysql done
+  .put("/v1/subCategory/:id", products.editSubCategory) // mysql done
 
 //item
 router
-  .get("/v1/item", products.getItems)
-  .post("/v1/item", products.addItem)
-  .put("/v1/item/:id", products.editItem)
-  .get("/v1/item/:id", products.getItem)
-  .delete("/v1/item/:id", products.deleteItem)
-  .post("/v1/item/store/:id", products.getStoreItem)
-  .post("/v1/all/item/store/:id", products.getStoreAllItem)
+  .get("/v1/item", products.getItems) // mysql done
+  .post("/v1/item", products.addItem) // mysql done
+  .put("/v1/item/:id", products.editItem) // mysql done
+  .get("/v1/item/:id", products.getItem) // mysql done
+  .delete("/v1/item/:id", products.deleteItem) // mysql done but
+  .get("/v1/item/store/:id", products.getStoreItem) // mysql done
+  .get("/v1/all/item/store/:id", products.getStoreAllItem) 
   .get("/v1/item/featured/:id", products.getFeaturedItem);
 
 //favourite products
