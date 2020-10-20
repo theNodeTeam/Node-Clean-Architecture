@@ -12,14 +12,14 @@ router
 
 //category
 router
-  .post("/v1/category", products.addCategory) // mysql done (must have category name as string)
+  .post("/v1/category", products.addCategory) // mysql done 
   .get("/v1/category", products.getCategories) // mysql done
   .get("/v1/category/:id", products.getCategory) // mysql done
   .put("/v1/category/:id", products.editCategory) // mysql done
 
 //subcategory
 router
-  .post("/v1/subCategory", products.addSubCategory) // mysql done (must have subCategory name as string)
+  .post("/v1/subCategory", products.addSubCategory) // mysql done 
   .get("/v1/subCategory", products.getSubCategories) // mysql done
   .get("/v1/subCategory/:id", products.getSubCategory) // mysql done
   .put("/v1/subCategory/:id", products.editSubCategory) // mysql done
@@ -38,16 +38,16 @@ router
 //favourite products
 router
   .get("/v1/ref_prod_fav/:id", products.getRef_prod_fav) //mysql done
-  .post("/v1/ref_prod_fav", products.addRef_prod_fav) // mysql done (must have userID name as string)
+  .post("/v1/ref_prod_fav", products.addRef_prod_fav) // mysql done 
   .put("/v1/ref_prod_fav/:id", products.editRef_prod_fav) // mysql done
   .delete("/v1/ref_prod_fav/:id", products.deleteRef_prod_fav) // mysql done
   .get("/v1/user/ref_prod_fav/:id", products.userRef_prod_fav) // mysql done
   .get("/v1/store/user/ref_prod_fav/:id/:storeID", products.userStoreRef_prod_fav) // mysql done
 
-  //order-product
+//order-product
 router
   .get("/v1/ref_trans_products/:id", products.getRef_trans_prod) // mysql done
-  .post("/v1/ref_trans_products", products.addRef_trans_products) // mysql done (must have orderID name as string)
+  .post("/v1/ref_trans_products", products.addRef_trans_products) // mysql done 
   .put("/v1/ref_trans_products/:id", products.editRef_trans_prod) // mysql done (must have orderID name as string)
   .delete("/v1/ref_trans_products/:id", products.deleteRef_trans_prod) // mysql done
 

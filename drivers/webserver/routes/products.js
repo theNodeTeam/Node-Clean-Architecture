@@ -4,17 +4,17 @@ let products = module.exports = {}
 
 products.index = (req, res, next) => {
   ProductsDb.listproducts()
-    .then(data => { 
+    .then(data => {
       res.send(data)
     })
-} 
+}
 
 products.show = (req, res, next) => {
   ProductsDb.findProduct('id', req.params.id)
     .then(data => {
       res.send(data)
-    }) 
-} 
+    })
+}
 
 products.create = (req, res, next) => {
   ProductsDb.addProduct(req.body)
@@ -25,7 +25,7 @@ products.create = (req, res, next) => {
 }
 
 products.editProduct = (req, res, next) => {
-  ProductsDb.editProduct(req.params.id,req.body)
+  ProductsDb.editProduct(req.params.id, req.body)
     .then(data => {
       res.send(data)
     })
@@ -33,7 +33,7 @@ products.editProduct = (req, res, next) => {
 }
 
 products.addCategory = (req, res, next) => {
-  ProductsDb.addCategory()
+  ProductsDb.addCategory(req.body)
     .then(data => {
       res.send(data)
     })
@@ -59,7 +59,7 @@ products.getCategory = (req, res, next) => {
 
 
 products.editCategory = (req, res, next) => {
-  ProductsDb.editCategory(req.params.id,req.body)
+  ProductsDb.editCategory(req.params.id, req.body)
     .then(data => {
       res.send(data)
     })
@@ -67,7 +67,7 @@ products.editCategory = (req, res, next) => {
 }
 
 products.addSubCategory = (req, res, next) => {
-  ProductsDb.addSubCategory()
+  ProductsDb.addSubCategory(req.body)
     .then(data => {
       res.send(data)
     })
@@ -92,7 +92,7 @@ products.getSubCategory = (req, res, next) => {
 }
 
 products.editSubCategory = (req, res, next) => {
-  ProductsDb.editSubCategory(req.params.id,req.body)
+  ProductsDb.editSubCategory(req.params.id, req.body)
     .then(data => {
       res.send(data)
     })
@@ -117,7 +117,7 @@ products.addItem = (req, res, next) => {
 }
 
 products.editItem = (req, res, next) => {
-  ProductsDb.editItem(req.params.id,req.body)
+  ProductsDb.editItem(req.params.id, req.body)
     .then(data => {
       res.send(data)
     })
@@ -178,7 +178,7 @@ products.getRef_prod_fav = (req, res, next) => {
 
 
 products.addRef_prod_fav = (req, res, next) => {
-  ProductsDb.addRef_prod_fav()
+  ProductsDb.addRef_prod_fav(req.body)
     .then(data => {
       res.send(data)
     })
@@ -187,7 +187,7 @@ products.addRef_prod_fav = (req, res, next) => {
 
 
 products.editRef_prod_fav = (req, res, next) => {
-  ProductsDb.editRef_prod_fav(req.params.id,req.body)
+  ProductsDb.editRef_prod_fav(req.params.id, req.body)
     .then(data => {
       res.send(data)
     })
@@ -214,7 +214,7 @@ products.userRef_prod_fav = (req, res, next) => {
 
 // missing storID 
 products.userStoreRef_prod_fav = (req, res, next) => {
-  ProductsDb.userStoreRef_prod_fav('id', req.params.id,'storeID',req.params.storeID)
+  ProductsDb.userStoreRef_prod_fav('id', req.params.id, 'storeID', req.params.storeID)
     .then(data => {
       res.send(data)
     })
@@ -232,7 +232,7 @@ products.getRef_trans_prod = (req, res, next) => {
 
 
 products.addRef_trans_products = (req, res, next) => {
-  ProductsDb.addRef_trans_products()
+  ProductsDb.addRef_trans_products(req.body)
     .then(data => {
       res.send(data)
     })
@@ -241,7 +241,7 @@ products.addRef_trans_products = (req, res, next) => {
 
 // id params missing
 products.editRef_trans_prod = (req, res, next) => {
-  ProductsDb.editRef_trans_prod('id',req.params.id)
+  ProductsDb.editRef_trans_prod( req.params.id, req.body)
     .then(data => {
       res.send(data)
     })
@@ -250,7 +250,7 @@ products.editRef_trans_prod = (req, res, next) => {
 
 
 products.deleteRef_trans_prod = (req, res, next) => {
-  ProductsDb.deleteRef_trans_prod('id',req.params.id)
+  ProductsDb.deleteRef_trans_prod('id', req.params.id)
     .then(data => {
       res.send(data)
     })
