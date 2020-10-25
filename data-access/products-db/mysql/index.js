@@ -5,7 +5,8 @@ let categorySerializer = require('./categorySerializer') // serializer custom to
 let subCategorySerializer = require('./subCategorySerializer') // serializer custom to db
 let itemsSerializer = require('./itemsSerializer') // serializer custom to db
 let favouriteSerializer = require('./favouriteSerializer') // serializer custom to db
-let transProdSerializer = require('./transProduct') // serializer custom to db
+let transProdSerializer = require('./transProductSerializer') // serializer custom to db
+let nutritionSerializer = require('./nutritionSerializer') // serializer custom to db
 
 let makeProduct = require('../../../models/product/index') // model
 let makeCategory = require('../../../models/category/index') // model
@@ -13,6 +14,7 @@ let makeSubCategory = require('../../../models/subCategory/index') // model
 let makeItem = require('../../../models/item/index') // model
 let makeFavItem = require('../../../models/favItem/index') // model yasir
 let makeTransProduct = require('../../../models/transProduct/index') // model
+let makeNutrition = require('../../../models/nutrition/index') // model
 
 let listproducts = () => {
   return new Promise(function (resolve, reject) {
@@ -551,6 +553,112 @@ let deleteRef_trans_prod = (prop, val) => {
   })
 }
 
+//////
+let get_nutrition = (prop, val) => {
+  let insertQuery = "SELECT * FROM ref_trans_items WHERE id=" + val;
+  return new Promise(function (resolve, reject) {
+    connection.query(insertQuery, (err, result) => {
+      if (!err) {
+        let getVal = {}
+        if (result.length > 0) {
+          getVal = {
+            "orderID": result[0].orderID,
+            "itemID": result[0].itemID,
+          }
+        } else {
+          getVal = {}
+        }
+
+        resolve(Promise.resolve(nutritionSerializer(JSON.parse(JSON.stringify(getVal)))))
+      }
+      else reject(err);
+    })
+  })
+
+}
+
+let add_nutrition = (nutritionInfo) => {
+  let nutritions = makeNutrition(nutritionInfo)
+
+  // let orderID = nutritions.getOrderID()
+  // let itemID = nutritions.getItemID()
+
+  let nutritionID = nutritions.nutritionID()
+  let servingSize = nutritions.servingSize()
+  let servingPerContainer = nutritions.servingPerContainer()
+  let calories = nutritions.calories()
+  let fatInGm = nutritions.fatInGm()
+  let saturatedFatInGm = nutritions.saturatedFatInGm()
+  let polyunsaturatedFatInGm = nutritions.polyunsaturatedFatInGm()
+  let monounsaturatedFatInGm = nutritions.monounsaturatedFatInGm()
+  let transFatInGm = nutritions.transFatInGm()
+  let protienInGm = nutritions.protienInGm()
+  let cholesterol = nutritions.cholesterol()
+  let sodium = nutritions.sodium()
+  let potassium = nutritions.potassium()
+  let totalCarbs = nutritions.totalCarbs()
+  let dietaryFiber = nutritions.dietaryFiber()
+  let sugar = nutritions.sugar()
+  
+  let insertQuery = "INSERT INTO ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "'"
+  return new Promise(function (resolve, reject) {
+    connection.query(insertQuery, (error, result) => {
+      if (!error) {
+        resolve(get_nutrition('id', result.insertId))
+      }
+      else return error
+    })
+  })
+
+}
+
+let edit_nutrition = (id, transProdInfo) => {
+  let nutritions = makeNutrition(transProdInfo)
+
+  // let orderID = nutritions.getOrderID()
+  // let itemID = nutritions.getItemID()
+
+  let nutritionID = nutritions.nutritionID()
+  let servingSize = nutritions.servingSize()
+  let servingPerContainer = nutritions.servingPerContainer()
+  let calories = nutritions.calories()
+  let fatInGm = nutritions.fatInGm()
+  let saturatedFatInGm = nutritions.saturatedFatInGm()
+  let polyunsaturatedFatInGm = nutritions.polyunsaturatedFatInGm()
+  let monounsaturatedFatInGm = nutritions.monounsaturatedFatInGm()
+  let transFatInGm = nutritions.transFatInGm()
+  let protienInGm = nutritions.protienInGm()
+  let cholesterol = nutritions.cholesterol()
+  let sodium = nutritions.sodium()
+  let potassium = nutritions.potassium()
+  let totalCarbs = nutritions.totalCarbs()
+  let dietaryFiber = nutritions.dietaryFiber()
+  let sugar = nutritions.sugar()
+
+  let insertQuery = "UPDATE ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "' WHERE id='" + id + "'"
+  return new Promise(function (resolve, reject) {
+    connection.query(insertQuery, (error, result) => {
+      if (!error) {
+        resolve(get_nutrition('id', id))
+      }
+      else return error
+    })
+  })
+}
+
+let delete_nutrition = (prop, val) => {
+  let insertQuery = "DELETE FROM ref_trans_items WHERE id=" + val
+  console.log(insertQuery)
+  return new Promise(function (resolve, reject) {
+    connection.query(insertQuery, (error, result) => {
+      if (!error) {
+        resolve(get_nutrition('id', val))
+      }
+      else return error
+    })
+  })
+}
+
 module.exports = {
   listproducts,
   findProduct,
@@ -581,5 +689,9 @@ module.exports = {
   getRef_trans_prod,
   addRef_trans_products,
   editRef_trans_prod,
-  deleteRef_trans_prod
+  deleteRef_trans_prod,
+  get_nutrition,
+  add_nutrition,
+  edit_nutrition,
+  delete_nutrition
 }

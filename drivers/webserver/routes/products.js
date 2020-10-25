@@ -256,3 +256,38 @@ products.deleteRef_trans_prod = (req, res, next) => {
     })
     .catch(next)
 }
+
+////
+products.get_nutrition = (req, res, next) => {
+  ProductsDb.get_nutrition('id', req.params.id)
+    .then(data => {
+      res.send(data)
+    })
+    .catch(next)
+}
+
+
+products.add_nutrition = (req, res, next) => {
+  ProductsDb.add_nutrition(req.body)
+    .then(data => {
+      res.send(data)
+    })
+    .catch(next)
+}
+
+products.edit_nutrition = (req, res, next) => {
+  ProductsDb.edit_nutrition( req.params.id, req.body)
+    .then(data => {
+      res.send(data)
+    })
+    .catch(next)
+}
+
+
+products.delete_nutrition = (req, res, next) => {
+  ProductsDb.delete_nutrition('id', req.params.id)
+    .then(data => {
+      res.send(data)
+    })
+    .catch(next)
+}

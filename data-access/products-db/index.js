@@ -28,7 +28,11 @@ let {
   getRef_trans_prod,
   addRef_trans_products,
   editRef_trans_prod,
-  deleteRef_trans_prod
+  deleteRef_trans_prod,
+  get_nutrition,
+  add_nutrition,
+  edit_nutrition,
+  delete_nutrition
 } 
  // switch out db as required
 // = require('./memory/index')
@@ -66,7 +70,11 @@ let productsDb = {
   getRef_trans_prod,
   addRef_trans_products,
   editRef_trans_prod,
-  deleteRef_trans_prod
+  deleteRef_trans_prod,
+  get_nutrition,
+  add_nutrition,
+  edit_nutrition,
+  delete_nutrition
 } 
 
 
