@@ -52,9 +52,9 @@ router
   .delete("/v1/ref_trans_products/:id", products.deleteRef_trans_prod) // mysql done
 
 //nutritions
-  .get("/v1/nutrition/:id", products.get_nutrition) // mysql done
-  .post("/v1/nutrition", products.add_nutrition) // mysql done 
-  .put("/v1/nutrition/:id", products.edit_nutrition) // mysql done (must have orderID name as string)
-  .delete("/v1/nutrition/:id", products.delete_nutrition) // mysql done
+  .get("/v1/nutrition/:id", products.get_nutrition)
+  .post("/v1/nutrition", products.add_nutrition)
+  .put("/v1/nutrition/:id", products.edit_nutrition) 
+  .delete("/v1/nutrition/:id", products.delete_nutrition) 
 
 module.exports = router  

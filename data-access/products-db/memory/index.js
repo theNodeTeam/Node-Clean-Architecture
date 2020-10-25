@@ -13,8 +13,6 @@ let findProduct = (prop, val) => {
   return Promise.resolve(serialize(student)) 
 } 
 
-
-
 let addProduct = (productInfo) => {
   let product = makeProduct(productInfo)
   let newProduct = { 

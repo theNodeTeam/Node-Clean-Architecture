@@ -553,7 +553,7 @@ let deleteRef_trans_prod = (prop, val) => {
   })
 }
 
-//////
+///////////////
 let get_nutrition = (prop, val) => {
   let insertQuery = "SELECT * FROM ref_trans_items WHERE id=" + val;
   return new Promise(function (resolve, reject) {
