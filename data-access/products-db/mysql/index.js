@@ -226,7 +226,7 @@ let editSubCategory = (id, subCategoryInfo) => {
 
 let getItems = () => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT * FROM items LEFT JOIN product on product.productID=items.productID"
+    let run_query = "SELECT i.*, p.* , (SELECT servingSize FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingSize , (SELECT servingPerContainer FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingPerContainer , (SELECT calories FROM nutrition WHERE nutritionID=i.nutritionFacts) AS calories , (SELECT fatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS fatInGm , (SELECT saturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS saturatedFatInGm , (SELECT polyunsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS polyunsaturatedFatInGm , (SELECT monounsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS monounsaturatedFatInGm , (SELECT transFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS transFatInGm , (SELECT protienInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS protienInGm , (SELECT cholesterol FROM nutrition WHERE nutritionID=i.nutritionFacts) AS cholesterol , (SELECT sodium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sodium , (SELECT potassium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS potassium , (SELECT totalCarbs FROM nutrition WHERE nutritionID=i.nutritionFacts) AS totalCarbs , (SELECT dietaryFiber FROM nutrition WHERE nutritionID=i.nutritionFacts) AS dietaryFiber , (SELECT sugar FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sugar FROM items AS i LEFT JOIN product AS p on p.productID=i.productID"
     connection.query(run_query, function (err, result, fields) {
       // console.log(result)
       if (!err) {
@@ -240,24 +240,25 @@ let getItems = () => {
 
 let addItem = (itemInfo) => {
   let item = makeItem(itemInfo)
-  productID = item.getproductID(),
-    storeID = item.getstoreID(),
-    productPrice = item.getproductPrice(),
-    productDiscount = item.getproductDiscount(),
-    isFeatured = item.getisFeatured(),
-    isOutOfStock = item.getisOutOfStock(),
-    outOfStockDate = item.getoutOfStockDate(),
-    expDate = item.getexpDate(),
-    featuredDetails = item.getfeaturedDetails(),
-    quantity = item.getquantity(),
-    speciaIInstructions = item.getspeciaIInstructions()
-  discount = item.getdiscount(),
-    itemBarcode = item.getitemBarcode(),
-    noOfImage = item.getnoOfImage(),
-    disclaimer = item.getdisclaimer(),
-    nutritionFacts = item.getnutritionFacts(),
-    itemActive = item.getitemActive()
-  let insertQuery = "INSERT INTO items SET productID=" + "'" + productID + "'" + "," + "storeID=" + "'" + storeID + "'" + "," + "productPrice=" + "'" + productPrice + "'" + "," + "productDiscount=" + "'" + productDiscount + "'" + "," + "isFeatured=" + "'" + isFeatured + "'" + "," + "isOutOfStock=" + "'" + isOutOfStock + "'" + "," + "outOfStockDate=" + "'" + outOfStockDate + "'" + "," + "expDate=" + "'" + expDate + "'" + "," + "featuredDetails=" + "'" + featuredDetails + "'" + "," + "quantity=" + "'" + quantity + "'" + "," + "specialInstrauctions=" + "'" + specialInstrauctions + "'" + "," + "discount=" + "'" + discount + "'" + "," + "itemBarcode=" + "'" + itemBarcode + "'"
+  let productID = item.getproductID()
+    let storeID = item.getstoreID()
+    let productPrice = item.getproductPrice()
+    let productDiscount = item.getproductDiscount()
+    let isFeatured = item.getisFeatured()
+    let isOutOfStock = item.getisOutOfStock()
+    let outOfStockDate = item.getoutOfStockDate()
+    let expDate = item.getexpDate()
+    let featuredDetails = item.getfeaturedDetails()
+    let quantity = item.getquantity()
+    let speciaIInstructions = item.getspeciaIInstructions()
+    let discount = item.getdiscount()
+    let itemBarcode = item.getitemBarcode()
+    let noOfImage = item.getnoOfImage()
+    let disclaimer = item.getdisclaimer()
+    let nutritionFacts = item.getnutritionFacts()
+    let itemActive = item.getitemActive()
+  let insertQuery = "INSERT INTO items SET productID=" + "'" + productID + "'" + "," + "storeID=" + "'" + storeID + "'" + "," + "productPrice=" + "'" + productPrice + "'" + "," + "productDiscount=" + "'" + discount + "'" + "," + "isFeatured=" + "'" + isFeatured + "'" + "," + "isOutOfStock=" + "'" + isOutOfStock + "'" + "," + "outOfStockDate=" + "'" + outOfStockDate + "'" + "," + "expDate=" + "'" + expDate + "'" + "," + "featuredDetails=" + "'" + featuredDetails + "'" + "," + "quantity=" + "'" + quantity + "'" + "," + "specialInstrauctions=" + "'" + specialInstrauctions + "'" + "," + "discount=" + "'" + discount + "'" + "," + "itemBarcode=" + "'" + itemBarcode + "'"
+  // console.log(insertQuery)
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -301,7 +302,7 @@ let editItem = (id, itemInfo) => {
 
 let getItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    connection.query("SELECT * FROM items LEFT JOIN product on product.productID=items.productID WHERE items.itemID=" + val, function (err, result, fields) {
+    connection.query("SELECT i.*, p.* , (SELECT servingSize FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingSize , (SELECT servingPerContainer FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingPerContainer , (SELECT calories FROM nutrition WHERE nutritionID=i.nutritionFacts) AS calories , (SELECT fatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS fatInGm , (SELECT saturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS saturatedFatInGm , (SELECT polyunsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS polyunsaturatedFatInGm , (SELECT monounsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS monounsaturatedFatInGm , (SELECT transFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS transFatInGm , (SELECT protienInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS protienInGm , (SELECT cholesterol FROM nutrition WHERE nutritionID=i.nutritionFacts) AS cholesterol , (SELECT sodium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sodium , (SELECT potassium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS potassium , (SELECT totalCarbs FROM nutrition WHERE nutritionID=i.nutritionFacts) AS totalCarbs , (SELECT dietaryFiber FROM nutrition WHERE nutritionID=i.nutritionFacts) AS dietaryFiber , (SELECT sugar FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sugar FROM items AS i LEFT JOIN product AS p on p.productID=i.productID WHERE i.itemID=" + val, function (err, result, fields) {
       if (!err) {
         let getVal = {}
         if (result.length > 0) {
@@ -322,7 +323,22 @@ let getItem = (prop, val) => {
             "noOfImage": result[0].noOfImage,
             "disclaimer": result[0].disclaimer,
             "nutritionFacts": result[0].nutritionFacts,
-            "itemActive": result[0].itemActiv
+            "itemActive": result[0].itemActiv,
+            "servingSize": result[0].servingSize,
+            "servingPerContainer": result[0].servingPerContainer,
+            "calories": result[0].calories,
+            "fatInGm": result[0].fatInGm,
+            "saturatedFatInGm": result[0].saturatedFatInGm,
+            "polyunsaturatedFatInGm": result[0].polyunsaturatedFatInGm,
+            "monounsaturatedFatInGm": result[0].monounsaturatedFatInGm,
+            "transFatInGm": result[0].transFatInGm,
+            "protienInGm": result[0].protienInGm,
+            "cholesterol": result[0].cholesterol,
+            "sodium": result[0].sodium,
+            "potassium": result[0].potassium,
+            "totalCarbs": result[0].totalCarbs,
+            "dietaryFiber": result[0].dietaryFiber,
+            "sugar": result[0].sugar
           }
         } else {
           getVal = {}
@@ -555,15 +571,27 @@ let deleteRef_trans_prod = (prop, val) => {
 
 ///////////////
 let get_nutrition = (prop, val) => {
-  let insertQuery = "SELECT * FROM ref_trans_items WHERE id=" + val;
   return new Promise(function (resolve, reject) {
-    connection.query(insertQuery, (err, result) => {
+    connection.query("SELECT * FROM nutrition WHERE nutritionID=" + val, function (err, result, fields) {
       if (!err) {
         let getVal = {}
         if (result.length > 0) {
           getVal = {
-            "orderID": result[0].orderID,
-            "itemID": result[0].itemID,
+            "servingSize": result[0].servingSize,
+            "servingPerContainer": result[0].servingPerContainer,
+            "calories": result[0].calories,
+            "fatInGm": result[0].fatInGm,
+            "saturatedFatInGm": result[0].saturatedFatInGm,
+            "polyunsaturatedFatInGm": result[0].polyunsaturatedFatInGm,
+            "monounsaturatedFatInGm": result[0].monounsaturatedFatInGm,
+            "transFatInGm": result[0].transFatInGm,
+            "protienInGm": result[0].protienInGm,
+            "cholesterol": result[0].cholesterol,
+            "sodium": result[0].sodium,
+            "potassium": result[0].potassium,
+            "totalCarbs": result[0].totalCarbs,
+            "dietaryFiber": result[0].dietaryFiber,
+            "sugar": result[0].sugar
           }
         } else {
           getVal = {}
@@ -572,18 +600,14 @@ let get_nutrition = (prop, val) => {
         resolve(Promise.resolve(nutritionSerializer(JSON.parse(JSON.stringify(getVal)))))
       }
       else reject(err);
-    })
-  })
+    });
+  });
 
 }
 
 let add_nutrition = (nutritionInfo) => {
   let nutritions = makeNutrition(nutritionInfo)
-
-  // let orderID = nutritions.getOrderID()
-  // let itemID = nutritions.getItemID()
-
-  let nutritionID = nutritions.nutritionID()
+  // let nutritionID = nutritions.nutritionID()
   let servingSize = nutritions.servingSize()
   let servingPerContainer = nutritions.servingPerContainer()
   let calories = nutritions.calories()
@@ -600,11 +624,26 @@ let add_nutrition = (nutritionInfo) => {
   let dietaryFiber = nutritions.dietaryFiber()
   let sugar = nutritions.sugar()
   
-  let insertQuery = "INSERT INTO ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "'"
+  let insertQuery = "INSERT INTO nutrition SET servingSize='" + servingSize + 
+    "',servingPerContainer='" + servingPerContainer + 
+    "',calories='" + calories + 
+    "',fatInGm='" + fatInGm + 
+    "',saturatedFatInGm='" + saturatedFatInGm + 
+    "',polyunsaturatedFatInGm='" + polyunsaturatedFatInGm + 
+    "',monounsaturatedFatInGm='" + monounsaturatedFatInGm + 
+    "',transFatInGm='" + transFatInGm + 
+    "',protienInGm='" + protienInGm + 
+    "',cholesterol='" + cholesterol + 
+    "',sodium='" + sodium + 
+    "',potassium='" + potassium + 
+    "',totalCarbs='" + totalCarbs + 
+    "',dietaryFiber='" + dietaryFiber + 
+    "',sugar='" + sugar + 
+    "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
-        resolve(get_nutrition('id', result.insertId))
+        resolve(get_nutrition('nutritionID', result.insertId))
       }
       else return error
     })
@@ -635,11 +674,26 @@ let edit_nutrition = (id, transProdInfo) => {
   let dietaryFiber = nutritions.dietaryFiber()
   let sugar = nutritions.sugar()
 
-  let insertQuery = "UPDATE ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "' WHERE id='" + id + "'"
+  let insertQuery = "UPDATE nutrition SET servingSize='" + servingSize + 
+    "',servingPerContainer='" + servingPerContainer + 
+    "',calories='" + calories + 
+    "',fatInGm='" + fatInGm + 
+    "',saturatedFatInGm='" + saturatedFatInGm + 
+    "',polyunsaturatedFatInGm='" + polyunsaturatedFatInGm + 
+    "',monounsaturatedFatInGm='" + monounsaturatedFatInGm + 
+    "',transFatInGm='" + transFatInGm + 
+    "',protienInGm='" + protienInGm + 
+    "',cholesterol='" + cholesterol + 
+    "',sodium='" + sodium + 
+    "',potassium='" + potassium + 
+    "',totalCarbs='" + totalCarbs + 
+    "',dietaryFiber='" + dietaryFiber + 
+    "',sugar='" + sugar + 
+    "' WHERE nutritionID='"+id+"'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
-        resolve(get_nutrition('id', id))
+        resolve(get_nutrition('nutritionID', id))
       }
       else return error
     })
@@ -647,12 +701,11 @@ let edit_nutrition = (id, transProdInfo) => {
 }
 
 let delete_nutrition = (prop, val) => {
-  let insertQuery = "DELETE FROM ref_trans_items WHERE id=" + val
-  console.log(insertQuery)
+  let insertQuery = "DELETE FROM nutrition WHERE nutritionID=" + val
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
-        resolve(get_nutrition('id', val))
+        resolve(get_nutrition('nutritionID', val))
       }
       else return error
     })

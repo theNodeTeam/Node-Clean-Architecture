@@ -7,7 +7,7 @@ const products = require('./products')
 router
   .get('/products', products.index) // mysq done
   .get('/products/:id', products.show)  // mysql done
-  .post('/products', products.create) // mysql done
+  .post('/products', products.create) // mysql done 
   .put("/v1/product/:id", products.editProduct) // mysql done
 
 //category
@@ -27,8 +27,8 @@ router
 //item
 router
   .get("/v1/item", products.getItems) // mysql done
-  .post("/v1/item", products.addItem) // mysql done
-  .put("/v1/item/:id", products.editItem) // mysql done
+  .post("/v1/item", products.addItem) // mysql done (specialInstrauctions is not defined)
+  .put("/v1/item/:id", products.editItem) // mysql done (specialInstrauctions is not defined)
   .get("/v1/item/:id", products.getItem) // mysql done
   .delete("/v1/item/:id", products.deleteItem) // mysql done
   .get("/v1/item/store/:id", products.getStoreItem) // mysql done
@@ -48,7 +48,7 @@ router
 router
   .get("/v1/ref_trans_products/:id", products.getRef_trans_prod) // mysql done
   .post("/v1/ref_trans_products", products.addRef_trans_products) // mysql done 
-  .put("/v1/ref_trans_products/:id", products.editRef_trans_prod) // mysql done (must have orderID name as string)
+  .put("/v1/ref_trans_products/:id", products.editRef_trans_prod) // mysql done 
   .delete("/v1/ref_trans_products/:id", products.deleteRef_trans_prod) // mysql done
 
 //nutritions

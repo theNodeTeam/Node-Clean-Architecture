@@ -109,7 +109,7 @@ products.getItems = (req, res, next) => {
 
 
 products.addItem = (req, res, next) => {
-  ProductsDb.addItem()
+  ProductsDb.addItem(req.body)
     .then(data => {
       res.send(data)
     })
