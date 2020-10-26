@@ -88,7 +88,6 @@ let editProduct = (id, productInfo) => {
 
 
 let addCategory = (categoryInfo) => {
-  // console.log(categoryInfo)
   let category = makeCategory(categoryInfo)
   let cName = category.getCategoryName()
   let cDescription = category.getCategoryDescription()
@@ -158,9 +157,7 @@ let addSubCategory = (subCategoryInfo) => {
   scName = subCategory.getSubCategoryName()
   scDescription = subCategory.getSubCategoryDescription()
   categoryID = subCategory.getCategoryID()
-  // productID= subCategory.getproductID()
   let insertQuery = "INSERT INTO subcategory SET subCategoryName='" + scName + "',subCategoryDescription='" + scDescription + "',categoryID='" + categoryID + "'"
-  // let insertQuery = "INSERT INTO subcategory SET subCategoryName='" + scName + "',subCategoryDescription='" + scDescription + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -210,10 +207,8 @@ let editSubCategory = (id, subCategoryInfo) => {
   let subCategory = makeSubCategory(subCategoryInfo)
   scName = subCategory.getSubCategoryName()
   scDescription = subCategory.getSubCategoryDescription()
-  // categoryID= subCategory.getCategoryID()
-  // productID= subCategory.getProductID()
-  // let insertQuery = "UPDATE subcategory SET subCategoryName='" + scName + "',subCategoryDescription='" + scDescription + "',categoryOD='" + categoryID + "',productID='" + productID + "' WHERE subCategoryID='"+id+"'"
-  let insertQuery = "UPDATE subcategory SET subCategoryName='" + scName + "',subCategoryDescription='" + scDescription + "' WHERE subCategoryID='" + id + "'"
+  sccategoryID= subCategory.getCategoryID()
+  let insertQuery = "UPDATE subcategory SET subCategoryName='" + scName + "',subCategoryDescription='" + scDescription + "',categoryID='" + sccategoryID + "' WHERE subCategoryID='" + id + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -228,7 +223,7 @@ let getItems = () => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT i.*, p.* , (SELECT servingSize FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingSize , (SELECT servingPerContainer FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingPerContainer , (SELECT calories FROM nutrition WHERE nutritionID=i.nutritionFacts) AS calories , (SELECT fatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS fatInGm , (SELECT saturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS saturatedFatInGm , (SELECT polyunsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS polyunsaturatedFatInGm , (SELECT monounsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS monounsaturatedFatInGm , (SELECT transFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS transFatInGm , (SELECT protienInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS protienInGm , (SELECT cholesterol FROM nutrition WHERE nutritionID=i.nutritionFacts) AS cholesterol , (SELECT sodium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sodium , (SELECT potassium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS potassium , (SELECT totalCarbs FROM nutrition WHERE nutritionID=i.nutritionFacts) AS totalCarbs , (SELECT dietaryFiber FROM nutrition WHERE nutritionID=i.nutritionFacts) AS dietaryFiber , (SELECT sugar FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sugar FROM items AS i LEFT JOIN product AS p on p.productID=i.productID"
     connection.query(run_query, function (err, result, fields) {
-      // console.log(result)
+      
       if (!err) {
         resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
       }
@@ -251,14 +246,29 @@ let addItem = (itemInfo) => {
     let featuredDetails = item.getfeaturedDetails()
     let quantity = item.getquantity()
     let speciaIInstructions = item.getspeciaIInstructions()
-    let discount = item.getdiscount()
     let itemBarcode = item.getitemBarcode()
     let noOfImage = item.getnoOfImage()
     let disclaimer = item.getdisclaimer()
     let nutritionFacts = item.getnutritionFacts()
     let itemActive = item.getitemActive()
-  let insertQuery = "INSERT INTO items SET productID=" + "'" + productID + "'" + "," + "storeID=" + "'" + storeID + "'" + "," + "productPrice=" + "'" + productPrice + "'" + "," + "productDiscount=" + "'" + discount + "'" + "," + "isFeatured=" + "'" + isFeatured + "'" + "," + "isOutOfStock=" + "'" + isOutOfStock + "'" + "," + "outOfStockDate=" + "'" + outOfStockDate + "'" + "," + "expDate=" + "'" + expDate + "'" + "," + "featuredDetails=" + "'" + featuredDetails + "'" + "," + "quantity=" + "'" + quantity + "'" + "," + "specialInstrauctions=" + "'" + specialInstrauctions + "'" + "," + "discount=" + "'" + discount + "'" + "," + "itemBarcode=" + "'" + itemBarcode + "'"
-  // console.log(insertQuery)
+  let insertQuery = "INSERT INTO items SET "+
+  "productID=" + "'" + productID + "'" + 
+  "," + "storeID=" + "'" + storeID + "'" +
+   "," + "productPrice=" + "'" + productPrice + "'" + 
+   "," + "productDiscount=" + "'" + productDiscount + "'" + 
+   "," + "isFeatured=" + "'" + isFeatured + "'" +
+    "," + "isOutOfStock=" + "'" + isOutOfStock + "'" + 
+    "," + "outOfStockDate=" + "'" + outOfStockDate + "'" + 
+    "," + "expDate=" + "'" + expDate + "'" + 
+    "," + "featuredDetails=" + "'" + featuredDetails + "'" + 
+    "," + "quantity=" + "'" + quantity + "'" + 
+    "," + "speciaIInstructions=" + "'" + speciaIInstructions + "'" + 
+    "," + "noOfImage=" + "'" + noOfImage + "'" + 
+    "," + "disclaimer=" + "'" + disclaimer + "'" + 
+    "," + "itemActive=" + "'" + itemActive + "'" + 
+    "," + "nutritionFacts=" + "'" + nutritionFacts + "'" + 
+    "," + "itemBarcode=" + "'" + itemBarcode + "'"
+  console.log(insertQuery)
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -271,24 +281,40 @@ let addItem = (itemInfo) => {
 
 let editItem = (id, itemInfo) => {
   let item = makeItem(itemInfo)
-  productID = item.getproductID(),
-    storeID = item.getstoreID(),
-    productPrice = item.getproductPrice(),
-    productDiscount = item.getproductDiscount(),
-    isFeatured = item.getisFeatured(),
-    isOutOfStock = item.getisOutOfStock(),
-    outOfStockDate = item.getoutOfStockDate(),
-    expDate = item.getexpDate(),
-    featuredDetails = item.getfeaturedDetails(),
-    quantity = item.getquantity(),
-    speciaIInstructions = item.getspeciaIInstructions()
-  discount = item.getdiscount(),
-    itemBarcode = item.getitemBarcode(),
-    noOfImage = item.getnoOfImage(),
-    disclaimer = item.getdisclaimer(),
-    nutritionFacts = item.getnutritionFacts(),
-    itemActive = item.getitemActive()
-  let insertQuery = "UPDATE items SET productID=" + "'" + productID + "'" + "," + "storeID=" + "'" + storeID + "'" + "," + "productPrice=" + "'" + productPrice + "'" + "," + "productDiscount=" + "'" + productDiscount + "'" + "," + "isFeatured=" + "'" + isFeatured + "'" + "," + "isOutOfStock=" + "'" + isOutOfStock + "'" + "," + "outOfStockDate=" + "'" + outOfStockDate + "'" + "," + "expDate=" + "'" + expDate + "'" + "," + "featuredDetails=" + "'" + featuredDetails + "'" + "," + "quantity=" + "'" + quantity + "'" + "," + "specialInstrauctions=" + "'" + specialInstrauctions + "'" + "," + "discount=" + "'" + discount + "'" + "," + "itemBarcode=" + "'" + itemBarcode + "' WHERE itemID='" + id + ""
+  let productID = item.getproductID()
+    let storeID = item.getstoreID()
+    let productPrice = item.getproductPrice()
+    let productDiscount = item.getproductDiscount()
+    let isFeatured = item.getisFeatured()
+    let isOutOfStock = item.getisOutOfStock()
+    let outOfStockDate = item.getoutOfStockDate()
+    let expDate = item.getexpDate()
+    let featuredDetails = item.getfeaturedDetails()
+    let quantity = item.getquantity()
+    let speciaIInstructions = item.getspeciaIInstructions()
+    let itemBarcode = item.getitemBarcode()
+    let noOfImage = item.getnoOfImage()
+    let disclaimer = item.getdisclaimer()
+    let nutritionFacts = item.getnutritionFacts()
+    let itemActive = item.getitemActive()
+  let insertQuery = "UPDATE items SET "+
+  "productID=" + "'" + productID + "'" + 
+  "," + "storeID=" + "'" + storeID + "'" +
+   "," + "productPrice=" + "'" + productPrice + "'" + 
+   "," + "productDiscount=" + "'" + productDiscount + "'" + 
+   "," + "isFeatured=" + "'" + isFeatured + "'" +
+    "," + "isOutOfStock=" + "'" + isOutOfStock + "'" + 
+    "," + "outOfStockDate=" + "'" + outOfStockDate + "'" + 
+    "," + "expDate=" + "'" + expDate + "'" + 
+    "," + "featuredDetails=" + "'" + featuredDetails + "'" + 
+    "," + "quantity=" + "'" + quantity + "'" + 
+    "," + "speciaIInstructions=" + "'" + speciaIInstructions + "'" + 
+    "," + "noOfImage=" + "'" + noOfImage + "'" + 
+    "," + "disclaimer=" + "'" + disclaimer + "'" + 
+    "," + "itemActive=" + "'" + itemActive + "'" + 
+    "," + "nutritionFacts=" + "'" + nutritionFacts + "'" + 
+    "," + "itemBarcode=" + "'" + itemBarcode + "'" +
+    " WHERE itemID='"+id+"'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -355,7 +381,7 @@ let deleteItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "DELETE FROM items WHERE itemID='" + val + "'"
     connection.query(run_query, function (err, result, fields) {
-      // console.log(result)
+      
       if (!err) {
         resolve(getItem('itemID', val))
       }
@@ -369,7 +395,7 @@ let getStoreItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT * FROM items LEFT JOIN product on product.productID=items.productID WHERE items.storeID='" + val + "'"
     connection.query(run_query, function (err, result, fields) {
-      // console.log(result)
+      
       if (!err) {
         resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
       }
@@ -382,7 +408,7 @@ let getStoreAllItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT * FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.productType WHERE items.storeID=" + val;
     connection.query(run_query, function (err, result, fields) {
-      // console.log(result)
+      
       if (!err) {
         resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
       }
@@ -395,7 +421,7 @@ let getFeaturedItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT * FROM `items` LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.productType WHERE items.storeID=" + val;
     connection.query(run_query, function (err, result, fields) {
-      // console.log(result)
+      
       if (!err) {
         resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
       }
@@ -409,7 +435,7 @@ let getRef_prod_fav = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT * FROM ref_prod_fav WHERE favID=" + val;
     connection.query(run_query, function (err, result, fields) {
-      // console.log(result)
+      
       if (!err) {
         let getVal = {}
         if (result.length > 0) {
@@ -569,7 +595,7 @@ let deleteRef_trans_prod = (prop, val) => {
   })
 }
 
-///////////////
+
 let get_nutrition = (prop, val) => {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM nutrition WHERE nutritionID=" + val, function (err, result, fields) {
@@ -653,9 +679,6 @@ let add_nutrition = (nutritionInfo) => {
 
 let edit_nutrition = (id, transProdInfo) => {
   let nutritions = makeNutrition(transProdInfo)
-
-  // let orderID = nutritions.getOrderID()
-  // let itemID = nutritions.getItemID()
 
   let nutritionID = nutritions.nutritionID()
   let servingSize = nutritions.servingSize()
