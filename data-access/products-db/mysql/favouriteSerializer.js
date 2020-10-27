@@ -1,5 +1,6 @@
 const _serializeSingle = (item) => {
     return {
+      'favID': item.favID,
       'userID': item.userID,
       'itemID': item.itemID
     };

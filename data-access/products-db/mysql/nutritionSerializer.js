@@ -1,5 +1,6 @@
 const _serializeSingle = (nutrition) => {
     return {
+      'nutritionID': nutrition.nutritionID,
       'servingSize': nutrition.servingSize,
       'servingPerContainer': nutrition.servingPerContainer,
       'calories': nutrition.calories,
