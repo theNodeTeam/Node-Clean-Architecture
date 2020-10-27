@@ -528,21 +528,21 @@ let userStoreRef_prod_fav = (prop, val, val2) => {
 }
 
 let getRef_trans_prod = (prop, val) => {
-  let insertQuery = "SELECT * FROM ref_trans_items WHERE id=" + val;
+  let insertQuery = "SELECT * FROM ref_trans_items WHERE orderId=" + val;
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (err, result) => {
       if (!err) {
-        let getVal = {}
-        if (result.length > 0) {
-          getVal = {
-            "orderID": result[0].orderID,
-            "itemID": result[0].itemID,
-          }
-        } else {
-          getVal = {}
-        }
+        // let getVal = {}
+        // if (result.length > 0) {
+        //   getVal = {
+        //     "orderID": result[0].orderID,
+        //     "itemID": result[0].itemID,
+        //   }
+        // } else {
+        //   getVal = {}
+        // }
 
-        resolve(Promise.resolve(transProdSerializer(JSON.parse(JSON.stringify(getVal)))))
+        resolve(Promise.resolve(transProdSerializer(JSON.parse(JSON.stringify(result)))))
       }
       else reject(err);
     })
@@ -555,7 +555,8 @@ let addRef_trans_products = (transProdInfo) => {
 
   let orderID = transProdItem.getOrderID()
   let itemID = transProdItem.getItemID()
-  // itemQuantity: transProdItem.getItemID(),
+  // let itemQuantity= transProdItem.getItemID()
+
   let insertQuery = "INSERT INTO ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
@@ -600,12 +601,15 @@ let deleteRef_trans_prod = (prop, val) => {
 
 
 let get_nutrition = (prop, val) => {
+  console.log(val);
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM nutrition WHERE nutritionID=" + val, function (err, result, fields) {
       if (!err) {
         let getVal = {}
+        console.log(result);
         if (result.length > 0) {
           getVal = {
+            "nutritionID": result[0].nutritionID,
             "servingSize": result[0].servingSize,
             "servingPerContainer": result[0].servingPerContainer,
             "calories": result[0].calories,
