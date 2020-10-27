@@ -442,6 +442,7 @@ let getRef_prod_fav = (prop, val) => {
         let getVal = {}
         if (result.length > 0) {
           getVal = {
+            "favID": result[0].favID,
             "userID": result[0].userID,
             "itemID": result[0].itemID,
           }
