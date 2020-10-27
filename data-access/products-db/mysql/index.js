@@ -20,6 +20,7 @@ let listproducts = () => {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM product", function (err, result, fields) {
       if (!err) {
+        console.log(result);
         resolve(Promise.resolve(serialize(JSON.parse(JSON.stringify(result)))))
       }
       else reject(err);
@@ -333,6 +334,7 @@ let getItem = (prop, val) => {
         let getVal = {}
         if (result.length > 0) {
           getVal = {
+            "itemID": result[0].itemID,
             "productID": result[0].productID,
             "storeID": result[0].storeID,
             "productPrice": result[0].productPrice,
