@@ -336,6 +336,10 @@ let getItem = (prop, val) => {
           getVal = {
             "itemID": result[0].itemID,
             "productID": result[0].productID,
+            "productName": result[0].productName,
+            "productDescription": result[0].productDescription,
+            "productType": result[0].productType,
+            "productBarcode": result[0].productBarcode,
             "storeID": result[0].storeID,
             "productPrice": result[0].productPrice,
             "productDiscount": result[0].productDiscount,
