@@ -498,6 +498,7 @@ let deleteRef_prod_fav = (prop, val) => {
   let insertQuery = "DELETE FROM ref_prod_fav  WHERE favID='" + val + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
+
       if (!error) {
         resolve(getRef_prod_fav('favID', val))
       }
@@ -511,8 +512,12 @@ let userRef_prod_fav = (prop, val) => {
   let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN store on items.storeID = store.storeID  where ref_prod_fav.userID=" + val
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
+      console.log(error,result);
+
       if (!error) {
-        resolve(getRef_prod_fav('favID', val))
+        // resolve(getItem('itemID', result[0].itemID))
+        resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
+
       }
       else return error
     })
@@ -523,8 +528,9 @@ let userStoreRef_prod_fav = (prop, val, val2) => {
   let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID where ref_prod_fav.userID=" + val + " AND items.storeID=" + val2;
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
+      console.log(result);
       if (!error) {
-        resolve(Promise.resolve(favouriteSerializer(JSON.parse(JSON.stringify(result)))))
+        resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
       }
       else return error
     })
