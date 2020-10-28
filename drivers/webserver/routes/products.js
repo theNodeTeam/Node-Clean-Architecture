@@ -241,7 +241,7 @@ products.addRef_trans_products = (req, res, next) => {
 
 // id params missing
 products.editRef_trans_prod = (req, res, next) => {
-  ProductsDb.editRef_trans_prod( req.params.id, req.body)
+  ProductsDb.editRef_trans_prod( req.params.orderID,req.params.itemID, req.body)
     .then(data => {
       res.send(data)
     })
@@ -250,7 +250,7 @@ products.editRef_trans_prod = (req, res, next) => {
 
 
 products.deleteRef_trans_prod = (req, res, next) => {
-  ProductsDb.deleteRef_trans_prod('id', req.params.id)
+  ProductsDb.deleteRef_trans_prod(req.params.orderID,req.params.itemID)
     .then(data => {
       res.send(data)
     })

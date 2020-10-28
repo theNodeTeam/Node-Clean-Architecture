@@ -2,6 +2,10 @@ const _serializeSingle = (item) => {
     return {
       'itemID': item.itemID,
       'productID': item.productID,
+      'productName': item.productName,
+      'productDescription': item.productDescription,
+      'productType': item.productType,
+      'productBarcode': item.productBarcode,
       'storeID': item.storeID,
       'productPrice': item.productPrice,
       'productDiscount': item.productDiscount,

@@ -48,8 +48,8 @@ router
 router
   .get("/v1/ref_trans_products/:id", products.getRef_trans_prod) // mysql done
   .post("/v1/ref_trans_products", products.addRef_trans_products) // mysql done 
-  .put("/v1/ref_trans_products/:id", products.editRef_trans_prod) // mysql done 
-  .delete("/v1/ref_trans_products/:id", products.deleteRef_trans_prod) // mysql done
+  .put("/v1/ref_trans_products/:orderID/:itemID", products.editRef_trans_prod) // new url
+  .delete("/v1/ref_trans_products/:orderID/:itemID", products.deleteRef_trans_prod) // new url
 
 //nutritions
   .get("/v1/nutrition/:id", products.get_nutrition)

@@ -555,7 +555,7 @@ let addRef_trans_products = (transProdInfo) => {
 
   let orderID = transProdItem.getOrderID()
   let itemID = transProdItem.getItemID()
-  // let itemQuantity= transProdItem.getItemID()
+  // let itemQuantity= transProdItem.getItemQuantity()
 
   let insertQuery = "INSERT INTO ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "'"
   return new Promise(function (resolve, reject) {
@@ -569,12 +569,12 @@ let addRef_trans_products = (transProdInfo) => {
 
 }
 
-let editRef_trans_prod = (id, transProdInfo) => {
+let editRef_trans_prod = (orderID, itemID, transProdInfo) => {
   let transProdItem = makeTransProduct(transProdInfo)
 
   let orderID = transProdItem.getOrderID()
   let itemID = transProdItem.getItemID()
-  // itemQuantity: transProdItem.getItemID(),
+  // itemQuantity: transProdItem.getItemQuantity(),
   let insertQuery = "UPDATE ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "' WHERE id='" + id + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
@@ -586,7 +586,7 @@ let editRef_trans_prod = (id, transProdInfo) => {
   })
 }
 
-let deleteRef_trans_prod = (prop, val) => {
+let deleteRef_trans_prod = (orderID, itemID) => {
   let insertQuery = "DELETE FROM ref_trans_items WHERE id=" + val
   console.log(insertQuery)
   return new Promise(function (resolve, reject) {
