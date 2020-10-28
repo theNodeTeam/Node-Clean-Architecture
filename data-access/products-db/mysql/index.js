@@ -569,7 +569,7 @@ let addRef_trans_products = (transProdInfo) => {
 
 }
 
-let editRef_trans_prod = (orderID, itemID, transProdInfo) => {
+let editRef_trans_prod = (orderID1, itemID1, transProdInfo) => {
   let transProdItem = makeTransProduct(transProdInfo)
 
   let orderID = transProdItem.getOrderID()
@@ -586,7 +586,7 @@ let editRef_trans_prod = (orderID, itemID, transProdInfo) => {
   })
 }
 
-let deleteRef_trans_prod = (orderID, itemID) => {
+let deleteRef_trans_prod = (orderID1, itemID1) => {
   let insertQuery = "DELETE FROM ref_trans_items WHERE id=" + val
   console.log(insertQuery)
   return new Promise(function (resolve, reject) {
