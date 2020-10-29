@@ -334,6 +334,10 @@ let getItem = (prop, val) => {
         if (result.length > 0) {
           getVal = {
             "productID": result[0].productID,
+            "productName": result[0].productName,
+            "productDescription": result[0].productDescription,
+            "productType": result[0].productType,
+            "productBarcode": result[0].productBarcode,
             "storeID": result[0].storeID,
             "productPrice": result[0].productPrice,
             "productDiscount": result[0].productDiscount,
@@ -529,17 +533,6 @@ let getRef_trans_prod = (prop, val) => {
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (err, result) => {
       if (!err) {
-      //   let getVal = {}
-      //   if (result.length > 0) {
-      //     getVal = {
-      //       "orderID": result[0].orderID,
-      //       "itemID": result[0].itemID,
-      //       "itemQuantity": result[0].itemQuantity
-      //     }
-      //   } else {
-      //     getVal = {}
-      //   }
-
         resolve(Promise.resolve(transProdSerializer(JSON.parse(JSON.stringify(result)))))
       }
       else reject(err);
