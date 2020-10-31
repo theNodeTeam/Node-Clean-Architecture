@@ -223,7 +223,7 @@ products.userStoreRef_prod_fav = (req, res, next) => {
 
 
 products.getRef_trans_prod = (req, res, next) => {
-  ProductsDb.getRef_trans_prod('id', req.params.id)
+  ProductsDb.getRef_trans_prod('orderID', req.params.orderID)
     .then(data => {
       res.send(data)
     })

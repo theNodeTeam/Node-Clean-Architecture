@@ -20,7 +20,6 @@ let listproducts = () => {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM product", function (err, result, fields) {
       if (!err) {
-        console.log(result);
         resolve(Promise.resolve(serialize(JSON.parse(JSON.stringify(result)))))
       }
       else reject(err);
@@ -334,7 +333,6 @@ let getItem = (prop, val) => {
         let getVal = {}
         if (result.length > 0) {
           getVal = {
-            "itemID": result[0].itemID,
             "productID": result[0].productID,
             "productName": result[0].productName,
             "productDescription": result[0].productDescription,
@@ -446,7 +444,6 @@ let getRef_prod_fav = (prop, val) => {
         let getVal = {}
         if (result.length > 0) {
           getVal = {
-            "favID": result[0].favID,
             "userID": result[0].userID,
             "itemID": result[0].itemID,
           }
@@ -498,7 +495,6 @@ let deleteRef_prod_fav = (prop, val) => {
   let insertQuery = "DELETE FROM ref_prod_fav  WHERE favID='" + val + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
-
       if (!error) {
         resolve(getRef_prod_fav('favID', val))
       }
@@ -512,12 +508,8 @@ let userRef_prod_fav = (prop, val) => {
   let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN store on items.storeID = store.storeID  where ref_prod_fav.userID=" + val
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
-      console.log(error,result);
-
       if (!error) {
-        // resolve(getItem('itemID', result[0].itemID))
-        resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
-
+        resolve(getRef_prod_fav('favID', val))
       }
       else return error
     })
@@ -528,9 +520,8 @@ let userStoreRef_prod_fav = (prop, val, val2) => {
   let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID where ref_prod_fav.userID=" + val + " AND items.storeID=" + val2;
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
-      console.log(result);
       if (!error) {
-        resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
+        resolve(Promise.resolve(favouriteSerializer(JSON.parse(JSON.stringify(result)))))
       }
       else return error
     })
@@ -538,20 +529,10 @@ let userStoreRef_prod_fav = (prop, val, val2) => {
 }
 
 let getRef_trans_prod = (prop, val) => {
-  let insertQuery = "SELECT * FROM ref_trans_items WHERE orderId=" + val;
+  let insertQuery = "SELECT * FROM ref_trans_items WHERE orderID=" + val;
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (err, result) => {
       if (!err) {
-        // let getVal = {}
-        // if (result.length > 0) {
-        //   getVal = {
-        //     "orderID": result[0].orderID,
-        //     "itemID": result[0].itemID,
-        //   }
-        // } else {
-        //   getVal = {}
-        // }
-
         resolve(Promise.resolve(transProdSerializer(JSON.parse(JSON.stringify(result)))))
       }
       else reject(err);
@@ -565,13 +546,12 @@ let addRef_trans_products = (transProdInfo) => {
 
   let orderID = transProdItem.getOrderID()
   let itemID = transProdItem.getItemID()
-  // let itemQuantity= transProdItem.getItemQuantity()
-
-  let insertQuery = "INSERT INTO ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "'"
+  let itemQuantity= 5
+  let insertQuery = "INSERT INTO ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "', itemQuantity='"+itemQuantity+"'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
-        resolve(getRef_trans_prod('id', result.insertId))
+        resolve(getRef_trans_prod('orderID', orderID))
       }
       else return error
     })
@@ -579,30 +559,27 @@ let addRef_trans_products = (transProdInfo) => {
 
 }
 
-let editRef_trans_prod = (orderID1, itemID1, transProdInfo) => {
+let editRef_trans_prod = (orderId, itemId, transProdInfo) => {
   let transProdItem = makeTransProduct(transProdInfo)
-
-  let orderID = transProdItem.getOrderID()
-  let itemID = transProdItem.getItemID()
-  // itemQuantity: transProdItem.getItemQuantity(),
-  let insertQuery = "UPDATE ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "' WHERE id='" + id + "'"
+  let itemQuantity= transProdItem.getItemQuantity()
+  let insertQuery = "UPDATE ref_trans_items SET itemQuantity=" + "'" + itemQuantity + "' WHERE orderID='" + orderId + "' AND itemID='"+itemId+"'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
-        resolve(getRef_trans_prod('id', id))
+        resolve(getRef_trans_prod('orderID', orderId))
       }
       else return error
     })
   })
 }
 
-let deleteRef_trans_prod = (orderID1, itemID1) => {
-  let insertQuery = "DELETE FROM ref_trans_items WHERE id=" + val
+let deleteRef_trans_prod = (orderId, itemId) => {
+  let insertQuery = "DELETE FROM ref_trans_items WHERE orderID='" + orderId+"' AND itemID='"+itemId+"'"
   console.log(insertQuery)
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
-        resolve(getRef_trans_prod('id', val))
+        resolve(getRef_trans_prod('orderID', orderId))
       }
       else return error
     })
@@ -611,15 +588,12 @@ let deleteRef_trans_prod = (orderID1, itemID1) => {
 
 
 let get_nutrition = (prop, val) => {
-  console.log(val);
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM nutrition WHERE nutritionID=" + val, function (err, result, fields) {
       if (!err) {
         let getVal = {}
-        console.log(result);
         if (result.length > 0) {
           getVal = {
-            "nutritionID": result[0].nutritionID,
             "servingSize": result[0].servingSize,
             "servingPerContainer": result[0].servingPerContainer,
             "calories": result[0].calories,
