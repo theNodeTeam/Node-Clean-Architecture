@@ -5,9 +5,9 @@ const products = require('./products')
 
 //products
 router
-  .get('/products', products.index) // mysq done
-  .get('/products/:id', products.show)  // mysql done
-  .post('/products', products.create) // mysql done 
+  .get('/v1/products', products.index) // mysq done
+  .get('/v1/products/:id', products.show)  // mysql done
+  .post('/v1/products', products.create) // mysql done 
   .put("/v1/product/:id", products.editProduct) // mysql done
  
 //category
