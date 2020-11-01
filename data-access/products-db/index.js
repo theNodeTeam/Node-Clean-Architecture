@@ -76,8 +76,7 @@ let productsDb = {
   add_nutrition,
   edit_nutrition,
   delete_nutrition,
-  addchat,
-  deletechat
+
 } 
 
 
