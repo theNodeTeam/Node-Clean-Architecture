@@ -39,7 +39,8 @@ let {
 = require('./mysql/index')
 // = require('./mongod/index')
 // = require('./pg/index')
- 
+
+
 let productsDb = {
   listproducts,
   findProduct,
@@ -74,7 +75,9 @@ let productsDb = {
   get_nutrition,
   add_nutrition,
   edit_nutrition,
-  delete_nutrition
+  delete_nutrition,
+  addchat,
+  deletechat
 } 
 
 

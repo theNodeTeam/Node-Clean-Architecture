@@ -16,6 +16,8 @@ let makeFavItem = require('../../../models/favItem/index') // model yasir
 let makeTransProduct = require('../../../models/transProduct/index') // model
 let makeNutrition = require('../../../models/nutrition/index') // model
 
+
+//function to get all products
 let listproducts = () => {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM product", function (err, result, fields) {
@@ -27,6 +29,8 @@ let listproducts = () => {
   });
 }
 
+
+//function to get product by product ID
 let findProduct = (prop, val) => {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM product WHERE productID=" + val, function (err, result, fields) {
@@ -51,13 +55,14 @@ let findProduct = (prop, val) => {
 }
 
 
-
+//function to create product
 let addProduct = (productInfo) => {
   let productGet = makeProduct(productInfo)
   pName = productGet.getProductName()
   pDescription = productGet.getProductDescription()
   pType = productGet.getProductType()
   pBarcode = productGet.getProductBarcode()
+
   let insertQuery = "INSERT INTO product SET productName='" + pName + "',productDescription='" + pDescription + "',productType='" + pType + "',productBarcode='" + pBarcode + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
@@ -69,6 +74,7 @@ let addProduct = (productInfo) => {
   })
 }
 
+//function to edit product
 let editProduct = (id, productInfo) => {
   let productGet = makeProduct(productInfo)
   pName = productGet.getProductName()
@@ -86,7 +92,7 @@ let editProduct = (id, productInfo) => {
   })
 }
 
-
+//function to add category
 let addCategory = (categoryInfo) => {
   let category = makeCategory(categoryInfo)
   let cName = category.getCategoryName()
@@ -102,6 +108,7 @@ let addCategory = (categoryInfo) => {
   })
 }
 
+//function to get all categories
 let getCategories = () => {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM category", function (err, result, fields) {
@@ -113,7 +120,7 @@ let getCategories = () => {
   });
 }
 
-
+//function to get category by categoryID
 let getCategory = (prop, val) => {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM category WHERE categoryID=" + val, function (err, result, fields) {
@@ -136,6 +143,7 @@ let getCategory = (prop, val) => {
   });
 }
 
+//function to edit category
 let editCategory = (id, categoryInfo) => {
   let category = makeCategory(categoryInfo)
   let cName = category.getCategoryName()
@@ -151,7 +159,7 @@ let editCategory = (id, categoryInfo) => {
   })
 }
 
-
+//function to add subcategory
 let addSubCategory = (subCategoryInfo) => {
   let subCategory = makeSubCategory(subCategoryInfo)
   scName = subCategory.getSubCategoryName()
@@ -168,6 +176,7 @@ let addSubCategory = (subCategoryInfo) => {
   })
 }
 
+//function to get all subcategories
 let getSubCategories = () => {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM subcategory", function (err, result, fields) {
@@ -179,6 +188,7 @@ let getSubCategories = () => {
   });
 }
 
+//function to get subcategory by categoryID
 let getSubCategory = (prop, val) => {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM subcategory WHERE subCategoryID=" + val, function (err, result, fields) {
@@ -203,6 +213,7 @@ let getSubCategory = (prop, val) => {
   });
 }
 
+//function to edit subcategory
 let editSubCategory = (id, subCategoryInfo) => {
   let subCategory = makeSubCategory(subCategoryInfo)
   scName = subCategory.getSubCategoryName()
@@ -219,6 +230,7 @@ let editSubCategory = (id, subCategoryInfo) => {
   })
 }
 
+//function to all items
 let getItems = () => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT i.*, p.* , (SELECT servingSize FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingSize , (SELECT servingPerContainer FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingPerContainer , (SELECT calories FROM nutrition WHERE nutritionID=i.nutritionFacts) AS calories , (SELECT fatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS fatInGm , (SELECT saturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS saturatedFatInGm , (SELECT polyunsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS polyunsaturatedFatInGm , (SELECT monounsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS monounsaturatedFatInGm , (SELECT transFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS transFatInGm , (SELECT protienInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS protienInGm , (SELECT cholesterol FROM nutrition WHERE nutritionID=i.nutritionFacts) AS cholesterol , (SELECT sodium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sodium , (SELECT potassium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS potassium , (SELECT totalCarbs FROM nutrition WHERE nutritionID=i.nutritionFacts) AS totalCarbs , (SELECT dietaryFiber FROM nutrition WHERE nutritionID=i.nutritionFacts) AS dietaryFiber , (SELECT sugar FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sugar FROM items AS i LEFT JOIN product AS p on p.productID=i.productID"
@@ -233,6 +245,7 @@ let getItems = () => {
 }
 
 
+//function to add item
 let addItem = (itemInfo) => {
   let item = makeItem(itemInfo)
   let productID = item.getproductID()
@@ -279,6 +292,7 @@ let addItem = (itemInfo) => {
   })
 }
 
+//function to edit item
 let editItem = (id, itemInfo) => {
   let item = makeItem(itemInfo)
   let productID = item.getproductID()
@@ -326,6 +340,7 @@ let editItem = (id, itemInfo) => {
 
 }
 
+//function to get item by itemID
 let getItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT i.*, p.* , (SELECT servingSize FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingSize , (SELECT servingPerContainer FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingPerContainer , (SELECT calories FROM nutrition WHERE nutritionID=i.nutritionFacts) AS calories , (SELECT fatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS fatInGm , (SELECT saturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS saturatedFatInGm , (SELECT polyunsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS polyunsaturatedFatInGm , (SELECT monounsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS monounsaturatedFatInGm , (SELECT transFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS transFatInGm , (SELECT protienInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS protienInGm , (SELECT cholesterol FROM nutrition WHERE nutritionID=i.nutritionFacts) AS cholesterol , (SELECT sodium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sodium , (SELECT potassium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS potassium , (SELECT totalCarbs FROM nutrition WHERE nutritionID=i.nutritionFacts) AS totalCarbs , (SELECT dietaryFiber FROM nutrition WHERE nutritionID=i.nutritionFacts) AS dietaryFiber , (SELECT sugar FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sugar FROM items AS i LEFT JOIN product AS p on p.productID=i.productID WHERE i.itemID=" + val, function (err, result, fields) {
@@ -381,6 +396,7 @@ let getItem = (prop, val) => {
   });
 }
 
+//function to delete Item
 let deleteItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "DELETE FROM items WHERE itemID='" + val + "'"
@@ -394,7 +410,7 @@ let deleteItem = (prop, val) => {
   });
 }
 
-
+//function to all items of a store
 let getStoreItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT * FROM items LEFT JOIN product on product.productID=items.productID WHERE items.storeID='" + val + "'"
@@ -408,6 +424,7 @@ let getStoreItem = (prop, val) => {
   });
 }
 
+//function to items of store 
 let getStoreAllItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT * FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.productType WHERE items.storeID=" + val;
@@ -421,6 +438,7 @@ let getStoreAllItem = (prop, val) => {
   });
 }
 
+//function to get all featured items
 let getFeaturedItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT * FROM `items` LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.productType WHERE items.storeID=" + val;
@@ -434,7 +452,7 @@ let getFeaturedItem = (prop, val) => {
   });
 }
 
-
+//function to get favorite product
 let getRef_prod_fav = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT * FROM ref_prod_fav WHERE favID=" + val;
@@ -458,7 +476,7 @@ let getRef_prod_fav = (prop, val) => {
   });
 }
 
-
+//function to add favorite product
 let addRef_prod_fav = (favInfo) => {
   let favItem = makeFavItem(favInfo)
   let userID = favItem.getUserID()
@@ -474,7 +492,7 @@ let addRef_prod_fav = (favInfo) => {
   })
 }
 
-
+//function to edit favorite product
 let editRef_prod_fav = (id, favInfo) => {
   let favItem = makeFavItem(favInfo)
   let userID = favItem.getUserID()
@@ -490,7 +508,7 @@ let editRef_prod_fav = (id, favInfo) => {
   })
 }
 
-
+//function to delete favorite product
 let deleteRef_prod_fav = (prop, val) => {
   let insertQuery = "DELETE FROM ref_prod_fav  WHERE favID='" + val + "'"
   return new Promise(function (resolve, reject) {
@@ -503,7 +521,7 @@ let deleteRef_prod_fav = (prop, val) => {
   })
 }
 
-
+//function to get all favorite products of user
 let userRef_prod_fav = (prop, val) => {
   let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN store on items.storeID = store.storeID  where ref_prod_fav.userID=" + val
   return new Promise(function (resolve, reject) {
@@ -516,6 +534,7 @@ let userRef_prod_fav = (prop, val) => {
   })
 }
 
+//function to get all favorite items of user of single store
 let userStoreRef_prod_fav = (prop, val, val2) => {
   let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID where ref_prod_fav.userID=" + val + " AND items.storeID=" + val2;
   return new Promise(function (resolve, reject) {
@@ -528,6 +547,7 @@ let userStoreRef_prod_fav = (prop, val, val2) => {
   })
 }
 
+//function to items of an order
 let getRef_trans_prod = (prop, val) => {
   let insertQuery = "SELECT * FROM ref_trans_items WHERE orderID=" + val;
   return new Promise(function (resolve, reject) {
@@ -541,6 +561,7 @@ let getRef_trans_prod = (prop, val) => {
 
 }
 
+//function to add item in an order
 let addRef_trans_products = (transProdInfo) => {
   let transProdItem = makeTransProduct(transProdInfo)
 
@@ -559,6 +580,7 @@ let addRef_trans_products = (transProdInfo) => {
 
 }
 
+//function to edit item information in an order
 let editRef_trans_prod = (orderId, itemId, transProdInfo) => {
   let transProdItem = makeTransProduct(transProdInfo)
   let itemQuantity= transProdItem.getItemQuantity()
@@ -573,6 +595,7 @@ let editRef_trans_prod = (orderId, itemId, transProdInfo) => {
   })
 }
 
+//function to delete item from an order
 let deleteRef_trans_prod = (orderId, itemId) => {
   let insertQuery = "DELETE FROM ref_trans_items WHERE orderID='" + orderId+"' AND itemID='"+itemId+"'"
   console.log(insertQuery)
@@ -586,7 +609,7 @@ let deleteRef_trans_prod = (orderId, itemId) => {
   })
 }
 
-
+//function to get nutritions
 let get_nutrition = (prop, val) => {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM nutrition WHERE nutritionID=" + val, function (err, result, fields) {
@@ -622,9 +645,9 @@ let get_nutrition = (prop, val) => {
 
 }
 
+//function to add nutritions
 let add_nutrition = (nutritionInfo) => {
   let nutritions = makeNutrition(nutritionInfo)
-  // let nutritionID = nutritions.nutritionID()
   let servingSize = nutritions.servingSize()
   let servingPerContainer = nutritions.servingPerContainer()
   let calories = nutritions.calories()
@@ -668,6 +691,7 @@ let add_nutrition = (nutritionInfo) => {
 
 }
 
+//function to edit nutrition
 let edit_nutrition = (id, transProdInfo) => {
   let nutritions = makeNutrition(transProdInfo)
 
@@ -714,6 +738,7 @@ let edit_nutrition = (id, transProdInfo) => {
   })
 }
 
+//function to delete nutrition
 let delete_nutrition = (prop, val) => {
   let insertQuery = "DELETE FROM nutrition WHERE nutritionID=" + val
   return new Promise(function (resolve, reject) {

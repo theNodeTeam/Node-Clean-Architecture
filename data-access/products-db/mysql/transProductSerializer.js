@@ -17,4 +17,3 @@ const _serializeSingle = (item) => {
   }
   
   module.exports = serializer
-  

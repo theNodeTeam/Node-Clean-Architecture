@@ -9,7 +9,7 @@ router
   .get('/products/:id', products.show)  // mysql done
   .post('/products', products.create) // mysql done 
   .put("/v1/product/:id", products.editProduct) // mysql done
-
+ 
 //category
 router
   .post("/v1/category", products.addCategory) // mysql done 
@@ -47,7 +47,7 @@ router
 //order-product
 router
   .get("/v1/ref_trans_products/:orderID", products.getRef_trans_prod) // mysql done
-  .post("/v1/ref_trans_products", products.addRef_trans_products) // mysql done  (transProdItem.itemQuantity is not a function)
+  .post("/v1/ref_trans_products", products.addRef_trans_products) // mysql done 
   .put("/v1/ref_trans_products/:orderID/:itemID", products.editRef_trans_prod) // mysql done
   .delete("/v1/ref_trans_products/:orderID/:itemID", products.deleteRef_trans_prod) // mysql done
 

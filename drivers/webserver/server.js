@@ -10,9 +10,9 @@ app.use(bodyParser.json());
 
 app.use(routes)
 
-// === BOILERPLATE ===
+// === BOILERPLATE === 
 // Catch and send error messages
-app.use((err, req, res, next) => {
+app.use((err, req, res, next) => { 
   if (err) {
     console.error(err.message)
     if (!err.statusCode) {
