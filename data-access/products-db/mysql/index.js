@@ -530,7 +530,8 @@ let userRef_prod_fav = (prop, val) => {
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
-        resolve(getRef_prod_fav('favID', val))
+        resolve(Promise.resolve(favouriteSerializer(JSON.parse(JSON.stringify(result)))))
+        // resolve(getRef_prod_fav('favID', val))
       }
       else return error
     })

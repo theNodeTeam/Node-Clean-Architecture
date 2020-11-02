@@ -33,7 +33,7 @@ router
   .delete("/v1/item/:id", products.deleteItem) // mysql done
   .get("/v1/item/store/:id", products.getStoreItem) // mysql done
   .get("/v1/all/item/store/:id", products.getStoreAllItem) // mysql done
-  .get("/v1/item/featured/:id", products.getFeaturedItem) // api is not returning the correct data.
+  .get("/v1/item/featured/:id", products.getFeaturedItem) // mysql done 
 
 //favourite products
 router
