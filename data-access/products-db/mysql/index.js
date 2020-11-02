@@ -348,6 +348,7 @@ let getItem = (prop, val) => {
         let getVal = {}
         if (result.length > 0) {
           getVal = {
+            "itemID": result[0].itemID,
             "productID": result[0].productID,
             "productName": result[0].productName,
             "productDescription": result[0].productDescription,
