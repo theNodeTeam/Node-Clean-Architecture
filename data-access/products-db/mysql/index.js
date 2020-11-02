@@ -442,7 +442,7 @@ let getStoreAllItem = (prop, val) => {
 //function to get all featured items
 let getFeaturedItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT * FROM `items` LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.productType WHERE items.storeID=" + valreq.params.id +
+    let run_query = "SELECT * FROM `items` LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.productType WHERE items.storeID=" + val +
     " AND items.itemActive=1 AND isFeatured=" +
     1;
     connection.query(run_query, function (err, result, fields) {
