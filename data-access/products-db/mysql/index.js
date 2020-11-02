@@ -617,6 +617,7 @@ let get_nutrition = (prop, val) => {
         let getVal = {}
         if (result.length > 0) {
           getVal = {
+            "nutritionID":result[0].nutritionID,
             "servingSize": result[0].servingSize,
             "servingPerContainer": result[0].servingPerContainer,
             "calories": result[0].calories,
