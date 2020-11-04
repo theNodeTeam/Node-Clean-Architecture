@@ -1,3 +1,9 @@
+/*
+    name: CATEGORY SCHEMA
+    path: models/category/category-schema.js
+    Objective: In this we validate each field of category schema.
+*/
+
 let Joi = require('joi')
 
 module.exports = Joi.object().keys({

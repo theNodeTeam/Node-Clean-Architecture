@@ -1,3 +1,9 @@
+/*
+    name: SQL CONNECTOR
+    path: db/mysql/connection.js
+    Objective: In this file we made the connection of mySQL database with our server.
+*/
+
 const mysql = require('mysql')
 
 

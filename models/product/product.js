@@ -1,3 +1,10 @@
+/*
+    name: PRODUCT MAKER
+    path: models/product/product.js
+    Objective: In this we make the getter of validated data, if there is any error it return the error
+*/
+
+
 let buildMakeProduct = function(productValidator) {
   return ({
     productName,

@@ -1,3 +1,9 @@
+/*
+    name: SUBCATEGORY SCHEMA
+    path: models/subcategory/subcategory-schema.js
+    Objective: In this we validate each field of subcategory schema.
+*/
+
 let Joi = require('joi')
 
 module.exports = Joi.object().keys({

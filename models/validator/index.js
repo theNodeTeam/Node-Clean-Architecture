@@ -1,3 +1,9 @@
+/*
+    name: VALIDATOR
+    path: models/validator/index.js
+    Objective: this function get the whole schema and pass it to the validator (JOI)
+*/
+
 let Joi = require('joi')
 
 let validator = (schema) =>

@@ -1,3 +1,9 @@
+/*
+    name: ITEM SCHEMA
+    path: models/item/item-schema.js
+    Objective: In this we validate each field of item schema.
+*/
+
 let Joi = require('joi')
 
 module.exports = Joi.object().keys({

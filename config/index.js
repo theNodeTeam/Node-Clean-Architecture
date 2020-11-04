@@ -1,3 +1,9 @@
+/*
+    name: CONFIG
+    path: config/index.js
+    Objective: In this file we save our variables.
+*/
+
 require('dotenv').config();
 
 module.exports = {

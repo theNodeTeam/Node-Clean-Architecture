@@ -1,3 +1,9 @@
+/*
+    name: IN MEMORY DATABASE
+    path: db/memory/products.js
+    Objective: this dummy data table fields
+*/
+
 const products = [
     {
       productID: 1,

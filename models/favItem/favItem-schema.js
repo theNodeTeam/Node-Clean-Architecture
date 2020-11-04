@@ -1,3 +1,8 @@
+/*
+    name: FAV_ITEM SCHEMA
+    path: models/favItem/favItem-schema.js
+    Objective: In this we validate each field of favItem schema.
+*/
 let Joi = require('joi')
 
 module.exports = Joi.object().keys({

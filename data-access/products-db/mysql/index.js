@@ -1,3 +1,9 @@
+/*
+    name: MYSQL QUERY FILE
+    path: data-access/product-db/mysql/index.js
+    Objective: In this file we have the all query logic, all functions get input process it and return the output to the serializer. 
+*/
+
 let connection = require('../../../db/mysql/connection') // DB
 
 let serialize = require('./serializer') // serializer custom to db
@@ -274,7 +280,7 @@ let getSubCategory = (prop, val) => {
   });
 }
 
-//
+
 /*
 objective: function to edit subcategory
 Input: payload of subCategory in body and subCategoryID in params.
@@ -317,7 +323,7 @@ let getItems = () => {
 }
 
 
-//function to add item
+
 /*
 objective: function to add item
 Input: payload of iten in body
@@ -423,7 +429,7 @@ let editItem = (id, itemInfo) => {
 
 }
 
-//
+
 /*
 objective: function to get item by itemID
 Input: itemID in params.
@@ -486,7 +492,7 @@ let getItem = (prop, val) => {
   });
 }
 
-//
+
 /*
 objective: function to delete Item
 Input:  itemID in params.
@@ -506,11 +512,11 @@ let deleteItem = (prop, val) => {
   });
 }
 
-//function to all items of a store
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
+objective: function to all items of a store
+Input: storeID in params.
+Output: array of items of selected store
 description: after query execution it will Send the data to serializer
 */
 let getStoreItem = (prop, val) => {
@@ -526,11 +532,11 @@ let getStoreItem = (prop, val) => {
   });
 }
 
-//function to items of store 
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
+objective: function to items of store 
+Input: storeID in params.
+Output: array of items of selected store
 description: after query execution it will Send the data to serializer
 */
 let getStoreAllItem = (prop, val) => {
@@ -546,11 +552,11 @@ let getStoreAllItem = (prop, val) => {
   });
 }
 
-//function to get all featured items
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
+objective: function to get all featured items
+Input: storeID in params.
+Output: array of all featured item of that store
 description: after query execution it will Send the data to serializer
 */
 let getFeaturedItem = (prop, val) => {
@@ -568,11 +574,11 @@ let getFeaturedItem = (prop, val) => {
   });
 }
 
-//function to get favorite product
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
+objective: function to get favorite product
+Input: favID in params.
+Output: object of favourtite product
 description: after query execution it will Send the data to serializer
 */
 let getRef_prod_fav = (prop, val) => {
@@ -598,12 +604,12 @@ let getRef_prod_fav = (prop, val) => {
   });
 }
 
-//function to add favorite product
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
-description: after query execution it will Send the data to serializer
+objective: function to add favorite product
+Input: payload of fav Detail in body
+Output: object of new fav data
+description: after query execution it will call getRef_prod_fav function
 */
 let addRef_prod_fav = (favInfo) => {
   let favItem = makeFavItem(favInfo)
@@ -620,12 +626,12 @@ let addRef_prod_fav = (favInfo) => {
   })
 }
 
-//function to edit favorite product
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
-description: after query execution it will Send the data to serializer
+objective: function to edit favorite product
+Input: payload of fav detail in body and favID in params.
+Output: object of fav data
+description: after query execution it will call getRef_prod_fav
 */
 let editRef_prod_fav = (id, favInfo) => {
   let favItem = makeFavItem(favInfo)
@@ -642,12 +648,12 @@ let editRef_prod_fav = (id, favInfo) => {
   })
 }
 
-//function to delete favorite product
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
-description: after query execution it will Send the data to serializer
+objective: function to delete favorite product
+Input: favID in params.
+Output: empty object
+description: after query execution it will call getRef_prod_fav function
 */
 let deleteRef_prod_fav = (prop, val) => {
   let insertQuery = "DELETE FROM ref_prod_fav  WHERE favID='" + val + "'"
@@ -661,11 +667,11 @@ let deleteRef_prod_fav = (prop, val) => {
   })
 }
 
-//function to get all favorite products of user
+//
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
+objective: function to get all favorite products of user
+Input: userID in params.
+Output: array of fav items of user
 description: after query execution it will Send the data to serializer
 */
 let userRef_prod_fav = (prop, val) => {
@@ -681,11 +687,11 @@ let userRef_prod_fav = (prop, val) => {
   })
 }
 
-//function to get all favorite items of user of single store
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
+objective: function to get all favorite items of user of single store
+Input: userID and productID in params.
+Output: array of fav items of user of specific store
 description: after query execution it will Send the data to serializer
 */
 let userStoreRef_prod_fav = (prop, val, val2) => {
@@ -700,11 +706,10 @@ let userStoreRef_prod_fav = (prop, val, val2) => {
   })
 }
 
-//function to items of an order
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
+objective: function to items of an order
+Input: orderID in params.
+Output: array of items of that order
 description: after query execution it will Send the data to serializer
 */
 let getRef_trans_prod = (prop, val) => {
@@ -720,12 +725,12 @@ let getRef_trans_prod = (prop, val) => {
 
 }
 
-//function to add item in an order
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
-description: after query execution it will Send the data to serializer
+objective: function to add item in an order
+Input: payload of order item in body
+Output: object of new order Item
+description: after query execution it will call getRef_trans_prod function
 */
 let addRef_trans_products = (transProdInfo) => {
   let transProdItem = makeTransProduct(transProdInfo)
@@ -745,12 +750,12 @@ let addRef_trans_products = (transProdInfo) => {
 
 }
 
-//function to edit item information in an order
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
-description: after query execution it will Send the data to serializer
+objective: function to edit item information in an order
+Input: payload of order Item in body and orderitemID in params.
+Output: object of updated orderitem
+description: after query execution it will call getRef_trans_prod function
 */
 let editRef_trans_prod = (orderId, itemId, transProdInfo) => {
   let transProdItem = makeTransProduct(transProdInfo)
@@ -766,12 +771,12 @@ let editRef_trans_prod = (orderId, itemId, transProdInfo) => {
   })
 }
 
-//function to delete item from an order
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
-description: after query execution it will Send the data to serializer
+objective: function to delete item from an order
+Input: order item ID in params.
+Output: empty object
+description: after query execution it will callgetRef_trans_prod function
 */
 let deleteRef_trans_prod = (orderId, itemId) => {
   let insertQuery = "DELETE FROM ref_trans_items WHERE orderID='" + orderId+"' AND itemID='"+itemId+"'"
@@ -786,11 +791,11 @@ let deleteRef_trans_prod = (orderId, itemId) => {
   })
 }
 
-//function to get nutritions
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
+objective: function to get nutritions
+Input: nutritionID in params.
+Output: object of nutritions
 description: after query execution it will Send the data to serializer
 */
 let get_nutrition = (prop, val) => {
@@ -829,12 +834,12 @@ let get_nutrition = (prop, val) => {
 
 }
 
-//function to add nutritions
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
-description: after query execution it will Send the data to serializer
+objective: function to add nutritions
+Input: payload of nutrition in body
+Output: object of new nutrition
+description: after query execution it will call get_nutrition  function
 */
 let add_nutrition = (nutritionInfo) => {
   let nutritions = makeNutrition(nutritionInfo)
@@ -881,12 +886,12 @@ let add_nutrition = (nutritionInfo) => {
 
 }
 
-//function to edit nutrition
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
-description: after query execution it will Send the data to serializer
+objective: function to edit nutrition
+Input: payload of nutrition in body and nutritionID in params.
+Output: object of updated nutrition
+description: after query execution it will call get_nutrition function
 */
 let edit_nutrition = (id, transProdInfo) => {
   let nutritions = makeNutrition(transProdInfo)
@@ -934,12 +939,12 @@ let edit_nutrition = (id, transProdInfo) => {
   })
 }
 
-//function to delete nutrition
+
 /*
-objective: function to edit product
-Input: payload of product in body and productID in params.
-Output: object of updated product
-description: after query execution it will Send the data to serializer
+objective: function to delete nutrition
+Input: nutritionID in params.
+Output: empty array
+description: after query execution it will call get_nutrition function
 */
 let delete_nutrition = (prop, val) => {
   let insertQuery = "DELETE FROM nutrition WHERE nutritionID=" + val
@@ -953,6 +958,7 @@ let delete_nutrition = (prop, val) => {
   })
 }
 
+// exporting all the functions/methods from this file
 module.exports = {
   listproducts,
   findProduct,

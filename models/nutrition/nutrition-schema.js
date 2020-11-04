@@ -1,3 +1,9 @@
+/*
+    name: NUTRITION SCHEMA
+    path: models/nutrition/nutrition-schema.js
+    Objective: In this we validate each field of nutrition schema.
+*/
+
 let Joi = require('joi')
 
 module.exports = Joi.object().keys({

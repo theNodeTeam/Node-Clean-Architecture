@@ -1,3 +1,8 @@
+/*
+    name: SERVER
+    path: drivers/webserver/server.js
+    Objective: This is the main server file, here  we run our server catch here and this is the main point to go to the routes file.
+*/
 const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
@@ -37,6 +42,7 @@ app.use(function (req, res) {
 
 const PORT = config.PORT || 5007
 
+//starting the server
 app.listen(PORT, () => {
   console.log(`Listening on PORT: ${PORT}`);
 })

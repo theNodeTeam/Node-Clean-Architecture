@@ -1,3 +1,10 @@
+/*
+    name: ITEM MAKER
+    path: models/item/item.js
+    Objective: In this we make the getter of validated data, if there is any error it return the error
+*/
+
+
 let buildMakeItem = function(itemValidator) {
   return ({
     productID,

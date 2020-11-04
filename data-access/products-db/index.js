@@ -1,3 +1,10 @@
+/*
+    name: CONTROLLER
+    path: data-access/product-db/index.js
+    Objective: In this file we import functions from different databases and export to sub-controller
+*/
+
+// here we import all the functions from MMYSQL.
 let {
   listproducts,
   findProduct,
@@ -40,7 +47,7 @@ let {
 // = require('./mongod/index')
 // = require('./pg/index')
 
-
+// here we exporting all the functions to sub-controller.
 let productsDb = {
   listproducts,
   findProduct,

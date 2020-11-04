@@ -1,8 +1,14 @@
-let buildMakeFavItem = require('./favItem')
-let favSchema = require('./favItem-schema')
-let favValidator = require('../validator')(favSchema)
+/*
+    name: FAV_ITEM MAKER
+    path: models/favitem/index.js
+    Objective: In this we validate schema and return the validated data.
+*/
 
-let makeFavItem = buildMakeFavItem(favValidator)
+let buildMakeFavItem = require('./favItem') // in this file we make the getters for the validated fields
+let favSchema = require('./favItem-schema') // importing the schema
+let favValidator = require('../validator')(favSchema) // importing validator
+
+let makeFavItem = buildMakeFavItem(favValidator) // validating the schema
 
 module.exports = makeFavItem
 

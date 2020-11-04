@@ -1,3 +1,9 @@
+/*
+    name: TRANS_PRODUCT SCHEMA
+    path: models/transProduct/transProduct-schema.js
+    Objective: In this we validate each field of transProduct schema.
+*/
+
 let Joi = require('joi')
 
 module.exports = Joi.object().keys({

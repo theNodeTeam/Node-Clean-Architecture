@@ -1,3 +1,9 @@
+/*
+    name: PRODUCT SCHEMA
+    path: models/product/product-schema.js
+    Objective: In this we validate each field of product schema.
+*/
+
 let Joi = require('joi')
 
 module.exports = Joi.object().keys({
