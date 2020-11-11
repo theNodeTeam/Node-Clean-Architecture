@@ -1,7 +1,8 @@
 /*
     name: SUBCATEGORY MAKER
     path: models/subCategory/subCategory.js
-    Objective: In this we make the getter of validated data, if there is any error it return the error
+    Objective: In this we make the getter of validated data, if there is any error it return the error#
+    next File: subcategory > subcategory-schema
 */
 
 

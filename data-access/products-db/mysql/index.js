@@ -1,7 +1,8 @@
 /*
     name: MYSQL QUERY FILE
     path: data-access/product-db/mysql/index.js
-    Objective: In this file we have the all query logic, all functions get input process it and return the output to the serializer. 
+    Objective: In this file we have the all query logic, all functions get input process it and return the output to the serializer.
+    next File: index > serlizer 
 */
 
 let connection = require('../../../db/mysql/connection') // DB
@@ -737,7 +738,10 @@ let addRef_trans_products = (transProdInfo) => {
 
   let orderID = transProdItem.getOrderID()
   let itemID = transProdItem.getItemID()
-  let itemQuantity= 5
+  let itemQuantity= transProdItem.getItemQuantity()
+
+  console.log(itemQuantity);
+
   let insertQuery = "INSERT INTO ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "', itemQuantity='"+itemQuantity+"'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {

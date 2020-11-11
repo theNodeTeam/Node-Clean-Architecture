@@ -1,7 +1,8 @@
 /*
-    name: SERVER
+    name: SERVER (Main starting Point)
     path: drivers/webserver/server.js
-    Objective: This is the main server file, here  we run our server catch here and this is the main point to go to the routes file.
+    Objective: This is the main server file, here  we run our server here, error handling and this is the main point to go to the routes file.
+    next File: server > routes
 */
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -32,7 +33,7 @@ app.use((err, req, res, next) => {
   next()
 })
 
-// 404
+// when route doent exist it will return a code 404.
 app.use(function (req, res) {
   res.status(404).json({
     status: 'Page does not exist'

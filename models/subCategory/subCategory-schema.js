@@ -2,6 +2,8 @@
     name: SUBCATEGORY SCHEMA
     path: models/subcategory/subcategory-schema.js
     Objective: In this we validate each field of subcategory schema.
+    next File: subcategory-schema > index
+
 */
 
 let Joi = require('joi')

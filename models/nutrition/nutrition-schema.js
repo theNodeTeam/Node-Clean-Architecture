@@ -2,6 +2,7 @@
     name: NUTRITION SCHEMA
     path: models/nutrition/nutrition-schema.js
     Objective: In this we validate each field of nutrition schema.
+    next File: nutrition-schema > index
 */
 
 let Joi = require('joi')

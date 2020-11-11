@@ -1,7 +1,8 @@
 /*
     name: ITEM SERIALIZER
     path: data-access/product-db/mysql/itemsSerializer.js
-    Objective: In this file we have the mapping of database fields to our own created field names. This serialzer return the data to frontend. 
+    Objective: In this file we have the mapping of database fields to our own created field names. This serialzer return the data to frontend in a reverse order. 
+    next File: serializer > index
 */
 
 // this function maps the field of database to our fields
@@ -23,7 +24,7 @@ const _serializeSingle = (item) => {
       'featuredDetails': item.featuredDetails,
       'quantity': item.quantity,
       'speciaIInstructions': item.speciaIInstructions,
-      'discount': item.discount,
+      // 'discount': item.discount,
       'itemBarcode': item.itemBarcode,
       'noOfImage': item.noOfImage,
       'disclaimer': item.disclaimer,

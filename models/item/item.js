@@ -2,6 +2,7 @@
     name: ITEM MAKER
     path: models/item/item.js
     Objective: In this we make the getter of validated data, if there is any error it return the error
+    next File: item > item-schema
 */
 
 
@@ -18,7 +19,7 @@ let buildMakeItem = function(itemValidator) {
     featuredDetails,
     quantity,
     speciaIInstructions,
-    discount,
+    // discount,
     itemBarcode,
     noOfImage,
     disclaimer,
@@ -37,7 +38,7 @@ let buildMakeItem = function(itemValidator) {
       featuredDetails,
       quantity,
       speciaIInstructions,
-      discount,
+      // discount,
       itemBarcode,
       noOfImage,
       disclaimer,
@@ -58,7 +59,7 @@ let buildMakeItem = function(itemValidator) {
       getfeaturedDetails: () => featuredDetails,
       getquantity: () => quantity,
       getspeciaIInstructions: () => speciaIInstructions,
-      getdiscount: () => discount,
+      // getdiscount: () => discount,
       getitemBarcode: () => itemBarcode,
       getnoOfImage: () => noOfImage,
       getdisclaimer: () => disclaimer,

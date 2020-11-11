@@ -1,7 +1,8 @@
 /*
     name: PRODUCT MAKER
     path: models/product/index.js
-    Objective: In this we validate schema and return the validated data.
+    Objective: In this file  we validate schema and return the validated data.
+    next File: index > product
 */
 
 let buildMakeProduct = require('./product') // in this file we make the getters for the validated fields

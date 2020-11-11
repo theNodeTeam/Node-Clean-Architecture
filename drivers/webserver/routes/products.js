@@ -2,6 +2,7 @@
     name: PRODUCTS (sub-controller)
     path: drivers/webserver/routes/products.js
     Objective: In this we call the methods from data access layer. this file does not need to know that the function it calling is connected from which database.
+    next File: products > data-access > products-db > index
 */
 
 let ProductsDb = require('../../../data-access/products-db')

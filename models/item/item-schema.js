@@ -2,6 +2,7 @@
     name: ITEM SCHEMA
     path: models/item/item-schema.js
     Objective: In this we validate each field of item schema.
+    next File: nutrition-schema > index
 */
 
 let Joi = require('joi')
@@ -17,7 +18,7 @@ module.exports = Joi.object().keys({
   expDate: Joi.string().error(() => 'expDate must be a string'),
   featuredDetails: Joi.string().error(() => 'featuredDetails must be a string'),  
   speciaIInstructions: Joi.string().error(() => 'speciaI Instructions must be a string'),
-  discount: Joi.string().error(() => 'discount must be a string'),
+  // discount: Joi.string().error(() => 'discount must be a string'),
   quantity: Joi.string().error(() => 'quantity must be a string'),
   itemBarcode: Joi.number().error(() => 'itemBarcode must be a number'),
   noOfImage: Joi.number().error(() => 'noOfImage must be a number'),

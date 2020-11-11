@@ -2,6 +2,7 @@
     name: CATEGORY MAKER
     path: models/category/index.js
     Objective: In this we validate schema and return the validated data.
+    next File: index > category
 */
 let buildMakeCategory = require('./category')  // in this file we make the getters for the validated fields
 let categorySchema = require('./category-schema') // importing the schema

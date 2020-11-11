@@ -2,6 +2,7 @@
     name: TRANS_PRODUCT MAKER
     path: models/transProduct/index.js
     Objective: In this we validate schema and return the validated data.
+    next File: index > transProduct
 */
 
 let buildMakeTransProduct = require('./transProduct') // in this file we make the getters for the validated fields

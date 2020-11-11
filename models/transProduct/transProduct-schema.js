@@ -2,6 +2,7 @@
     name: TRANS_PRODUCT SCHEMA
     path: models/transProduct/transProduct-schema.js
     Objective: In this we validate each field of transProduct schema.
+    next File: transProduct-schema > index
 */
 
 let Joi = require('joi')

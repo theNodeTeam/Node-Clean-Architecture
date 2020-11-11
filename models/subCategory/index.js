@@ -2,6 +2,7 @@
     name: SUBCATEGORY MAKER
     path: models/subCategory/index.js
     Objective: In this we validate schema and return the validated data.
+    next File: index > subcategory
 */
 
 let buildMakeSubCategory = require('./subCategory') // in this file we make the getters for the validated fields

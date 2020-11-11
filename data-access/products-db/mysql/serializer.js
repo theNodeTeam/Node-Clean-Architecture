@@ -2,6 +2,7 @@
     name: ITEM SERIALIZER
     path: data-access/product-db/mysql/serializer.js
     Objective: In this file we have the mapping of database fields to our own created field names. This serialzer return the data to frontend. 
+    next File: serializer > index
 */
 
 // this function maps the field of database to our fields

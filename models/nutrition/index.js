@@ -2,6 +2,7 @@
     name: NUTRITION MAKER
     path: models/nutrition/index.js
     Objective: In this we validate schema and return the validated data.
+    next File: index > nutrition
 */
 
 let buildMakeNutrition = require('./nutrition') // in this file we make the getters for the validated fields
