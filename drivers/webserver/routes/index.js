@@ -2,7 +2,7 @@
     name: ROUTES
     path: drivers/webserver/routes/index.js
     Objective: In this we declare all our routes
-    next File: index > products
+    next File: index > products.js
 */
 
 

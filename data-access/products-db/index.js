@@ -5,7 +5,7 @@
     next File: index > mysql > index
 */
 
-// here we import all the functions from MMYSQL.
+// here we import all the functions from MYSQL.
 let {
   listproducts,
   findProduct,
