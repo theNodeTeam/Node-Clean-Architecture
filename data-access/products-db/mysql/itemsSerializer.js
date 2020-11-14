@@ -49,16 +49,27 @@ const _serializeSingle = (item) => {
     };
   };
   
-  // this function check the data if it is array it iterate the else it send the data to _serializeSingle for mapping.
-  const serializer = (data) => { 
-    if (!data) {
-      return null
-    }
-    if (Array.isArray(data)) {
-      return data.map(_serializeSingle)
-    }
-    return _serializeSingle(data)
+// this function check the data if it is array it iterate the else it send the data to _serializeSingle for mapping.
+const serializer = (data) => { 
+  if (!data || isEmpty(data)) {
+    return {err: "No record found!"}
   }
+  if (Array.isArray(data)) {
+    return data.map(_serializeSingle)
+  }
+  return _serializeSingle(data)
+}
+
+//to check whether the object is empty or not
+function isEmpty(obj) {
+  for(var prop in obj) {
+      if(obj.hasOwnProperty(prop))
+          return false;
+  }
+
+  return true;
+}
+
   
   module.exports = serializer
   
