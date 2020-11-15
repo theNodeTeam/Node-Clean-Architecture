@@ -584,7 +584,8 @@ description: after query execution it will Send the data to serializer
 */
 let getRef_prod_fav = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT * FROM ref_prod_fav WHERE favID=" + val;
+    let run_query = "SELECT ref_prod_fav.*, ref_prod_fav.itemID AS fItemID, items.*,  nutrition.*, product.* FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID=items.itemID LEFT JOIN  nutrition on  nutrition. nutritionID=items.nutritionFacts LEFT JOIN product on product.productID=items.productID WHERE favID=" + val;
+    console.log(run_query)
     connection.query(run_query, function (err, result, fields) {
       
       if (!err) {
@@ -592,7 +593,43 @@ let getRef_prod_fav = (prop, val) => {
         if (result.length > 0) {
           getVal = {
             "userID": result[0].userID,
-            "itemID": result[0].itemID,
+            "itemID": result[0].fItemID,
+            "storeID": result[0].storeID,
+            "productID": result[0].productID,
+            "productName": result[0].productName,
+            "productDescription": result[0].productDescription,
+            "productType": result[0].productType,
+            "productBarcode": result[0].productBarcode,
+            "productPrice": result[0].productPrice,
+            "productDiscount": result[0].productDiscount,
+            "isFeatured=": result[0].isFeatured,
+            "isOutOfStock": result[0].isOutOfStock,
+            "outOfStockDate": result[0].outOfStockDate,
+            "expDate": result[0].expDate,
+            "featuredDetails": result[0].featuredDetails,
+            "quantity": result[0].quantity,
+            "speciaIInstructions": result[0].speciaIInstruction,
+            "discount": result[0].discount,
+            "itemBarcode": result[0].itemBarcode,
+            "noOfImage": result[0].noOfImage,
+            "disclaimer": result[0].disclaimer,
+            "nutritionFacts": result[0].nutritionFacts,
+            "itemActive": result[0].itemActiv,
+            "servingSize": result[0].servingSize,
+            "servingPerContainer": result[0].servingPerContainer,
+            "calories": result[0].calories,
+            "fatInGm": result[0].fatInGm,
+            "saturatedFatInGm": result[0].saturatedFatInGm,
+            "polyunsaturatedFatInGm": result[0].polyunsaturatedFatInGm,
+            "monounsaturatedFatInGm": result[0].monounsaturatedFatInGm,
+            "transFatInGm": result[0].transFatInGm,
+            "protienInGm": result[0].protienInGm,
+            "cholesterol": result[0].cholesterol,
+            "sodium": result[0].sodium,
+            "potassium": result[0].potassium,
+            "totalCarbs": result[0].totalCarbs,
+            "dietaryFiber": result[0].dietaryFiber,
+            "sugar": result[0].sugar
           }
         } else {
           getVal = {}
@@ -676,7 +713,7 @@ Output: array of fav items of user
 description: after query execution it will Send the data to serializer
 */
 let userRef_prod_fav = (prop, val) => {
-  let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN store on items.storeID = store.storeID  where ref_prod_fav.userID=" + val
+  let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN store on items.storeID = store.storeID LEFT JOIN nutrition on nutrition.nutritionID=items.nutritionFacts where ref_prod_fav.userID=" + val
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -696,7 +733,7 @@ Output: array of fav items of user of specific store
 description: after query execution it will Send the data to serializer
 */
 let userStoreRef_prod_fav = (prop, val, val2) => {
-  let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID where ref_prod_fav.userID=" + val + " AND items.storeID=" + val2;
+  let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN nutrition on nutrition.nutritionID=items.nutritionFacts where ref_prod_fav.userID=" + val + " AND items.storeID=" + val2;
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
