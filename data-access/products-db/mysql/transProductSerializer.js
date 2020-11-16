@@ -10,7 +10,9 @@ const _serializeSingle = (item) => {
     return {
       'orderID': item.orderID,
       'itemID': item.itemID,
-      'itemQuantity': item.itemQuantity
+      'itemQuantity': item.itemQuantity,
+      'salePrice': item.salePrice,
+      'saleDiscount': item.saleDiscount
     };
   };
   

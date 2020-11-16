@@ -9,15 +9,19 @@ let buildMakeFavItem = function(favItemValidator) {
   return ({
     orderID,
     itemID,
-    itemQuantity
+    itemQuantity,
+    salePrice,
+    saleDiscount
   } = {}) => {
-    let {error} = favItemValidator({orderID, itemID, itemQuantity})
+    let {error} = favItemValidator({orderID, itemID, itemQuantity, salePrice, saleDiscount})
     if (error) throw new Error(error)
 
     return {
       getOrderID: () => orderID,
       getItemID: () => itemID,
-      getItemQuantity: () => itemQuantity
+      getItemQuantity: () => itemQuantity,
+      getSalePrice: () => salePrice,
+      getSaleDiscount: () => saleDiscount,
 
     }
   }

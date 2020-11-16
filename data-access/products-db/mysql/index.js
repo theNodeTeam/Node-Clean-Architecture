@@ -739,10 +739,12 @@ let addRef_trans_products = (transProdInfo) => {
   let orderID = transProdItem.getOrderID()
   let itemID = transProdItem.getItemID()
   let itemQuantity= transProdItem.getItemQuantity()
+  let salePrice= transProdItem.getSalePrice()
+  let saleDiscount= transProdItem.getSaleDiscount()
 
   console.log(itemQuantity);
 
-  let insertQuery = "INSERT INTO ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "', itemQuantity='"+itemQuantity+"'"
+  let insertQuery = "INSERT INTO ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "', itemQuantity='"+itemQuantity+"'"+ ",salePrice='"+salePrice+"'"+ ", saleDiscount='"+saleDiscount+"'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
