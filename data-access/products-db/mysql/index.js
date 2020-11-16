@@ -771,6 +771,7 @@ Output: object of new order Item
 description: after query execution it will call getRef_trans_prod function
 */
 let addRef_trans_products = (transProdInfo) => {
+  console.log("SD,",transProdInfo);
   let transProdItem = makeTransProduct(transProdInfo)
 
   let orderID = transProdItem.getOrderID()
@@ -779,9 +780,10 @@ let addRef_trans_products = (transProdInfo) => {
   let salePrice= transProdItem.getSalePrice()
   let saleDiscount= transProdItem.getSaleDiscount()
 
-  console.log(itemQuantity);
+  console.log(itemQuantity,salePrice,saleDiscount);
 
   let insertQuery = "INSERT INTO ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "', itemQuantity='"+itemQuantity+"'"+ ",salePrice='"+salePrice+"'"+ ", saleDiscount='"+saleDiscount+"'"
+  console.log(insertQuery);
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
