@@ -8,7 +8,7 @@
 // this function maps the field of database to our fields
 const _serializeSingle = (item) => {
     return {
-      'orderID': item.orderID,
+      'orderNumber': item.orderNumber,
       'itemID': item.itemID,
       'itemQuantity': item.itemQuantity,
       'salePrice': item.salePrice,

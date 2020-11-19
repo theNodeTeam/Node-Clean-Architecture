@@ -746,12 +746,12 @@ let userStoreRef_prod_fav = (prop, val, val2) => {
 
 /*
 objective: function to items of an order
-Input: orderID in params.
+Input: orderNumber in params.
 Output: array of items of that order
 description: after query execution it will Send the data to serializer
 */
 let getRef_trans_prod = (prop, val) => {
-  let insertQuery = "SELECT * FROM ref_trans_items WHERE orderID=" + val;
+  let insertQuery = "SELECT * FROM ref_trans_items WHERE orderNumber=" + val;
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (err, result) => {
       if (!err) {
@@ -774,7 +774,7 @@ let addRef_trans_products = (transProdInfo) => {
   console.log("SD,",transProdInfo);
   let transProdItem = makeTransProduct(transProdInfo)
 
-  let orderID = transProdItem.getOrderID()
+  let orderNumber = transProdItem.getOrderNumber()
   let itemID = transProdItem.getItemID()
   let itemQuantity= transProdItem.getItemQuantity()
   let salePrice= transProdItem.getSalePrice()
@@ -782,12 +782,12 @@ let addRef_trans_products = (transProdInfo) => {
 
   console.log(itemQuantity,salePrice,saleDiscount);
 
-  let insertQuery = "INSERT INTO ref_trans_items SET orderID=" + "'" + orderID + "'" + "," + "itemID=" + "'" + itemID + "', itemQuantity='"+itemQuantity+"'"+ ",salePrice='"+salePrice+"'"+ ", saleDiscount='"+saleDiscount+"'"
+  let insertQuery = "INSERT INTO ref_trans_items SET orderNumber=" + "'" + orderNumber + "'" + "," + "itemID=" + "'" + itemID + "', itemQuantity='"+itemQuantity+"'"+ ",salePrice='"+salePrice+"'"+ ", saleDiscount='"+saleDiscount+"'"
   console.log(insertQuery);
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
-        resolve(getRef_trans_prod('orderID', orderID))
+        resolve(getRef_trans_prod('orderNumber', orderNumber))
       }
       else return error
     })
@@ -802,14 +802,14 @@ Input: payload of order Item in body and orderitemID in params.
 Output: object of updated orderitem
 description: after query execution it will call getRef_trans_prod function
 */
-let editRef_trans_prod = (orderId, itemId, transProdInfo) => {
+let editRef_trans_prod = (orderNumber, itemId, transProdInfo) => {
   let transProdItem = makeTransProduct(transProdInfo)
   let itemQuantity= transProdItem.getItemQuantity()
-  let insertQuery = "UPDATE ref_trans_items SET itemQuantity=" + "'" + itemQuantity + "' WHERE orderID='" + orderId + "' AND itemID='"+itemId+"'"
+  let insertQuery = "UPDATE ref_trans_items SET itemQuantity=" + "'" + itemQuantity + "' WHERE orderNumber='" + orderNumber + "' AND itemID='"+itemId+"'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
-        resolve(getRef_trans_prod('orderID', orderId))
+        resolve(getRef_trans_prod('orderNumber', orderNumber))
       }
       else return error
     })
@@ -823,13 +823,13 @@ Input: order item ID in params.
 Output: empty object
 description: after query execution it will callgetRef_trans_prod function
 */
-let deleteRef_trans_prod = (orderId, itemId) => {
-  let insertQuery = "DELETE FROM ref_trans_items WHERE orderID='" + orderId+"' AND itemID='"+itemId+"'"
+let deleteRef_trans_prod = (orderNumber, itemId) => {
+  let insertQuery = "DELETE FROM ref_trans_items WHERE orderNumber='" + orderNumber+"' AND itemID='"+itemId+"'"
   console.log(insertQuery)
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
-        resolve(getRef_trans_prod('orderID', orderId))
+        resolve(getRef_trans_prod('orderNumber', orderNumber))
       }
       else return error
     })
