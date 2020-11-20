@@ -751,7 +751,9 @@ Output: array of items of that order
 description: after query execution it will Send the data to serializer
 */
 let getRef_trans_prod = (prop, val) => {
-  let insertQuery = "SELECT * FROM ref_trans_items WHERE orderNumber=" + val;
+  console.log(val,"value");
+  let insertQuery = "SELECT * FROM ref_trans_items WHERE orderNumber='" + val+"'";
+  console.log(insertQuery);
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (err, result) => {
       if (!err) {
@@ -787,6 +789,7 @@ let addRef_trans_products = (transProdInfo) => {
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
+        console.log(result);
         resolve(getRef_trans_prod('orderNumber', orderNumber))
       }
       else return error

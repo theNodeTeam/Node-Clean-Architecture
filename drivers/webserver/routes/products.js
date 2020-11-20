@@ -244,7 +244,7 @@ products.userStoreRef_prod_fav = (req, res, next) => {
 
 //function to items of an order
 products.getRef_trans_prod = (req, res, next) => {
-  ProductsDb.getRef_trans_prod('orderID', req.params.orderID)
+  ProductsDb.getRef_trans_prod('orderNumber', req.params.orderNumber)
     .then(data => {
       res.send(data)
     })
@@ -262,7 +262,7 @@ products.addRef_trans_products = (req, res, next) => {
 
 //function to edit item information in an order
 products.editRef_trans_prod = (req, res, next) => {
-  ProductsDb.editRef_trans_prod( req.params.orderID,req.params.itemID, req.body)
+  ProductsDb.editRef_trans_prod( req.params.orderNumber,req.params.itemID, req.body)
     .then(data => {
       res.send(data)
     })
@@ -271,7 +271,7 @@ products.editRef_trans_prod = (req, res, next) => {
 
 //function to delete item from an order
 products.deleteRef_trans_prod = (req, res, next) => {
-  ProductsDb.deleteRef_trans_prod(req.params.orderID,req.params.itemID)
+  ProductsDb.deleteRef_trans_prod(req.params.orderNumber,req.params.itemID)
     .then(data => {
       res.send(data)
     })
