@@ -542,7 +542,7 @@ description: after query execution it will Send the data to serializer
 */
 let getStoreAllItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT * FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.productType WHERE items.storeID=" + val;
+    let run_query = "SELECT * FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.productType WHERE items.itemActive=1 AND items.storeID=" + val;
     connection.query(run_query, function (err, result, fields) {
       
       if (!err) {
