@@ -35,7 +35,7 @@ description: after query execution it will Send the data to serializer
 let listproducts = () => {
 
   return new Promise(function (resolve, reject) {
-    let run_query="SELECT product.productID AS PID,product.productName AS PName,product.productDescription AS PDesc,product.subCategoryID AS PSubCatID,product.productBarcode AS PBarcode,product_images.productImageID AS PIID,product_images.productID AS PIID,product_images.productImageURL AS PIURL FROM product LEFT JOIN product_images ON product.productID=product_images.productID"
+    let run_query="SELECT product.productID AS PID,product.productName AS PName,product.productDescription AS PDesc,product.subCategoryID AS PSubCatID,product.productBarcode AS PBarcode,product_images.productImageID AS PIID,product_images.productID AS PIDD,product_images.productImageURL AS PIURL FROM product LEFT JOIN product_images ON product.productID=product_images.productID"
     connection.query(run_query, function(err,result) {
      var arr1=new Array()
      let get_ID=0
@@ -44,10 +44,10 @@ let listproducts = () => {
           get_ID=result[i].PID
           var arr2=new Array()
           for(let j=0; j<result.length; j++){
-            if(get_ID == result[j].PIID){
+            if(get_ID == result[j].PIDD){
               var ob1=new Object({
                 "productImageID" : result[j].PIID, 
-                "productID" : result[j].PIID, 
+                "productID" : result[j].PIDD, 
                 "productImageURL": result[j].PIURL, 
               });
               arr2.push(ob1)
@@ -82,7 +82,7 @@ description: after query execution it will Send the data to serializer
 */
 let findProduct = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query="SELECT product.productID AS PID,product.productName AS PName,product.productDescription AS PDesc,product.subCategoryID AS PSubCatID,product.productBarcode AS PBarcode,product_images.productImageID AS PIID,product_images.productID AS PIID,product_images.productImageURL AS PIURL FROM product LEFT JOIN product_images ON product.productID=product_images.productID WHERE product.productID="+val
+    let run_query="SELECT product.productID AS PID,product.productName AS PName,product.productDescription AS PDesc,product.subCategoryID AS PSubCatID,product.productBarcode AS PBarcode,product_images.productImageID AS PIID,product_images.productID AS PIDD,product_images.productImageURL AS PIURL FROM product LEFT JOIN product_images ON product.productID=product_images.productID WHERE product.productID="+val
     connection.query(run_query, function(err,result) {
      var arr1=new Array()
      let get_ID=0
@@ -91,10 +91,10 @@ let findProduct = (prop, val) => {
           get_ID=result[i].PID
           var arr2=new Array()
           for(let j=0; j<result.length; j++){
-            if(get_ID == result[j].PIID){
+            if(get_ID == result[j].PIDD){
               var ob1=new Object({
                 "productImageID" : result[j].PIID, 
-                "productID" : result[j].PIID, 
+                "productID" : result[j].PIDD, 
                 "productImageURL": result[j].PIURL, 
               });
               arr2.push(ob1)
