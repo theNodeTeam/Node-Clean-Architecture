@@ -23,7 +23,15 @@ router
   .post("/v1/category", products.addCategory)  
   .get("/v1/category", products.getCategories) 
   .get("/v1/category/:id", products.getCategory) 
-  .put("/v1/category/:id", products.editCategory) 
+  .put("/v1/category/:id", products.editCategory)
+  
+  //productImages
+  router
+  .post("/v1/productImage", products.addProductImage)  
+  .get("/v1/productImages", products.getProductImages) 
+  .get("/v1/productImage/:id", products.getProductImage) 
+  .put("/v1/productImage/:id", products.editProductImage)
+  .get("/v1/productImagesByProductID/:id", products.getProductImagesByProductID)
 
 //subcategory
 router

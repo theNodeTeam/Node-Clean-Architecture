@@ -79,6 +79,51 @@ products.editCategory = (req, res, next) => {
     .catch(next)
 }
 
+//function to add ProductImage
+products.addProductImage = (req, res, next) => {
+  ProductsDb.addProductImage(req.body)
+    .then(data => {
+      res.send(data)
+    })
+    .catch(next)
+}
+
+//function to get all ProductImage 
+products.getProductImages = (req, res, next) => {
+  ProductsDb.getProductImages()
+    .then(data => {
+      res.send(data)
+    })
+    .catch(next)
+}
+
+//function to get ProductImage by ProductImageID
+products.getProductImage = (req, res, next) => {
+  ProductsDb.getProductImage('id', req.params.id)
+    .then(data => {
+      res.send(data)
+    })
+    .catch(next)
+}
+
+//function to edit ProductImage
+products.editProductImage = (req, res, next) => {
+  ProductsDb.editProductImage(req.params.id, req.body)
+    .then(data => {
+      res.send(data)
+    })
+    .catch(next)
+}
+
+//function to get ProductImage by productID
+products.getProductImagesByProductID = (req, res, next) => {
+  ProductsDb.getProductImagesByProductID('id', req.params.id)
+    .then(data => {
+      res.send(data)
+    })
+    .catch(next)
+}
+
 //function to add subcategory
 products.addSubCategory = (req, res, next) => {
   ProductsDb.addSubCategory(req.body)
