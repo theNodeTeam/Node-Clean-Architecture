@@ -553,6 +553,25 @@ let getStoreAllItem = (prop, val) => {
   });
 }
 
+/*
+objective: function to get all items by category of store 
+Input: storeID in params.
+Output: array of items of selected store by category
+description: after query execution it will dilter data and return
+*/
+let getItemCategories = (prop, val) => {
+  return new Promise(function (resolve, reject) {
+    let run_query = "SELECT * FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.productType WHERE items.itemActive=1 AND items.storeID=" + val;
+    connection.query(run_query, function (err, result, fields) {
+
+      console.log(err);
+      // if (!err) {
+      //   resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
+      // }
+      // else reject(err);
+    });
+  });
+}
 
 /*
 objective: function to get all featured items
@@ -1021,6 +1040,7 @@ module.exports = {
   getSubCategory,
   editSubCategory,
   getItems,
+  getItemCategories,
   addItem,
   editItem,
   getItem,

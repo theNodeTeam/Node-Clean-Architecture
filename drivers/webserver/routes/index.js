@@ -38,6 +38,7 @@ router
   .post("/v1/item", products.addItem)  
   .put("/v1/item/:id", products.editItem)  
   .get("/v1/item/:id", products.getItem) 
+  .get("/v1/item/category/:id", products.getItemCategories) 
   .delete("/v1/item/:id", products.deleteItem) 
   .get("/v1/item/store/:id", products.getStoreItem) 
   .get("/v1/all/item/store/:id", products.getStoreAllItem) 

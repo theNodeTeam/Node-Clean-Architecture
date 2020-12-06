@@ -151,6 +151,16 @@ products.getItem = (req, res, next) => {
     .catch(next)
 }
 
+//function to get item by itemID
+products.getItemCategories = (req, res, next) => {
+  ProductsDb.getItemCategories('id', req.params.id)
+    .then(data => {
+      res.send(data)
+    })
+    .catch(next)
+}
+
+
 //function to delete Item
 products.deleteItem = (req, res, next) => {
   ProductsDb.deleteItem('id', req.params.id)
