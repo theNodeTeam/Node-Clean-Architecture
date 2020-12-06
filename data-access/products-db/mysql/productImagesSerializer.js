@@ -1,22 +1,19 @@
 /*
-    name: ITEM SERIALIZER
-    path: data-access/product-db/mysql/serializer.js
+    name: ProductImages SERIALIZER
+    path: data-access/product-db/mysql/ProductImagesSerializer.js
     Objective: In this file we have the mapping of database fields to our own created field names. This serialzer return the data to frontend. 
     next File: serializer > index
 */
 
 // this function maps the field of database to our fields
-const _serializeSingle = (product) => {
-  return {
-    'productID': product.productID,
-    'productName': product.productName,
-    'productDescription': product.productDescription,
-    'subCategoryID': product.subCategoryID,
-    'productBarcode': product.productBarcode,
-    'productImages': product.productImages
+const _serializeSingle = (productImages) => {
+    return {
+      'productImageID': productImages.productImageID,
+      'productID': productImages.productID,
+      'productImageURL': productImages.productImageURL
+    };
   };
-};
-
+  
 // this function check the data if it is array it iterate the else it send the data to _serializeSingle for mapping.
 const serializer = (data) => { 
   if (!data || isEmpty(data)) {
@@ -38,4 +35,5 @@ function isEmpty(obj) {
   return true;
 }
 
-module.exports = serializer
+  module.exports = serializer
+  

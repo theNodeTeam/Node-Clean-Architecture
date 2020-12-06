@@ -9,6 +9,7 @@ let connection = require('../../../db/mysql/connection') // DB
 
 let serialize = require('./serializer') // serializer custom to db
 let categorySerializer = require('./categorySerializer') // serializer custom to db
+let productImagesSerializer = require('./productImagesSerializer') // serializer custom to db
 let subCategorySerializer = require('./subCategorySerializer') // serializer custom to db
 let itemsSerializer = require('./itemsSerializer') // serializer custom to db
 let favouriteSerializer = require('./favouriteSerializer') // serializer custom to db
@@ -17,6 +18,7 @@ let nutritionSerializer = require('./nutritionSerializer') // serializer custom 
 
 let makeProduct = require('../../../models/product/index') // model
 let makeCategory = require('../../../models/category/index') // model
+let makeProductImages = require('../../../models/productImages/index') // model
 let makeSubCategory = require('../../../models/subCategory/index') // model
 let makeItem = require('../../../models/item/index') // model
 let makeFavItem = require('../../../models/favItem/index') // model yasir
@@ -31,15 +33,45 @@ Output: array of all products
 description: after query execution it will Send the data to serializer
 */
 let listproducts = () => {
+
   return new Promise(function (resolve, reject) {
-    connection.query("SELECT * FROM product", function (err, result, fields) {
-      if (!err) {
-        resolve(Promise.resolve(serialize(JSON.parse(JSON.stringify(result)))))
-      }
-      else reject(err);
-    });
-  });
-}
+    let run_query="SELECT product.productID AS PID,product.productName AS PName,product.productDescription AS PDesc,product.subCategoryID AS PSubCatID,product.productBarcode AS PBarcode,product_images.productImageID AS PIID,product_images.productID AS PIDD,product_images.productImageURL AS PIURL FROM product LEFT JOIN product_images ON product.productID=product_images.productID"
+    connection.query(run_query, function(err,result) {
+     var arr1=new Array()
+     let get_ID=0
+     for(let i=0; i<result.length; i++){
+        if (get_ID != result[i].PID) {
+          get_ID=result[i].PID
+          var arr2=new Array()
+          for(let j=0; j<result.length; j++){
+            if(get_ID == result[j].PIDD){
+              var ob1=new Object({
+                "productImageID" : result[j].PIID, 
+                "productID" : result[j].PIDD, 
+                "productImageURL": result[j].PIURL, 
+              });
+              arr2.push(ob1)
+            }
+          }
+          var ob2 = new Object({
+            "productID": result[i].PID,
+            "productName": result[i].PName,
+            "productDescription": result[i].PDesc,
+            "subCategoryID": result[i].PSubCatID,
+            "productBarcode": result[i].PBarcode,
+            "productImages": arr2 
+          })
+        arr1.push(ob2)
+       }
+     }
+   
+     resolve(Promise.resolve(serialize(JSON.parse(JSON.stringify(arr1)))))
+
+
+    })
+  })
+
+  }
 
 
 /*
@@ -50,25 +82,41 @@ description: after query execution it will Send the data to serializer
 */
 let findProduct = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    connection.query("SELECT * FROM product WHERE productID=" + val, function (err, result, fields) {
-      if (!err) {
-        let getVal = {}
-        if (result.length > 0) {
-          getVal = {
-            "productID": result[0].productID,
-            "productName": result[0].productName,
-            "productDescription": result[0].productDescription,
-            "productType": result[0].productType,
-            "productBarcode": result[0].productBarcode
+    let run_query="SELECT product.productID AS PID,product.productName AS PName,product.productDescription AS PDesc,product.subCategoryID AS PSubCatID,product.productBarcode AS PBarcode,product_images.productImageID AS PIID,product_images.productID AS PIDD,product_images.productImageURL AS PIURL FROM product LEFT JOIN product_images ON product.productID=product_images.productID WHERE product.productID="+val
+    connection.query(run_query, function(err,result) {
+     var arr1=new Array()
+     let get_ID=0
+     for(let i=0; i<result.length; i++){
+        if (get_ID != result[i].PID) {
+          get_ID=result[i].PID
+          var arr2=new Array()
+          for(let j=0; j<result.length; j++){
+            if(get_ID == result[j].PIDD){
+              var ob1=new Object({
+                "productImageID" : result[j].PIID, 
+                "productID" : result[j].PIDD, 
+                "productImageURL": result[j].PIURL, 
+              });
+              arr2.push(ob1)
+            }
           }
-        } else {
-          getVal = {}
-        }
-        resolve(Promise.resolve(serialize(JSON.parse(JSON.stringify(getVal)))))
-      }
-      else reject(err);
-    });
-  });
+          var ob2 = new Object({
+            "productID": result[i].PID,
+            "productName": result[i].PName,
+            "productDescription": result[i].PDesc,
+            "subCategoryID": result[i].PSubCatID,
+            "productBarcode": result[i].PBarcode,
+            "productImages": arr2 
+          })
+        arr1.push(ob2)
+       }
+     }
+   
+     resolve(Promise.resolve(serialize(JSON.parse(JSON.stringify(arr1)))))
+
+
+    })
+  })
 }
 
 
@@ -82,10 +130,10 @@ let addProduct = (productInfo) => {
   let productGet = makeProduct(productInfo)
   pName = productGet.getProductName()
   pDescription = productGet.getProductDescription()
-  pType = productGet.getProductType()
+  subCategoryID = productGet.getSubCategoryID()
   pBarcode = productGet.getProductBarcode()
 
-  let insertQuery = "INSERT INTO product SET productName='" + pName + "',productDescription='" + pDescription + "',productType='" + pType + "',productBarcode='" + pBarcode + "'"
+  let insertQuery = "INSERT INTO product SET productName='" + pName + "',productDescription='" + pDescription + "',subCategoryID='" + subCategoryID + "',productBarcode='" + pBarcode + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -107,9 +155,9 @@ let editProduct = (id, productInfo) => {
   let productGet = makeProduct(productInfo)
   pName = productGet.getProductName()
   pDescription = productGet.getProductDescription()
-  pType = productGet.getProductType()
+  subCategoryID = productGet.getSubCategoryID()
   pBarcode = productGet.getProductBarcode()
-  let insertQuery = "UPDATE product SET productName='" + pName + "',productDescription='" + pDescription + "',productType='" + pType + "',productBarcode='" + pBarcode + "' WHERE productID='" + id + "'"
+  let insertQuery = "UPDATE product SET productName='" + pName + "',productDescription='" + pDescription + "',subCategoryID='" + subCategoryID + "',productBarcode='" + pBarcode + "' WHERE productID='" + id + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -203,6 +251,122 @@ let editCategory = (id, categoryInfo) => {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
         resolve(getCategory('categoryID', id))
+      }
+      else return error
+    })
+  })
+}
+
+
+/*
+objective: function to add productImages
+Input: payload of category in body
+Output: object of new  created category
+description: after query execution it will call the getCategory function
+*/
+let addProductImage = (productImagesInfo) => {
+  let productImage = makeProductImages(productImagesInfo)
+  let productID = productImage.getProductID()
+  let productImageURL = productImage.getProductImageURL()
+  let insertQuery = "INSERT INTO product_images SET productID='" + productID + "',productImageURL='" + productImageURL + "'"
+  return new Promise(function (resolve, reject) {
+    connection.query(insertQuery, (error, result) => {
+      if (!error) {
+        resolve(getProductImage('productImageID', result.insertId))
+      }
+      else return error
+    })
+  })
+}
+
+
+/*
+objective: function to get all productImage
+Input: not required
+Output: array of all categories
+description: after query execution it will Send the data to serializer
+*/
+let getProductImages = () => {
+  return new Promise(function (resolve, reject) {
+    connection.query("SELECT * FROM product_images", function (err, result, fields) {
+      if (!err) {
+        resolve(Promise.resolve(productImagesSerializer(JSON.parse(JSON.stringify(result)))))
+      }
+      else reject(err);
+    });
+  });
+}
+
+/*
+objective: function to get ProductImages by productImagesID
+Input: productImagesID in params
+Output: object of productImages
+description: after query execution it will Send the data to serializer
+*/
+let getProductImage = (prop, val) => {
+  return new Promise(function (resolve, reject) {
+    connection.query("SELECT * FROM product_images WHERE productImageID=" + val, function (err, result, fields) {
+      if (!err) {
+        let getVal = {}
+        if (result.length > 0) {
+          getVal = {
+            "productImageID": result[0].productImageID,
+            "productID": result[0].productID,
+            "productImageURL": result[0].productImageURL,
+          }
+        } else {
+          getVal = {}
+        }
+
+        resolve(Promise.resolve(productImagesSerializer(JSON.parse(JSON.stringify(getVal)))))
+      }
+      else reject(err);
+    });
+  });
+}
+
+
+/*
+objective: function to get ProductImagesByProductID by productID
+Input: productImagesID in params
+Output: object of productImages
+description: after query execution it will Send the data to serializer
+*/
+let getProductImagesByProductID = (prop, val) => {
+  return new Promise(function (resolve, reject) {
+    connection.query("SELECT * FROM product_images WHERE productID=" + val, function (err, result, fields) {
+      if (!err) {
+        if (result.length > 0) {
+          resolve(Promise.resolve(productImagesSerializer(JSON.parse(JSON.stringify(result)))))
+
+        } else {
+          let getVal = {}
+          resolve(Promise.resolve(productImagesSerializer(JSON.parse(JSON.stringify(getVal)))))
+        }
+
+      }
+      else reject(err);
+    });
+  });
+}
+
+
+//
+/*
+objective: function to edit ProductImage
+Input: ProductImageID in params and payload in body
+Output: object of updated ProductImage
+description: after query execution it will call the geProductImage function
+*/
+let editProductImage = (id, productImagesInfo) => {
+  let productImage = makeProductImages(productImagesInfo)
+  let productID = productImage.getProductID()
+  let productImageURL = productImage.getProductImageURL()
+  let insertQuery = "UPDATE product_images SET productID='" + productID + "',productImageURL='" + productImageURL + "' WHERE productImageID="+id
+  return new Promise(function (resolve, reject) {
+    connection.query(insertQuery, (error, result) => {
+      if (!error) {
+        resolve(getProductImage('productImageID', id))
       }
       else return error
     })
@@ -448,7 +612,7 @@ let getItem = (prop, val) => {
             "productID": result[0].productID,
             "productName": result[0].productName,
             "productDescription": result[0].productDescription,
-            "productType": result[0].productType,
+            "subCategoryID": result[0].subCategoryID,
             "productBarcode": result[0].productBarcode,
             "storeID": result[0].storeID,
             "productPrice": result[0].productPrice,
@@ -542,7 +706,7 @@ description: after query execution it will Send the data to serializer
 */
 let getStoreAllItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT * FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.productType WHERE items.itemActive=1 AND items.storeID=" + val;
+    let run_query = "SELECT * FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.subCategoryID WHERE items.itemActive=1 AND items.storeID=" + val;
     connection.query(run_query, function (err, result, fields) {
       
       if (!err) {
@@ -581,7 +745,7 @@ description: after query execution it will Send the data to serializer
 */
 let getFeaturedItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT * FROM `items` LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.productType WHERE items.storeID=" + val +
+    let run_query = "SELECT * FROM `items` LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.subCategoryID WHERE items.storeID=" + val +
     " AND items.itemActive=1 AND isFeatured=" +
     1;
     connection.query(run_query, function (err, result, fields) {
@@ -617,7 +781,7 @@ let getRef_prod_fav = (prop, val) => {
             "productID": result[0].productID,
             "productName": result[0].productName,
             "productDescription": result[0].productDescription,
-            "productType": result[0].productType,
+            "subCategoryID": result[0].subCategoryID,
             "productBarcode": result[0].productBarcode,
             "productPrice": result[0].productPrice,
             "productDiscount": result[0].productDiscount,
@@ -1035,6 +1199,11 @@ module.exports = {
   getCategories,
   getCategory,
   editCategory,
+  addProductImage,
+  getProductImages,
+  getProductImage,
+  getProductImagesByProductID,
+  editProductImage,
   addSubCategory,
   getSubCategories,
   getSubCategory,
