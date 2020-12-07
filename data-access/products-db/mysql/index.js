@@ -12,7 +12,6 @@ let categorySerializer = require('./categorySerializer') // serializer custom to
 let productImagesSerializer = require('./productImagesSerializer') // serializer custom to db
 let subCategorySerializer = require('./subCategorySerializer') // serializer custom to db
 let itemsSerializer = require('./itemsSerializer') // serializer custom to db
-let itemCategorySerializer = require('./itemCategorySerializer') // serializer custom to db
 let favouriteSerializer = require('./favouriteSerializer') // serializer custom to db
 let transProdSerializer = require('./transProductSerializer') // serializer custom to db
 let nutritionSerializer = require('./nutritionSerializer') // serializer custom to db
@@ -477,75 +476,13 @@ description: after query execution it will Send the data to serializer
 */
 let getItems = () => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL,i.*, p.* , (SELECT servingSize FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingSize , (SELECT servingPerContainer FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingPerContainer , (SELECT calories FROM nutrition WHERE nutritionID=i.nutritionFacts) AS calories , (SELECT fatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS fatInGm , (SELECT saturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS saturatedFatInGm , (SELECT polyunsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS polyunsaturatedFatInGm , (SELECT monounsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS monounsaturatedFatInGm , (SELECT transFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS transFatInGm , (SELECT protienInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS protienInGm , (SELECT cholesterol FROM nutrition WHERE nutritionID=i.nutritionFacts) AS cholesterol , (SELECT sodium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sodium , (SELECT potassium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS potassium , (SELECT totalCarbs FROM nutrition WHERE nutritionID=i.nutritionFacts) AS totalCarbs , (SELECT dietaryFiber FROM nutrition WHERE nutritionID=i.nutritionFacts) AS dietaryFiber , (SELECT sugar FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sugar FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN product_images on p.productID=product_images.productID"
-    // console.log(run_query)
+    let run_query = "SELECT i.*, p.* , (SELECT servingSize FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingSize , (SELECT servingPerContainer FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingPerContainer , (SELECT calories FROM nutrition WHERE nutritionID=i.nutritionFacts) AS calories , (SELECT fatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS fatInGm , (SELECT saturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS saturatedFatInGm , (SELECT polyunsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS polyunsaturatedFatInGm , (SELECT monounsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS monounsaturatedFatInGm , (SELECT transFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS transFatInGm , (SELECT protienInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS protienInGm , (SELECT cholesterol FROM nutrition WHERE nutritionID=i.nutritionFacts) AS cholesterol , (SELECT sodium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sodium , (SELECT potassium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS potassium , (SELECT totalCarbs FROM nutrition WHERE nutritionID=i.nutritionFacts) AS totalCarbs , (SELECT dietaryFiber FROM nutrition WHERE nutritionID=i.nutritionFacts) AS dietaryFiber , (SELECT sugar FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sugar FROM items AS i LEFT JOIN product AS p on p.productID=i.productID"
     connection.query(run_query, function (err, result, fields) {
-      // console.log(result)
-      var arr1=new Array()
-     let get_ID=0
-     for(let i=0; i<result.length; i++){
-        if (get_ID != result[i].productIDD) {
-          get_ID=result[i].productIDD
-          var arr2=new Array()
-          for(let j=0; j<result.length; j++){
-            if(get_ID == result[j].piPID && result[j].itemID == result[i].itemID){
-              var ob1=new Object({
-                "productImageID" : result[j].productImageID, 
-                "productID" : result[j].piPID, 
-                "productImageURL": result[j].productImageURL, 
-              });
-              arr2.push(ob1)
-            }
-          }
-          var ob2 = new Object({
-            "itemID": result[i].itemID,
-            "productID": result[i].productID,
-            "productName": result[i].productName,
-            "productDescription": result[i].productDescription,
-            "subCategoryID": result[i].subCategoryID,
-            "productBarcode": result[i].productBarcode,
-            "storeID": result[i].storeID,
-            "productPrice": result[i].productPrice,
-            "productDiscount": result[i].productDiscount,
-            "isFeatured": result[i].isFeatured,
-            "isOutOfStock": result[i].isOutOfStock,
-            "outOfStockDate": result[i].outOfStockDate,
-            "expDate": result[i].expDate,
-            "featuredDetails": result[i].featuredDetails,
-            "quantity": result[i].quantity,
-            "speciaIInstructions": result[i].speciaIInstructions,
-            "itemBarcode": result[i].itemBarcode,
-            "noOfImage": result[i].noOfImage,
-            "disclaimer": result[i].disclaimer,
-            "nutritionFacts":result[i].nutritionFacts,
-            "itemActive": result[i].itemActive,
-            "servingSize": result[i].servingSize,
-            "servingPerContainer": result[i].servingPerContainer,
-            "calories": result[i].calories,
-            "fatInGm":result[i].fatInGm,
-            "saturatedFatInGm": result[i].saturatedFatInGm,
-            "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
-            "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-            "transFatInGm":result[i].transFatInGm,
-            "protienInGm": result[i].protienInGm,
-            "cholesterol": result[i].cholesterol,
-            "sodium": result[i].sodium,
-            "potassium": result[i].potassium,
-            "totalCarbs": result[i].totalCarbs,
-            "dietaryFiber": result[i].dietaryFiber,
-            "sugar": result[i].sugar,
-            "productImages": arr2 
-          })
-        arr1.push(ob2)
-       }
-     }
-   
-     resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
       
-      // if (!err) {
-      //   resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
-      // }
-      // else reject(err);
+      if (!err) {
+        resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
+      }
+      else reject(err);
     });
   });
 }
@@ -666,73 +603,54 @@ description: after query execution it will Send the data to serializer
 */
 let getItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    connection.query("SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL,i.*, p.* , (SELECT servingSize FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingSize , (SELECT servingPerContainer FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingPerContainer , (SELECT calories FROM nutrition WHERE nutritionID=i.nutritionFacts) AS calories , (SELECT fatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS fatInGm , (SELECT saturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS saturatedFatInGm , (SELECT polyunsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS polyunsaturatedFatInGm , (SELECT monounsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS monounsaturatedFatInGm , (SELECT transFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS transFatInGm , (SELECT protienInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS protienInGm , (SELECT cholesterol FROM nutrition WHERE nutritionID=i.nutritionFacts) AS cholesterol , (SELECT sodium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sodium , (SELECT potassium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS potassium , (SELECT totalCarbs FROM nutrition WHERE nutritionID=i.nutritionFacts) AS totalCarbs , (SELECT dietaryFiber FROM nutrition WHERE nutritionID=i.nutritionFacts) AS dietaryFiber , (SELECT sugar FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sugar FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN product_images on p.productID=product_images.productID WHERE i.itemID=" + val, function (err, result, fields) {
+    connection.query("SELECT i.*, p.* , (SELECT servingSize FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingSize , (SELECT servingPerContainer FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingPerContainer , (SELECT calories FROM nutrition WHERE nutritionID=i.nutritionFacts) AS calories , (SELECT fatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS fatInGm , (SELECT saturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS saturatedFatInGm , (SELECT polyunsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS polyunsaturatedFatInGm , (SELECT monounsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS monounsaturatedFatInGm , (SELECT transFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS transFatInGm , (SELECT protienInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS protienInGm , (SELECT cholesterol FROM nutrition WHERE nutritionID=i.nutritionFacts) AS cholesterol , (SELECT sodium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sodium , (SELECT potassium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS potassium , (SELECT totalCarbs FROM nutrition WHERE nutritionID=i.nutritionFacts) AS totalCarbs , (SELECT dietaryFiber FROM nutrition WHERE nutritionID=i.nutritionFacts) AS dietaryFiber , (SELECT sugar FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sugar FROM items AS i LEFT JOIN product AS p on p.productID=i.productID WHERE i.itemID=" + val, function (err, result, fields) {
       if (!err) {
+        let getVal = {}
         if (result.length > 0) {
-     let get_ID=0
-     for(let i=0; i<result.length; i++){
-        if (get_ID != result[i].productIDD) {
-          get_ID=result[i].productIDD
-          var arr2=new Array()
-          for(let j=0; j<result.length; j++){
-            if(get_ID == result[j].piPID && result[j].itemID == result[i].itemID){
-              var ob1=new Object({
-                "productImageID" : result[j].productImageID, 
-                "productID" : result[j].piPID, 
-                "productImageURL": result[j].productImageURL, 
-              });
-              arr2.push(ob1)
-            }
+          getVal = {
+            "itemID": result[0].itemID,
+            "productID": result[0].productID,
+            "productName": result[0].productName,
+            "productDescription": result[0].productDescription,
+            "subCategoryID": result[0].subCategoryID,
+            "productBarcode": result[0].productBarcode,
+            "storeID": result[0].storeID,
+            "productPrice": result[0].productPrice,
+            "productDiscount": result[0].productDiscount,
+            "isFeatured=": result[0].isFeatured,
+            "isOutOfStock": result[0].isOutOfStock,
+            "outOfStockDate": result[0].outOfStockDate,
+            "expDate": result[0].expDate,
+            "featuredDetails": result[0].featuredDetails,
+            "quantity": result[0].quantity,
+            "speciaIInstructions": result[0].speciaIInstruction,
+            "discount": result[0].discount,
+            "itemBarcode": result[0].itemBarcode,
+            "noOfImage": result[0].noOfImage,
+            "disclaimer": result[0].disclaimer,
+            "nutritionFacts": result[0].nutritionFacts,
+            "itemActive": result[0].itemActiv,
+            "servingSize": result[0].servingSize,
+            "servingPerContainer": result[0].servingPerContainer,
+            "calories": result[0].calories,
+            "fatInGm": result[0].fatInGm,
+            "saturatedFatInGm": result[0].saturatedFatInGm,
+            "polyunsaturatedFatInGm": result[0].polyunsaturatedFatInGm,
+            "monounsaturatedFatInGm": result[0].monounsaturatedFatInGm,
+            "transFatInGm": result[0].transFatInGm,
+            "protienInGm": result[0].protienInGm,
+            "cholesterol": result[0].cholesterol,
+            "sodium": result[0].sodium,
+            "potassium": result[0].potassium,
+            "totalCarbs": result[0].totalCarbs,
+            "dietaryFiber": result[0].dietaryFiber,
+            "sugar": result[0].sugar
           }
-          var ob2 = new Object({
-            "itemID": result[i].itemID,
-            "productID": result[i].productID,
-            "productName": result[i].productName,
-            "productDescription": result[i].productDescription,
-            "subCategoryID": result[i].subCategoryID,
-            "productBarcode": result[i].productBarcode,
-            "storeID": result[i].storeID,
-            "productPrice": result[i].productPrice,
-            "productDiscount": result[i].productDiscount,
-            "isFeatured": result[i].isFeatured,
-            "isOutOfStock": result[i].isOutOfStock,
-            "outOfStockDate": result[i].outOfStockDate,
-            "expDate": result[i].expDate,
-            "featuredDetails": result[i].featuredDetails,
-            "quantity": result[i].quantity,
-            "speciaIInstructions": result[i].speciaIInstructions,
-            "itemBarcode": result[i].itemBarcode,
-            "noOfImage": result[i].noOfImage,
-            "disclaimer": result[i].disclaimer,
-            "nutritionFacts":result[i].nutritionFacts,
-            "itemActive": result[i].itemActive,
-            "servingSize": result[i].servingSize,
-            "servingPerContainer": result[i].servingPerContainer,
-            "calories": result[i].calories,
-            "fatInGm":result[i].fatInGm,
-            "saturatedFatInGm": result[i].saturatedFatInGm,
-            "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
-            "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-            "transFatInGm":result[i].transFatInGm,
-            "protienInGm": result[i].protienInGm,
-            "cholesterol": result[i].cholesterol,
-            "sodium": result[i].sodium,
-            "potassium": result[i].potassium,
-            "totalCarbs": result[i].totalCarbs,
-            "dietaryFiber": result[i].dietaryFiber,
-            "sugar": result[i].sugar,
-            "productImages": arr2 
-          })
-       }
-     }
-   
-     resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(ob2)))))
         } else {
-          var getVal=new Array()
-          resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(getVal)))))
+          getVal = {}
         }
 
-        
+        resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(getVal)))))
       }
       else reject(err);
     });
@@ -768,73 +686,13 @@ description: after query execution it will Send the data to serializer
 */
 let getStoreItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL,i.*, p.* , (SELECT servingSize FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingSize , (SELECT servingPerContainer FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingPerContainer , (SELECT calories FROM nutrition WHERE nutritionID=i.nutritionFacts) AS calories , (SELECT fatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS fatInGm , (SELECT saturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS saturatedFatInGm , (SELECT polyunsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS polyunsaturatedFatInGm , (SELECT monounsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS monounsaturatedFatInGm , (SELECT transFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS transFatInGm , (SELECT protienInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS protienInGm , (SELECT cholesterol FROM nutrition WHERE nutritionID=i.nutritionFacts) AS cholesterol , (SELECT sodium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sodium , (SELECT potassium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS potassium , (SELECT totalCarbs FROM nutrition WHERE nutritionID=i.nutritionFacts) AS totalCarbs , (SELECT dietaryFiber FROM nutrition WHERE nutritionID=i.nutritionFacts) AS dietaryFiber , (SELECT sugar FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sugar FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN product_images on p.productID=product_images.productID WHERE i.storeID='" + val + "'"
+    let run_query = "SELECT * FROM items LEFT JOIN product on product.productID=items.productID WHERE items.storeID='" + val + "'"
     connection.query(run_query, function (err, result, fields) {
-      var arr1=new Array()
-     let get_ID=0
-     for(let i=0; i<result.length; i++){
-        if (get_ID != result[i].productIDD) {
-          get_ID=result[i].productIDD
-          var arr2=new Array()
-          for(let j=0; j<result.length; j++){
-            if(get_ID == result[j].piPID && result[j].itemID == result[i].itemID){
-              var ob1=new Object({
-                "productImageID" : result[j].productImageID, 
-                "productID" : result[j].piPID, 
-                "productImageURL": result[j].productImageURL, 
-              });
-              arr2.push(ob1)
-            }
-          }
-          var ob2 = new Object({
-            "itemID": result[i].itemID,
-            "productID": result[i].productID,
-            "productName": result[i].productName,
-            "productDescription": result[i].productDescription,
-            "subCategoryID": result[i].subCategoryID,
-            "productBarcode": result[i].productBarcode,
-            "storeID": result[i].storeID,
-            "productPrice": result[i].productPrice,
-            "productDiscount": result[i].productDiscount,
-            "isFeatured": result[i].isFeatured,
-            "isOutOfStock": result[i].isOutOfStock,
-            "outOfStockDate": result[i].outOfStockDate,
-            "expDate": result[i].expDate,
-            "featuredDetails": result[i].featuredDetails,
-            "quantity": result[i].quantity,
-            "speciaIInstructions": result[i].speciaIInstructions,
-            "itemBarcode": result[i].itemBarcode,
-            "noOfImage": result[i].noOfImage,
-            "disclaimer": result[i].disclaimer,
-            "nutritionFacts":result[i].nutritionFacts,
-            "itemActive": result[i].itemActive,
-            "servingSize": result[i].servingSize,
-            "servingPerContainer": result[i].servingPerContainer,
-            "calories": result[i].calories,
-            "fatInGm":result[i].fatInGm,
-            "saturatedFatInGm": result[i].saturatedFatInGm,
-            "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
-            "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-            "transFatInGm":result[i].transFatInGm,
-            "protienInGm": result[i].protienInGm,
-            "cholesterol": result[i].cholesterol,
-            "sodium": result[i].sodium,
-            "potassium": result[i].potassium,
-            "totalCarbs": result[i].totalCarbs,
-            "dietaryFiber": result[i].dietaryFiber,
-            "sugar": result[i].sugar,
-            "productImages": arr2 
-          })
-        arr1.push(ob2)
-       }
-     }
-   
-     resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
       
-      // if (!err) {
-      //   resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
-      // }
-      // else reject(err);
+      if (!err) {
+        resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
+      }
+      else reject(err);
     });
   });
 }
@@ -848,73 +706,13 @@ description: after query execution it will Send the data to serializer
 */
 let getStoreAllItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL,i.*, p.* , (SELECT servingSize FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingSize , (SELECT servingPerContainer FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingPerContainer , (SELECT calories FROM nutrition WHERE nutritionID=i.nutritionFacts) AS calories , (SELECT fatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS fatInGm , (SELECT saturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS saturatedFatInGm , (SELECT polyunsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS polyunsaturatedFatInGm , (SELECT monounsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS monounsaturatedFatInGm , (SELECT transFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS transFatInGm , (SELECT protienInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS protienInGm , (SELECT cholesterol FROM nutrition WHERE nutritionID=i.nutritionFacts) AS cholesterol , (SELECT sodium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sodium , (SELECT potassium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS potassium , (SELECT totalCarbs FROM nutrition WHERE nutritionID=i.nutritionFacts) AS totalCarbs , (SELECT dietaryFiber FROM nutrition WHERE nutritionID=i.nutritionFacts) AS dietaryFiber , (SELECT sugar FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sugar FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN product_images on p.productID=product_images.productID WHERE i.itemActive=1 AND i.storeID=" + val;
+    let run_query = "SELECT * FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.subCategoryID WHERE items.itemActive=1 AND items.storeID=" + val;
     connection.query(run_query, function (err, result, fields) {
-      var arr1=new Array()
-      let get_ID=0
-      for(let i=0; i<result.length; i++){
-         if (get_ID != result[i].productIDD) {
-           get_ID=result[i].productIDD
-           var arr2=new Array()
-           for(let j=0; j<result.length; j++){
-             if(get_ID == result[j].piPID && result[j].itemID == result[i].itemID){
-               var ob1=new Object({
-                 "productImageID" : result[j].productImageID, 
-                 "productID" : result[j].piPID, 
-                 "productImageURL": result[j].productImageURL, 
-               });
-               arr2.push(ob1)
-             }
-           }
-           var ob2 = new Object({
-             "itemID": result[i].itemID,
-             "productID": result[i].productID,
-             "productName": result[i].productName,
-             "productDescription": result[i].productDescription,
-             "subCategoryID": result[i].subCategoryID,
-             "productBarcode": result[i].productBarcode,
-             "storeID": result[i].storeID,
-             "productPrice": result[i].productPrice,
-             "productDiscount": result[i].productDiscount,
-             "isFeatured": result[i].isFeatured,
-             "isOutOfStock": result[i].isOutOfStock,
-             "outOfStockDate": result[i].outOfStockDate,
-             "expDate": result[i].expDate,
-             "featuredDetails": result[i].featuredDetails,
-             "quantity": result[i].quantity,
-             "speciaIInstructions": result[i].speciaIInstructions,
-             "itemBarcode": result[i].itemBarcode,
-             "noOfImage": result[i].noOfImage,
-             "disclaimer": result[i].disclaimer,
-             "nutritionFacts":result[i].nutritionFacts,
-             "itemActive": result[i].itemActive,
-             "servingSize": result[i].servingSize,
-             "servingPerContainer": result[i].servingPerContainer,
-             "calories": result[i].calories,
-             "fatInGm":result[i].fatInGm,
-             "saturatedFatInGm": result[i].saturatedFatInGm,
-             "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
-             "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-             "transFatInGm":result[i].transFatInGm,
-             "protienInGm": result[i].protienInGm,
-             "cholesterol": result[i].cholesterol,
-             "sodium": result[i].sodium,
-             "potassium": result[i].potassium,
-             "totalCarbs": result[i].totalCarbs,
-             "dietaryFiber": result[i].dietaryFiber,
-             "sugar": result[i].sugar,
-             "productImages": arr2 
-           })
-         arr1.push(ob2)
-        }
+      
+      if (!err) {
+        resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
       }
-    
-      resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
-       
-      // if (!err) {
-      //   resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
-      // }
-      // else reject(err);
+      else reject(err);
     });
   });
 }
@@ -927,64 +725,14 @@ description: after query execution it will dilter data and return
 */
 let getItemCategories = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT *, product.subCategoryID AS productSubCategoryID, subcategory.subCategoryID AS subCategoryIDD FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.subCategoryID WHERE items.itemActive=1 AND items.storeID="+val+" ORDER BY subcategory.subCategoryName ASC";
-    // console.log(run_query)
+    let run_query = "SELECT * FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.subCategoryID WHERE items.itemActive=1 AND items.storeID=" + val;
     connection.query(run_query, function (err, result, fields) {
-      var arr1=new Array()
-     let get_ID=0
-     for(let i=0; i<result.length; i++){
-        if (get_ID != result[i].subCategoryIDD) {
-          get_ID=result[i].subCategoryIDD
-          var arr2=new Array()
-          for(let j=0; j<result.length; j++){
-            if(get_ID == result[j].productSubCategoryID){
-              var ob1=new Object({
-                "itemID" : result[j].itemID, 
-                "productID" : result[j].productID, 
-                "storeID": result[j].storeID, 
-                "productPrice": result[j].productPrice, 
-                "productDiscount": result[j].productDiscount, 
-                "isFeatured": result[j].isFeatured, 
-                "isOutOfStock": result[j].isOutOfStock, 
-                "expDate": result[j].expDate, 
-                "featuredDetails": result[j].featuredDetails, 
-                "speciaIInstructions": result[j].speciaIInstructions, 
-                "discount": result[j].discount, 
-                "itemBarcode": result[j].itemBarcode, 
-                "noOfImage": result[j].noOfImage, 
-                "disclaimer": result[j].disclaimer, 
-                "nutritionFacts": result[j].nutritionFacts, 
-                "itemActive": result[j].itemActive, 
-                "quantity": result[j].quantity, 
-                "productID": result[j].productID, 
-                "productName": result[j].productName, 
-                "productDescription": result[j].productDescription, 
-                "subCategoryID": result[j].subCategoryID, 
-                "productBarcode": result[j].productBarcode, 
-                "subCategoryID": result[j].subCategoryID, 
-                "subCategoryName": result[j].subCategoryName, 
-                "subCategoryDescription": result[j].subCategoryDescription, 
-                "categoryID": result[j].categoryID, 
-                "subCategoryActive": result[j].subCategoryActive,
-              });
-              arr2.push(ob1)
-            }
-          }
-          var ob2 = new Object({
-            "subCategoryID": result[i].subCategoryIDD,
-            "subCategoryName": result[i].subCategoryName,
-            "itemsDetails": arr2 
-          })
-        arr1.push(ob2)
-       } 
-     }
-   
-     resolve(Promise.resolve(itemCategorySerializer(JSON.parse(JSON.stringify(arr1)))))
+ 
       
-      // if (!err) {
-      //   resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
-      // }
-      // else reject(err);
+      if (!err) {
+        resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
+      }
+      else reject(err);
     });
   });
 }
@@ -997,73 +745,15 @@ description: after query execution it will Send the data to serializer
 */
 let getFeaturedItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL,i.*, p.* , (SELECT servingSize FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingSize , (SELECT servingPerContainer FROM nutrition WHERE nutritionID=i.nutritionFacts) AS servingPerContainer , (SELECT calories FROM nutrition WHERE nutritionID=i.nutritionFacts) AS calories , (SELECT fatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS fatInGm , (SELECT saturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS saturatedFatInGm , (SELECT polyunsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS polyunsaturatedFatInGm , (SELECT monounsaturatedFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS monounsaturatedFatInGm , (SELECT transFatInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS transFatInGm , (SELECT protienInGm FROM nutrition WHERE nutritionID=i.nutritionFacts) AS protienInGm , (SELECT cholesterol FROM nutrition WHERE nutritionID=i.nutritionFacts) AS cholesterol , (SELECT sodium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sodium , (SELECT potassium FROM nutrition WHERE nutritionID=i.nutritionFacts) AS potassium , (SELECT totalCarbs FROM nutrition WHERE nutritionID=i.nutritionFacts) AS totalCarbs , (SELECT dietaryFiber FROM nutrition WHERE nutritionID=i.nutritionFacts) AS dietaryFiber , (SELECT sugar FROM nutrition WHERE nutritionID=i.nutritionFacts) AS sugar FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN product_images on p.productID=product_images.productID WHERE i.storeID=" + val +" AND i.itemActive=1 AND i.isFeatured="+1;
+    let run_query = "SELECT * FROM `items` LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.subCategoryID WHERE items.storeID=" + val +
+    " AND items.itemActive=1 AND isFeatured=" +
+    1;
     connection.query(run_query, function (err, result, fields) {
-      var arr1=new Array()
-      let get_ID=0
-      for(let i=0; i<result.length; i++){
-         if (get_ID != result[i].productIDD) {
-           get_ID=result[i].productIDD
-           var arr2=new Array()
-           for(let j=0; j<result.length; j++){
-             if(get_ID == result[j].piPID && result[j].itemID == result[i].itemID){
-               var ob1=new Object({
-                 "productImageID" : result[j].productImageID, 
-                 "productID" : result[j].piPID, 
-                 "productImageURL": result[j].productImageURL, 
-               });
-               arr2.push(ob1)
-             }
-           }
-           var ob2 = new Object({
-             "itemID": result[i].itemID,
-             "productID": result[i].productID,
-             "productName": result[i].productName,
-             "productDescription": result[i].productDescription,
-             "subCategoryID": result[i].subCategoryID,
-             "productBarcode": result[i].productBarcode,
-             "storeID": result[i].storeID,
-             "productPrice": result[i].productPrice,
-             "productDiscount": result[i].productDiscount,
-             "isFeatured": result[i].isFeatured,
-             "isOutOfStock": result[i].isOutOfStock,
-             "outOfStockDate": result[i].outOfStockDate,
-             "expDate": result[i].expDate,
-             "featuredDetails": result[i].featuredDetails,
-             "quantity": result[i].quantity,
-             "speciaIInstructions": result[i].speciaIInstructions,
-             "itemBarcode": result[i].itemBarcode,
-             "noOfImage": result[i].noOfImage,
-             "disclaimer": result[i].disclaimer,
-             "nutritionFacts":result[i].nutritionFacts,
-             "itemActive": result[i].itemActive,
-             "servingSize": result[i].servingSize,
-             "servingPerContainer": result[i].servingPerContainer,
-             "calories": result[i].calories,
-             "fatInGm":result[i].fatInGm,
-             "saturatedFatInGm": result[i].saturatedFatInGm,
-             "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
-             "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-             "transFatInGm":result[i].transFatInGm,
-             "protienInGm": result[i].protienInGm,
-             "cholesterol": result[i].cholesterol,
-             "sodium": result[i].sodium,
-             "potassium": result[i].potassium,
-             "totalCarbs": result[i].totalCarbs,
-             "dietaryFiber": result[i].dietaryFiber,
-             "sugar": result[i].sugar,
-             "productImages": arr2 
-           })
-         arr1.push(ob2)
-        }
+      
+      if (!err) {
+        resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
       }
-    
-      resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
-       
-      // if (!err) {
-      //   resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
-      // }
-      // else reject(err);
+      else reject(err);
     });
   });
 }
