@@ -12,7 +12,7 @@ let categorySerializer = require('./categorySerializer') // serializer custom to
 let productImagesSerializer = require('./productImagesSerializer') // serializer custom to db
 let subCategorySerializer = require('./subCategorySerializer') // serializer custom to db
 let itemsSerializer = require('./itemsSerializer') // serializer custom to db
-// let itemCategorySerializer = require('./itemCategorySerializer') // serializer custom to db
+let itemCategorySerializer = require('./ItemCategorySerializer') // serializer custom to db
 let favouriteSerializer = require('./favouriteSerializer') // serializer custom to db
 let transProdSerializer = require('./transProductSerializer') // serializer custom to db
 let nutritionSerializer = require('./nutritionSerializer') // serializer custom to db
@@ -928,70 +928,70 @@ Input: storeID in params.
 Output: array of items of selected store by category
 description: after query execution it will dilter data and return
 // */
-// let getItemCategories = (prop, val) => {
-//   return new Promise(function (resolve, reject) {
-//     let run_query = "SELECT *, product.subCategoryID AS productSubCategoryID, subcategory.subCategoryID AS subCategoryIDD FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.subCategoryID WHERE items.itemActive=1 AND items.storeID="+val+" ORDER BY subcategory.subCategoryName ASC";
-//     // console.log(run_query)
+let getItemCategories = (prop, val) => {
+  return new Promise(function (resolve, reject) {
+    let run_query = "SELECT *, product.subCategoryID AS productSubCategoryID, subcategory.subCategoryID AS subCategoryIDD FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.subCategoryID WHERE items.itemActive=1 AND items.storeID="+val+" ORDER BY subcategory.subCategoryName ASC";
+    // console.log(run_query)
     
-//     connection.query(run_query, function (err, result, fields) {
-//       var arr1=new Array()
-//      let get_ID=0
-//      for(let i=0; i<result.length; i++){
-//         if (get_ID != result[i].subCategoryIDD) {
-//           get_ID=result[i].subCategoryIDD
-//           var arr2=new Array()
-//           for(let j=0; j<result.length; j++){
-//             if(get_ID == result[j].productSubCategoryID){
-//               var ob1=new Object({
-//                 "itemID" : result[j].itemID, 
-//                 "productID" : result[j].productID, 
-//                 "storeID": result[j].storeID, 
-//                 "productPrice": result[j].productPrice, 
-//                 "productDiscount": result[j].productDiscount, 
-//                 "isFeatured": result[j].isFeatured, 
-//                 "isOutOfStock": result[j].isOutOfStock, 
-//                 "expDate": result[j].expDate, 
-//                 "featuredDetails": result[j].featuredDetails, 
-//                 "speciaIInstructions": result[j].speciaIInstructions, 
-//                 "discount": result[j].discount, 
-//                 "itemBarcode": result[j].itemBarcode, 
-//                 "noOfImage": result[j].noOfImage, 
-//                 "disclaimer": result[j].disclaimer, 
-//                 "nutritionFacts": result[j].nutritionFacts, 
-//                 "itemActive": result[j].itemActive, 
-//                 "quantity": result[j].quantity, 
-//                 "productID": result[j].productID, 
-//                 "productName": result[j].productName, 
-//                 "productDescription": result[j].productDescription, 
-//                 "subCategoryID": result[j].subCategoryID, 
-//                 "productBarcode": result[j].productBarcode, 
-//                 "subCategoryID": result[j].subCategoryID, 
-//                 "subCategoryName": result[j].subCategoryName, 
-//                 "subCategoryDescription": result[j].subCategoryDescription, 
-//                 "categoryID": result[j].categoryID, 
-//                 "subCategoryActive": result[j].subCategoryActive,
-//               });
-//               arr2.push(ob1)
-//             }
-//           }
-//           var ob2 = new Object({
-//             "subCategoryID": result[i].subCategoryIDD,
-//             "subCategoryName": result[i].subCategoryName,
-//             "itemsDetails": arr2 
-//           })
-//         arr1.push(ob2)
-//        } 
-//      }
+    connection.query(run_query, function (err, result, fields) {
+      var arr1=new Array()
+     let get_ID=0
+     for(let i=0; i<result.length; i++){
+        if (get_ID != result[i].subCategoryIDD) {
+          get_ID=result[i].subCategoryIDD
+          var arr2=new Array()
+          for(let j=0; j<result.length; j++){
+            if(get_ID == result[j].productSubCategoryID){
+              var ob1=new Object({
+                "itemID" : result[j].itemID, 
+                "productID" : result[j].productID, 
+                "storeID": result[j].storeID, 
+                "productPrice": result[j].productPrice, 
+                "productDiscount": result[j].productDiscount, 
+                "isFeatured": result[j].isFeatured, 
+                "isOutOfStock": result[j].isOutOfStock, 
+                "expDate": result[j].expDate, 
+                "featuredDetails": result[j].featuredDetails, 
+                "speciaIInstructions": result[j].speciaIInstructions, 
+                "discount": result[j].discount, 
+                "itemBarcode": result[j].itemBarcode, 
+                "noOfImage": result[j].noOfImage, 
+                "disclaimer": result[j].disclaimer, 
+                "nutritionFacts": result[j].nutritionFacts, 
+                "itemActive": result[j].itemActive, 
+                "quantity": result[j].quantity, 
+                "productID": result[j].productID, 
+                "productName": result[j].productName, 
+                "productDescription": result[j].productDescription, 
+                "subCategoryID": result[j].subCategoryID, 
+                "productBarcode": result[j].productBarcode, 
+                "subCategoryID": result[j].subCategoryID, 
+                "subCategoryName": result[j].subCategoryName, 
+                "subCategoryDescription": result[j].subCategoryDescription, 
+                "categoryID": result[j].categoryID, 
+                "subCategoryActive": result[j].subCategoryActive,
+              });
+              arr2.push(ob1)
+            }
+          }
+          var ob2 = new Object({
+            "subCategoryID": result[i].subCategoryIDD,
+            "subCategoryName": result[i].subCategoryName,
+            "itemsDetails": arr2 
+          })
+        arr1.push(ob2)
+       } 
+     }
    
-//      resolve(Promise.resolve(itemCategorySerializer(JSON.parse(JSON.stringify(arr1)))))
+     resolve(Promise.resolve(itemCategorySerializer(JSON.parse(JSON.stringify(arr1)))))
       
-//       // if (!err) {
-//       //   resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
-//       // }
-//       // else reject(err);
-//     });
-//   });
-// }
+      // if (!err) {
+      //   resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
+      // }
+      // else reject(err);
+    });
+  });
+}
 
 /*
 objective: function to get all featured items
@@ -1523,7 +1523,7 @@ module.exports = {
   getSubCategory,
   editSubCategory,
   getItems,
-  // getItemCategories,
+  getItemCategories,
   addItem,
   editItem,
   getItem,
