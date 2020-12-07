@@ -34,7 +34,7 @@ Output: array of all products
 description: after query execution it will Send the data to serializer
 */
 let listproducts = () => {
-
+console.log("ABC");
   return new Promise(function (resolve, reject) {
     let run_query="SELECT product.productID AS PID,product.productName AS PName,product.productDescription AS PDesc,product.subCategoryID AS PSubCatID,product.productBarcode AS PBarcode,product_images.productImageID AS PIID,product_images.productID AS PIDD,product_images.productImageURL AS PIURL FROM product LEFT JOIN product_images ON product.productID=product_images.productID"
     connection.query(run_query, function(err,result) {
