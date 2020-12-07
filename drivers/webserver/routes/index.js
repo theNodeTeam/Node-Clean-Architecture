@@ -61,12 +61,6 @@ router
   .get("/v1/user/ref_prod_fav/:id", products.userRef_prod_fav) 
   .get("/v1/store/user/ref_prod_fav/:id/:storeID", products.userStoreRef_prod_fav) 
 
-//order-product
-router
-  .get("/v1/ref_trans_products/:orderNumber", products.getRef_trans_prod) 
-  .post("/v1/ref_trans_products", products.addRef_trans_products)  
-  .put("/v1/ref_trans_products/:orderNumber/:itemID", products.editRef_trans_prod) 
-  .delete("/v1/ref_trans_products/:orderNumber/:itemID", products.deleteRef_trans_prod) 
 
 //nutritions
   .get("/v1/nutrition/:id", products.get_nutrition)

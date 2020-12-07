@@ -14,7 +14,6 @@ let subCategorySerializer = require('./subCategorySerializer') // serializer cus
 let itemsSerializer = require('./itemsSerializer') // serializer custom to db
 let itemCategorySerializer = require('./ItemCategorySerializer') // serializer custom to db
 let favouriteSerializer = require('./favouriteSerializer') // serializer custom to db
-let transProdSerializer = require('./transProductSerializer') // serializer custom to db
 let nutritionSerializer = require('./nutritionSerializer') // serializer custom to db
 
 let makeProduct = require('../../../models/product/index') // model
@@ -23,7 +22,6 @@ let makeProductImages = require('../../../models/productImages/index') // model
 let makeSubCategory = require('../../../models/subCategory/index') // model
 let makeItem = require('../../../models/item/index') // model
 let makeFavItem = require('../../../models/favItem/index') // model yasir
-let makeTransProduct = require('../../../models/transProduct/index') // model
 let makeNutrition = require('../../../models/nutrition/index') // model
 
 
@@ -1242,102 +1240,6 @@ let userStoreRef_prod_fav = (prop, val, val2) => {
 }
 
 /*
-objective: function to items of an order
-Input: orderNumber in params.
-Output: array of items of that order
-description: after query execution it will Send the data to serializer
-*/
-let getRef_trans_prod = (prop, val) => {
-  console.log(val,"value");
-  let insertQuery = "SELECT * FROM ref_trans_items WHERE orderNumber='" + val+"'";
-  console.log(insertQuery);
-  return new Promise(function (resolve, reject) {
-    connection.query(insertQuery, (err, result) => {
-      if (!err) {
-        resolve(Promise.resolve(transProdSerializer(JSON.parse(JSON.stringify(result)))))
-      }
-      else reject(err);
-    })
-  })
-
-}
-
-
-/*
-objective: function to add item in an order
-Input: payload of order item in body
-Output: object of new order Item
-description: after query execution it will call getRef_trans_prod function
-*/
-let addRef_trans_products = (transProdInfo) => {
-  console.log("SD,",transProdInfo);
-  let transProdItem = makeTransProduct(transProdInfo)
-
-  let orderNumber = transProdItem.getOrderNumber()
-  let itemID = transProdItem.getItemID()
-  let itemQuantity= transProdItem.getItemQuantity()
-  let salePrice= transProdItem.getSalePrice()
-  let saleDiscount= transProdItem.getSaleDiscount()
-
-  console.log(itemQuantity,salePrice,saleDiscount);
-
-  let insertQuery = "INSERT INTO ref_trans_items SET orderNumber=" + "'" + orderNumber + "'" + "," + "itemID=" + "'" + itemID + "', itemQuantity='"+itemQuantity+"'"+ ",salePrice='"+salePrice+"'"+ ", saleDiscount='"+saleDiscount+"'"
-  console.log(insertQuery);
-  return new Promise(function (resolve, reject) {
-    connection.query(insertQuery, (error, result) => {
-      if (!error) {
-        console.log(result);
-        resolve(getRef_trans_prod('orderNumber', orderNumber))
-      }
-      else return error
-    })
-  })
-
-}
-
-
-/*
-objective: function to edit item information in an order
-Input: payload of order Item in body and orderitemID in params.
-Output: object of updated orderitem
-description: after query execution it will call getRef_trans_prod function
-*/
-let editRef_trans_prod = (orderNumber, itemId, transProdInfo) => {
-  let transProdItem = makeTransProduct(transProdInfo)
-  let itemQuantity= transProdItem.getItemQuantity()
-  let insertQuery = "UPDATE ref_trans_items SET itemQuantity=" + "'" + itemQuantity + "' WHERE orderNumber='" + orderNumber + "' AND itemID='"+itemId+"'"
-  return new Promise(function (resolve, reject) {
-    connection.query(insertQuery, (error, result) => {
-      if (!error) {
-        resolve(getRef_trans_prod('orderNumber', orderNumber))
-      }
-      else return error
-    })
-  })
-}
-
-
-/*
-objective: function to delete item from an order
-Input: order item ID in params.
-Output: empty object
-description: after query execution it will callgetRef_trans_prod function
-*/
-let deleteRef_trans_prod = (orderNumber, itemId) => {
-  let insertQuery = "DELETE FROM ref_trans_items WHERE orderNumber='" + orderNumber+"' AND itemID='"+itemId+"'"
-  console.log(insertQuery)
-  return new Promise(function (resolve, reject) {
-    connection.query(insertQuery, (error, result) => {
-      if (!error) {
-        resolve(getRef_trans_prod('orderNumber', orderNumber))
-      }
-      else return error
-    })
-  })
-}
-
-
-/*
 objective: function to get nutritions
 Input: nutritionID in params.
 Output: object of nutritions
@@ -1537,10 +1439,6 @@ module.exports = {
   deleteRef_prod_fav,
   userRef_prod_fav,
   userStoreRef_prod_fav,
-  getRef_trans_prod,
-  addRef_trans_products,
-  editRef_trans_prod,
-  deleteRef_trans_prod,
   get_nutrition,
   add_nutrition,
   edit_nutrition,

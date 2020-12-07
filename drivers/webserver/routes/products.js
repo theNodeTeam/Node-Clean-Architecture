@@ -297,41 +297,6 @@ products.userStoreRef_prod_fav = (req, res, next) => {
     .catch(next)
 }
 
-//function to items of an order
-products.getRef_trans_prod = (req, res, next) => {
-  ProductsDb.getRef_trans_prod('orderNumber', req.params.orderNumber)
-    .then(data => {
-      res.send(data)
-    })
-    .catch(next)
-}
-
-//function to add item in an order
-products.addRef_trans_products = (req, res, next) => {
-  ProductsDb.addRef_trans_products(req.body)
-    .then(data => {
-      res.send(data)
-    })
-    .catch(next)
-}
-
-//function to edit item information in an order
-products.editRef_trans_prod = (req, res, next) => {
-  ProductsDb.editRef_trans_prod( req.params.orderNumber,req.params.itemID, req.body)
-    .then(data => {
-      res.send(data)
-    })
-    .catch(next)
-}
-
-//function to delete item from an order
-products.deleteRef_trans_prod = (req, res, next) => {
-  ProductsDb.deleteRef_trans_prod(req.params.orderNumber,req.params.itemID)
-    .then(data => {
-      res.send(data)
-    })
-    .catch(next)
-}
 
 //function to get nutritions
 products.get_nutrition = (req, res, next) => {
