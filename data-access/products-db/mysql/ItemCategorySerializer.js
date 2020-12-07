@@ -8,7 +8,8 @@
 // this function maps the field of database to our fields
 const _serializeSingle = (category) => {
     return {
-      'categoryName': category.categoryName,
+      'subCategoryID': category.subCategoryID,
+      'subCategoryName': category.subCategoryName,
       'itemsDetails': category.itemsDetails
     };
   };

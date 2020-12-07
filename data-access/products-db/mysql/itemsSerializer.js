@@ -44,7 +44,8 @@ const _serializeSingle = (item) => {
       'potassium': item.potassium,
       'totalCarbs': item.totalCarbs,
       'dietaryFiber': item.dietaryFiber,
-      'sugar': item.sugar
+      'sugar': item.sugar,
+      'productImages': item.productImages
 
     };
   };
