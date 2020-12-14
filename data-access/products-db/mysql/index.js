@@ -1084,7 +1084,7 @@ description: after query execution it will Send the data to serializer
 */
 let getRef_prod_fav = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT ref_prod_fav.*, ref_prod_fav.itemID AS fItemID, items.*,  nutrition.*, product.*, store.* FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID=items.itemID LEFT JOIN  nutrition on  nutrition. nutritionID=items.nutritionFacts LEFT JOIN product on product.productID=items.productID LEFT JOIN store ON items.storeID =store.storeID WHERE favID=" + val;
+    let run_query = "SELECT ref_prod_fav.*, ref_prod_fav.itemID AS fItemID, items.*,  nutrition.*, product.*, store.*, location.* FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID=items.itemID LEFT JOIN  nutrition on  nutrition. nutritionID=items.nutritionFacts LEFT JOIN product on product.productID=items.productID LEFT JOIN store ON items.storeID =store.storeID LEFT JOIN location ON location.locationID=store.locationID WHERE favID=" + val;
     // console.log(run_query)
     connection.query(run_query, function (err, result, fields) {
       
@@ -1108,6 +1108,18 @@ let getRef_prod_fav = (prop, val) => {
             "logoURL": result[0].logoURL,
             "endAcceptingTime": result[0].endAcceptingTime,
             "minPickUpTime": result[0].minPickUpTime,
+          })
+          var storeLocationDetail=new Object({
+            "locationID": result[0].locationID,
+            "locationType": result[0].locationType,
+            "address1": result[0].address1,
+            "address2": result[0].address2,
+            "city": result[0].city,
+            "state": result[0].state,
+            "country": result[0].country,
+            "zipCode": result[0].zipCode,
+            "lat": result[0].lat,
+            "lat": result[0].lat,
           })
           var productDetail=new Object({
             "productID": result[0].productID,
@@ -1159,6 +1171,7 @@ let getRef_prod_fav = (prop, val) => {
             "userID": result[0].userID,
             "itemID": result[0].fItemID,
             "storeDetail": storeDetail,
+            "storeLocationDetail": storeLocationDetail,
             "productDetail": productDetail,
             "itemDetail": itemDetail,
             "nutritionDetail": nutritionDetail,
@@ -1247,7 +1260,7 @@ Output: array of fav items of user
 description: after query execution it will Send the data to serializer
 */
 let userRef_prod_fav = (prop, val) => {
-  let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN store on items.storeID = store.storeID LEFT JOIN nutrition on nutrition.nutritionID=items.nutritionFacts where ref_prod_fav.userID=" + val
+  let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN store on items.storeID = store.storeID LEFT JOIN nutrition on nutrition.nutritionID=items.nutritionFacts  LEFT JOIN location ON location.locationID=store.locationID where ref_prod_fav.userID=" + val
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (err, result) => {
 
@@ -1273,6 +1286,18 @@ let userRef_prod_fav = (prop, val) => {
                 "logoURL": result[i].logoURL,
                 "endAcceptingTime": result[i].endAcceptingTime,
                 "minPickUpTime": result[i].minPickUpTime,
+              })
+              var storeLocationDetail=new Object({
+                "locationID": result[i].locationID,
+                "locationType": result[i].locationType,
+                "address1": result[i].address1,
+                "address2": result[i].address2,
+                "city": result[i].city,
+                "state": result[i].state,
+                "country": result[i].country,
+                "zipCode": result[i].zipCode,
+                "lat": result[i].lat,
+                "lat": result[i].lat,
               })
               var productDetail=new Object({
                 "productID": result[i].productID,
@@ -1324,6 +1349,7 @@ let userRef_prod_fav = (prop, val) => {
                 "userID": result[i].userID,
                 "itemID": result[i].itemID,
                 "storeDetail": storeDetail,
+                "storeLocationDetail": storeLocationDetail,
                 "productDetail": productDetail,
                 "itemDetail": itemDetail,
                 "nutritionDetail": nutritionDetail,
@@ -1341,11 +1367,6 @@ let userRef_prod_fav = (prop, val) => {
       }
       else reject(err);
 
-
-      // if (!error) {
-      //   resolve(Promise.resolve(favouriteSerializer(JSON.parse(JSON.stringify(result)))))
-      // }
-      // else return error
     })
   })
 }
@@ -1358,7 +1379,7 @@ Output: array of fav items of user of specific store
 description: after query execution it will Send the data to serializer
 */
 let userStoreRef_prod_fav = (prop, val, prop2, val2) => {
-  let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN nutrition on nutrition.nutritionID=items.nutritionFacts LEFT JOIN store on items.storeID = store.storeID where ref_prod_fav.userID=" + val + " AND items.storeID=" + val2;
+  let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN nutrition on nutrition.nutritionID=items.nutritionFacts LEFT JOIN store on items.storeID = store.storeID  LEFT JOIN location ON location.locationID=store.locationID where ref_prod_fav.userID=" + val + " AND items.storeID=" + val2;
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (err, result) => {
       if (!err) {
@@ -1382,6 +1403,18 @@ let userStoreRef_prod_fav = (prop, val, prop2, val2) => {
                 "logoURL": result[i].logoURL,
                 "endAcceptingTime": result[i].endAcceptingTime,
                 "minPickUpTime": result[i].minPickUpTime,
+              })
+              var storeLocationDetail=new Object({
+                "locationID": result[i].locationID,
+                "locationType": result[i].locationType,
+                "address1": result[i].address1,
+                "address2": result[i].address2,
+                "city": result[i].city,
+                "state": result[i].state,
+                "country": result[i].country,
+                "zipCode": result[i].zipCode,
+                "lat": result[i].lat,
+                "lat": result[i].lat,
               })
               var productDetail=new Object({
                 "productID": result[i].productID,
@@ -1433,6 +1466,7 @@ let userStoreRef_prod_fav = (prop, val, prop2, val2) => {
                 "userID": result[i].userID,
                 "itemID": result[i].itemID,
                 "storeDetail": storeDetail,
+                "storeLocationDetail": storeLocationDetail,
                 "productDetail": productDetail,
                 "itemDetail": itemDetail,
                 "nutritionDetail": nutritionDetail,
@@ -1449,10 +1483,7 @@ let userStoreRef_prod_fav = (prop, val, prop2, val2) => {
         
       }
       else reject(err);
-      // if (!error) {
-      //   resolve(Promise.resolve(favouriteSerializer(JSON.parse(JSON.stringify(result)))))
-      // }
-      // else return error
+      
     })
   })
 }
