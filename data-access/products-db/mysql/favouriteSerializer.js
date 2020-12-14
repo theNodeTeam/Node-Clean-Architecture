@@ -13,6 +13,7 @@ const _serializeSingle = (item) => {
       'itemID': item.itemID,
       'itemDetail': item.itemDetail,
       'storeDetail': item.storeDetail,
+      'storeLocationDetail': item.storeLocationDetail,
       'productDetail': item.productDetail,
       'nutritionDetail': item.nutritionDetail,
 
