@@ -1119,7 +1119,7 @@ let getRef_prod_fav = (prop, val) => {
             "country": result[0].country,
             "zipCode": result[0].zipCode,
             "lat": result[0].lat,
-            "lat": result[0].lat,
+            "lng": result[0].lng,
           })
           // var productDetail=new Object({
           //   "productID": result[0].productID,
@@ -1336,7 +1336,7 @@ let userRef_prod_fav = (prop, val) => {
                 "country": result[i].country,
                 "zipCode": result[i].zipCode,
                 "lat": result[i].lat,
-                "lat": result[i].lat,
+                "lng": result[i].lng,
               })
               // var productDetail=new Object({
               //   "productID": result[i].productID,
@@ -1492,7 +1492,7 @@ let userStoreRef_prod_fav = (prop, val, prop2, val2) => {
                 "country": result[i].country,
                 "zipCode": result[i].zipCode,
                 "lat": result[i].lat,
-                "lat": result[i].lat,
+                "lng": result[i].lng,
               })
               // var productDetail=new Object({
               //   "productID": result[i].productID,
