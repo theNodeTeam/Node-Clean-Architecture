@@ -1647,7 +1647,6 @@ let get_nutrition = (prop, val) => {
 
 }
 
- 
 /*
 objective: function to add nutritions
 Input: payload of nutrition in body
