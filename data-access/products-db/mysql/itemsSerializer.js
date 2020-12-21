@@ -17,6 +17,7 @@ const _serializeSingle = (item) => {
       'storeID': item.storeID,
       'productPrice': item.productPrice,
       'productDiscount': item.productDiscount,
+      'productDiscountedPrice': item.productDiscountedPrice,
       'isFeatured': item.isFeatured,
       'isOutOfStock': item.isOutOfStock,
       'outOfStockDate': item.outOfStockDate,

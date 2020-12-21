@@ -504,6 +504,7 @@ let getItems = () => {
             "storeID": result[i].storeID,
             "productPrice": result[i].productPrice,
             "productDiscount": result[i].productDiscount,
+            "productDiscountedPrice": result[i].productDiscountedPrice,
             "isFeatured": result[i].isFeatured,
             "isOutOfStock": result[i].isOutOfStock,
             "outOfStockDate": result[i].outOfStockDate,
@@ -557,6 +558,7 @@ let addItem = (itemInfo) => {
     let storeID = item.getstoreID()
     let productPrice = item.getproductPrice()
     let productDiscount = item.getproductDiscount()
+    let productDiscountedPrice = item.getproductDiscountedPrice()
     let isFeatured = item.getisFeatured()
     let isOutOfStock = item.getisOutOfStock()
     let outOfStockDate = item.getoutOfStockDate()
@@ -608,6 +610,7 @@ let editItem = (id, itemInfo) => {
     let storeID = item.getstoreID()
     let productPrice = item.getproductPrice()
     let productDiscount = item.getproductDiscount()
+    let productDiscountedPrice = item.getproductDiscountedPrice()
     let isFeatured = item.getisFeatured()
     let isOutOfStock = item.getisOutOfStock()
     let outOfStockDate = item.getoutOfStockDate()
@@ -686,6 +689,7 @@ let getItem = (prop, val) => {
             "storeID": result[i].storeID,
             "productPrice": result[i].productPrice,
             "productDiscount": result[i].productDiscount,
+            "productDiscountedPrice": result[i].productDiscountedPrice,
             "isFeatured": result[i].isFeatured,
             "isOutOfStock": result[i].isOutOfStock,
             "outOfStockDate": result[i].outOfStockDate,
@@ -788,6 +792,7 @@ let getStoreItem = (prop, val) => {
             "storeID": result[i].storeID,
             "productPrice": result[i].productPrice,
             "productDiscount": result[i].productDiscount,
+            "productDiscountedPrice": result[i].productDiscountedPrice,
             "isFeatured": result[i].isFeatured,
             "isOutOfStock": result[i].isOutOfStock,
             "outOfStockDate": result[i].outOfStockDate,
@@ -863,6 +868,7 @@ let getStoreAllItem = (prop, val) => {
              "productBarcode": result[i].productBarcode,
              "storeID": result[i].storeID,
              "productPrice": result[i].productPrice,
+             "productDiscountedPrice": result[i].productDiscountedPrice,
              "productDiscount": result[i].productDiscount,
              "isFeatured": result[i].isFeatured,
              "isOutOfStock": result[i].isOutOfStock,
@@ -931,6 +937,7 @@ let getItemCategories = (prop, val) => {
                 "storeID": result[j].storeID, 
                 "productPrice": result[j].productPrice, 
                 "productDiscount": result[j].productDiscount, 
+                "productDiscountedPrice": result[i].productDiscountedPrice,
                 "isFeatured": result[j].isFeatured, 
                 "isOutOfStock": result[j].isOutOfStock, 
                 "expDate": result[j].expDate, 
@@ -1008,6 +1015,7 @@ let getFeaturedItem = (prop, val) => {
              "storeID": result[i].storeID,
              "productPrice": result[i].productPrice,
              "productDiscount": result[i].productDiscount,
+             "productDiscountedPrice": result[i].productDiscountedPrice,
              "isFeatured": result[i].isFeatured,
              "isOutOfStock": result[i].isOutOfStock,
              "outOfStockDate": result[i].outOfStockDate,
