@@ -32,7 +32,6 @@ Output: array of all products
 description: after query execution it will Send the data to serializer
 */
 let listproducts = () => {
-// console.log("ABC");
   return new Promise(function (resolve, reject) {
     let run_query="SELECT product.productID AS PID,product.productName AS PName,product.productDescription AS PDesc,product.subCategoryID AS PSubCatID,product.productBarcode AS PBarcode,product_images.productImageID AS PIID,product_images.productID AS PIDD,product_images.productImageURL AS PIURL FROM product LEFT JOIN product_images ON product.productID=product_images.productID"
     connection.query(run_query, function(err,result) {
@@ -133,7 +132,6 @@ let addProduct = (productInfo) => {
   pBarcode = productGet.getProductBarcode()
 
   let insertQuery = "INSERT INTO product SET productName='" + pName + "',productDescription='" + pDescription + "',subCategoryID='" + subCategoryID + "',productBarcode='" + pBarcode + "'"
-  // console.log(insertQuery)
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -158,7 +156,6 @@ let editProduct = (id, productInfo) => {
   subCategoryID = productGet.getSubCategoryID()
   pBarcode = productGet.getProductBarcode()
   let insertQuery = "UPDATE product SET productName='" + pName + "',productDescription='" + pDescription + "',subCategoryID='" + subCategoryID + "',productBarcode='" + pBarcode + "' WHERE productID='" + id + "'"
-  // console.log(insertQuery)
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -180,7 +177,6 @@ let addCategory = (categoryInfo) => {
   let cName = category.getCategoryName()
   let cDescription = category.getCategoryDescription()
   let insertQuery = "INSERT INTO category SET categoryName='" + cName + "',categoryDescription='" + cDescription + "'"
-  // console.log(insertQuery)
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -271,7 +267,6 @@ let addProductImage = (productImagesInfo) => {
   let productID = productImage.getProductID()
   let productImageURL = productImage.getProductImageURL()
   let insertQuery = "INSERT INTO product_images SET productID='" + productID + "',productImageURL='" + productImageURL + "'"
-  // console.log(insertQuery)
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -389,7 +384,6 @@ let addSubCategory = (subCategoryInfo) => {
   scDescription = subCategory.getSubCategoryDescription()
   categoryID = subCategory.getCategoryID()
   let insertQuery = "INSERT INTO subcategory SET subCategoryName='" + scName + "',subCategoryDescription='" + scDescription + "',categoryID='" + categoryID + "'"
-  // console.log(insertQuery)
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -545,10 +539,6 @@ let getItems = () => {
    
      resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
       
-      // if (!err) {
-      //   resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
-      // }
-      // else reject(err);
     });
   });
 }
@@ -596,7 +586,6 @@ let addItem = (itemInfo) => {
     "," + "itemActive=" + "'" + itemActive + "'" + 
     "," + "nutritionFacts=" + "'" + nutritionFacts + "'" + 
     "," + "itemBarcode=" + "'" + itemBarcode + "'"
-  // console.log(insertQuery)
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -834,10 +823,6 @@ let getStoreItem = (prop, val) => {
    
      resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
       
-      // if (!err) {
-      //   resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
-      // }
-      // else reject(err);
     });
   });
 }
@@ -914,10 +899,6 @@ let getStoreAllItem = (prop, val) => {
     
       resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
        
-      // if (!err) {
-      //   resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
-      // }
-      // else reject(err);
     });
   });
 } 
@@ -934,7 +915,6 @@ description: after query execution it will dilter data and return
 let getItemCategories = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT *, product.subCategoryID AS productSubCategoryID, subcategory.subCategoryID AS subCategoryIDD FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.subCategoryID WHERE items.itemActive=1 AND items.storeID="+val+" ORDER BY subcategory.subCategoryName ASC";
-    // console.log(run_query)
     
     connection.query(run_query, function (err, result, fields) {
       var arr1=new Array()
@@ -988,10 +968,6 @@ let getItemCategories = (prop, val) => {
    
      resolve(Promise.resolve(itemCategorySerializer(JSON.parse(JSON.stringify(arr1)))))
       
-      // if (!err) {
-      //   resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
-      // }
-      // else reject(err);
     });
   });
 }
@@ -1066,11 +1042,7 @@ let getFeaturedItem = (prop, val) => {
       }
     
       resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
-       
-      // if (!err) {
-      //   resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(result)))))
-      // }
-      // else reject(err);
+
     });
   });
 }
@@ -1085,7 +1057,6 @@ description: after query execution it will Send the data to serializer
 let getRef_prod_fav = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT ref_prod_fav.*, ref_prod_fav.itemID AS fItemID, items.*,  nutrition.*, product.*, store.*, location.* FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID=items.itemID LEFT JOIN  nutrition on  nutrition. nutritionID=items.nutritionFacts LEFT JOIN product on product.productID=items.productID LEFT JOIN store ON items.storeID =store.storeID LEFT JOIN location ON location.locationID=store.locationID WHERE favID=" + val;
-    // console.log(run_query)
     connection.query(run_query, function (err, result, fields) {
       
       if (!err) {
@@ -1239,7 +1210,6 @@ let addRef_prod_fav = (favInfo) => {
   let userID = favItem.getUserID()
   let itemID = favItem.getItemID()
   let insertQuery = "INSERT INTO ref_prod_fav SET userID=" + "'" + userID + "'" + "," + "itemID=" + "'" + itemID + "'"
-  // console.log(insertQuery)
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -1302,7 +1272,6 @@ let userRef_prod_fav = (prop, val) => {
   let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN store on items.storeID = store.storeID LEFT JOIN nutrition on nutrition.nutritionID=items.nutritionFacts  LEFT JOIN location ON location.locationID=store.locationID where ref_prod_fav.userID=" + val
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (err, result) => {
-// console.log(result)
 
       if (!err) {
         var getVal = new Array()
@@ -1687,7 +1656,6 @@ let add_nutrition = (nutritionInfo) => {
     "',dietaryFiber='" + dietaryFiber + 
     "',sugar='" + sugar + 
     "'"
-    // console.log(insertQuery)
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
