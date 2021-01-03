@@ -8,7 +8,9 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const routes = require('./routes')
-const config = require('../../config')
+
+//requiring dotenv file so we can access all variables using process.env.VARIABLE
+require('dotenv').config()
 
 // bodyparser
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -41,7 +43,7 @@ app.use(function (req, res) {
 });
 
 
-const PORT = config.PORT || 5007
+const PORT = process.env.PORT || 5007
 
 //starting the server
 app.listen(PORT, () => {

@@ -33,20 +33,20 @@ description: after query execution it will Send the data to serializer
 */
 let listproducts = () => {
   return new Promise(function (resolve, reject) {
-    let run_query="SELECT product.productID AS PID,product.productName AS PName,product.productDescription AS PDesc,product.subCategoryID AS PSubCatID,product.productBarcode AS PBarcode,product_images.productImageID AS PIID,product_images.productID AS PIDD,product_images.productImageURL AS PIURL FROM product LEFT JOIN product_images ON product.productID=product_images.productID"
-    connection.query(run_query, function(err,result) {
-     var arr1=new Array()
-     let get_ID=0
-     for(let i=0; i<result.length; i++){
+    let run_query = "SELECT product.productID AS PID,product.productName AS PName,product.productDescription AS PDesc,product.subCategoryID AS PSubCatID,product.productBarcode AS PBarcode,product_images.productImageID AS PIID,product_images.productID AS PIDD,product_images.productImageURL AS PIURL FROM product LEFT JOIN product_images ON product.productID=product_images.productID"
+    connection.query(run_query, function (err, result) {
+      var arr1 = new Array()
+      let get_ID = 0
+      for (let i = 0; i < result.length; i++) {
         if (get_ID != result[i].PID) {
-          get_ID=result[i].PID
-          var arr2=new Array()
-          for(let j=0; j<result.length; j++){
-            if(get_ID == result[j].PIDD){
-              var ob1=new Object({
-                "productImageID" : result[j].PIID, 
-                "productID" : result[j].PIDD, 
-                "productImageURL": result[j].PIURL, 
+          get_ID = result[i].PID
+          var arr2 = new Array()
+          for (let j = 0; j < result.length; j++) {
+            if (get_ID == result[j].PIDD) {
+              var ob1 = new Object({
+                "productImageID": result[j].PIID,
+                "productID": result[j].PIDD,
+                "productImageURL": result[j].PIURL,
               });
               arr2.push(ob1)
             }
@@ -57,19 +57,19 @@ let listproducts = () => {
             "productDescription": result[i].PDesc,
             "subCategoryID": result[i].PSubCatID,
             "productBarcode": result[i].PBarcode,
-            "productImages": arr2 
+            "productImages": arr2
           })
-        arr1.push(ob2)
-       }
-     }
-   
-     resolve(Promise.resolve(serialize(JSON.parse(JSON.stringify(arr1)))))
+          arr1.push(ob2)
+        }
+      }
+
+      resolve(Promise.resolve(serialize(JSON.parse(JSON.stringify(arr1)))))
 
 
     })
   })
 
-  }
+}
 
 
 /*
@@ -80,20 +80,20 @@ description: after query execution it will Send the data to serializer
 */
 let findProduct = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query="SELECT product.productID AS PID,product.productName AS PName,product.productDescription AS PDesc,product.subCategoryID AS PSubCatID,product.productBarcode AS PBarcode,product_images.productImageID AS PIID,product_images.productID AS PIDD,product_images.productImageURL AS PIURL FROM product LEFT JOIN product_images ON product.productID=product_images.productID WHERE product.productID="+val
-    connection.query(run_query, function(err,result) {
-     var arr1=new Array()
-     let get_ID=0
-     for(let i=0; i<result.length; i++){
+    let run_query = "SELECT product.productID AS PID,product.productName AS PName,product.productDescription AS PDesc,product.subCategoryID AS PSubCatID,product.productBarcode AS PBarcode,product_images.productImageID AS PIID,product_images.productID AS PIDD,product_images.productImageURL AS PIURL FROM product LEFT JOIN product_images ON product.productID=product_images.productID WHERE product.productID=" + val
+    connection.query(run_query, function (err, result) {
+      var arr1 = new Array()
+      let get_ID = 0
+      for (let i = 0; i < result.length; i++) {
         if (get_ID != result[i].PID) {
-          get_ID=result[i].PID
-          var arr2=new Array()
-          for(let j=0; j<result.length; j++){
-            if(get_ID == result[j].PIDD){
-              var ob1=new Object({
-                "productImageID" : result[j].PIID, 
-                "productID" : result[j].PIDD, 
-                "productImageURL": result[j].PIURL, 
+          get_ID = result[i].PID
+          var arr2 = new Array()
+          for (let j = 0; j < result.length; j++) {
+            if (get_ID == result[j].PIDD) {
+              var ob1 = new Object({
+                "productImageID": result[j].PIID,
+                "productID": result[j].PIDD,
+                "productImageURL": result[j].PIURL,
               });
               arr2.push(ob1)
             }
@@ -104,13 +104,13 @@ let findProduct = (prop, val) => {
             "productDescription": result[i].PDesc,
             "subCategoryID": result[i].PSubCatID,
             "productBarcode": result[i].PBarcode,
-            "productImages": arr2 
+            "productImages": arr2
           })
-        arr1.push(ob2)
-       }
-     }
-   
-     resolve(Promise.resolve(serialize(JSON.parse(JSON.stringify(arr1)))))
+          arr1.push(ob2)
+        }
+      }
+
+      resolve(Promise.resolve(serialize(JSON.parse(JSON.stringify(arr1)))))
 
 
     })
@@ -360,7 +360,7 @@ let editProductImage = (id, productImagesInfo) => {
   let productImage = makeProductImages(productImagesInfo)
   let productID = productImage.getProductID()
   let productImageURL = productImage.getProductImageURL()
-  let insertQuery = "UPDATE product_images SET productID='" + productID + "',productImageURL='" + productImageURL + "' WHERE productImageID="+id
+  let insertQuery = "UPDATE product_images SET productID='" + productID + "',productImageURL='" + productImageURL + "' WHERE productImageID=" + id
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -454,7 +454,7 @@ let editSubCategory = (id, subCategoryInfo) => {
   let subCategory = makeSubCategory(subCategoryInfo)
   scName = subCategory.getSubCategoryName()
   scDescription = subCategory.getSubCategoryDescription()
-  sccategoryID= subCategory.getCategoryID()
+  sccategoryID = subCategory.getCategoryID()
   let insertQuery = "UPDATE subcategory SET subCategoryName='" + scName + "',subCategoryDescription='" + scDescription + "',categoryID='" + sccategoryID + "' WHERE subCategoryID='" + id + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
@@ -478,18 +478,18 @@ let getItems = () => {
     // console.log(run_query)
     connection.query(run_query, function (err, result, fields) {
       // console.log(result)
-      var arr1=new Array()
-     let get_ID=0
-     for(let i=0; i<result.length; i++){
+      var arr1 = new Array()
+      let get_ID = 0
+      for (let i = 0; i < result.length; i++) {
         if (get_ID != result[i].productIDD) {
-          get_ID=result[i].productIDD
-          var arr2=new Array()
-          for(let j=0; j<result.length; j++){
-            if(get_ID == result[j].piPID && result[j].itemID == result[i].itemID){
-              var ob1=new Object({
-                "productImageID" : result[j].productImageID, 
-                "productID" : result[j].piPID, 
-                "productImageURL": result[j].productImageURL, 
+          get_ID = result[i].productIDD
+          var arr2 = new Array()
+          for (let j = 0; j < result.length; j++) {
+            if (get_ID == result[j].piPID && result[j].itemID == result[i].itemID) {
+              var ob1 = new Object({
+                "productImageID": result[j].productImageID,
+                "productID": result[j].piPID,
+                "productImageURL": result[j].productImageURL,
               });
               arr2.push(ob1)
             }
@@ -515,16 +515,16 @@ let getItems = () => {
             "itemBarcode": result[i].itemBarcode,
             "noOfImage": result[i].noOfImage,
             "disclaimer": result[i].disclaimer,
-            "nutritionFacts":result[i].nutritionFacts,
+            "nutritionFacts": result[i].nutritionFacts,
             "itemActive": result[i].itemActive,
             "servingSize": result[i].servingSize,
             "servingPerContainer": result[i].servingPerContainer,
             "calories": result[i].calories,
-            "fatInGm":result[i].fatInGm,
+            "fatInGm": result[i].fatInGm,
             "saturatedFatInGm": result[i].saturatedFatInGm,
             "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
             "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-            "transFatInGm":result[i].transFatInGm,
+            "transFatInGm": result[i].transFatInGm,
             "protienInGm": result[i].protienInGm,
             "cholesterol": result[i].cholesterol,
             "sodium": result[i].sodium,
@@ -532,14 +532,14 @@ let getItems = () => {
             "totalCarbs": result[i].totalCarbs,
             "dietaryFiber": result[i].dietaryFiber,
             "sugar": result[i].sugar,
-            "productImages": arr2 
+            "productImages": arr2
           })
-        arr1.push(ob2)
-       }
-     }
-   
-     resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
-      
+          arr1.push(ob2)
+        }
+      }
+
+      resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
+
     });
   });
 }
@@ -555,38 +555,38 @@ description: after query execution it will call the getItem function
 let addItem = (itemInfo) => {
   let item = makeItem(itemInfo)
   let productID = item.getproductID()
-    let storeID = item.getstoreID()
-    let productPrice = item.getproductPrice()
-    let productDiscount = item.getproductDiscount()
-    let productDiscountedPrice = item.getproductDiscountedPrice()
-    let isFeatured = item.getisFeatured()
-    let isOutOfStock = item.getisOutOfStock()
-    let outOfStockDate = item.getoutOfStockDate()
-    let expDate = item.getexpDate()
-    let featuredDetails = item.getfeaturedDetails()
-    let quantity = item.getquantity()
-    let speciaIInstructions = item.getspeciaIInstructions()
-    let itemBarcode = item.getitemBarcode()
-    let noOfImage = item.getnoOfImage()
-    let disclaimer = item.getdisclaimer()
-    let nutritionFacts = item.getnutritionFacts()
-    let itemActive = item.getitemActive()
-  let insertQuery = "INSERT INTO items SET "+
-  "productID=" + "'" + productID + "'" + 
-  "," + "storeID=" + "'" + storeID + "'" +
-   "," + "productPrice=" + "'" + productPrice + "'" + 
-   "," + "productDiscount=" + "'" + productDiscount + "'" + 
-   "," + "isFeatured=" + "'" + isFeatured + "'" +
-    "," + "isOutOfStock=" + "'" + isOutOfStock + "'" + 
-    "," + "outOfStockDate=" + "'" + outOfStockDate + "'" + 
-    "," + "expDate=" + "'" + expDate + "'" + 
-    "," + "featuredDetails=" + "'" + featuredDetails + "'" + 
-    "," + "quantity=" + "'" + quantity + "'" + 
-    "," + "speciaIInstructions=" + "'" + speciaIInstructions + "'" + 
-    "," + "noOfImage=" + "'" + noOfImage + "'" + 
-    "," + "disclaimer=" + "'" + disclaimer + "'" + 
-    "," + "itemActive=" + "'" + itemActive + "'" + 
-    "," + "nutritionFacts=" + "'" + nutritionFacts + "'" + 
+  let storeID = item.getstoreID()
+  let productPrice = item.getproductPrice()
+  let productDiscount = item.getproductDiscount()
+  let productDiscountedPrice = item.getproductDiscountedPrice()
+  let isFeatured = item.getisFeatured()
+  let isOutOfStock = item.getisOutOfStock()
+  let outOfStockDate = item.getoutOfStockDate()
+  let expDate = item.getexpDate()
+  let featuredDetails = item.getfeaturedDetails()
+  let quantity = item.getquantity()
+  let speciaIInstructions = item.getspeciaIInstructions()
+  let itemBarcode = item.getitemBarcode()
+  let noOfImage = item.getnoOfImage()
+  let disclaimer = item.getdisclaimer()
+  let nutritionFacts = item.getnutritionFacts()
+  let itemActive = item.getitemActive()
+  let insertQuery = "INSERT INTO items SET " +
+    "productID=" + "'" + productID + "'" +
+    "," + "storeID=" + "'" + storeID + "'" +
+    "," + "productPrice=" + "'" + productPrice + "'" +
+    "," + "productDiscount=" + "'" + productDiscount + "'" +
+    "," + "isFeatured=" + "'" + isFeatured + "'" +
+    "," + "isOutOfStock=" + "'" + isOutOfStock + "'" +
+    "," + "outOfStockDate=" + "'" + outOfStockDate + "'" +
+    "," + "expDate=" + "'" + expDate + "'" +
+    "," + "featuredDetails=" + "'" + featuredDetails + "'" +
+    "," + "quantity=" + "'" + quantity + "'" +
+    "," + "speciaIInstructions=" + "'" + speciaIInstructions + "'" +
+    "," + "noOfImage=" + "'" + noOfImage + "'" +
+    "," + "disclaimer=" + "'" + disclaimer + "'" +
+    "," + "itemActive=" + "'" + itemActive + "'" +
+    "," + "nutritionFacts=" + "'" + nutritionFacts + "'" +
     "," + "itemBarcode=" + "'" + itemBarcode + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
@@ -607,40 +607,40 @@ description: after query execution it call getItem function
 let editItem = (id, itemInfo) => {
   let item = makeItem(itemInfo)
   let productID = item.getproductID()
-    let storeID = item.getstoreID()
-    let productPrice = item.getproductPrice()
-    let productDiscount = item.getproductDiscount()
-    let productDiscountedPrice = item.getproductDiscountedPrice()
-    let isFeatured = item.getisFeatured()
-    let isOutOfStock = item.getisOutOfStock()
-    let outOfStockDate = item.getoutOfStockDate()
-    let expDate = item.getexpDate()
-    let featuredDetails = item.getfeaturedDetails()
-    let quantity = item.getquantity()
-    let speciaIInstructions = item.getspeciaIInstructions()
-    let itemBarcode = item.getitemBarcode()
-    let noOfImage = item.getnoOfImage()
-    let disclaimer = item.getdisclaimer()
-    let nutritionFacts = item.getnutritionFacts()
-    let itemActive = item.getitemActive()
-  let insertQuery = "UPDATE items SET "+
-  "productID=" + "'" + productID + "'" + 
-  "," + "storeID=" + "'" + storeID + "'" +
-   "," + "productPrice=" + "'" + productPrice + "'" + 
-   "," + "productDiscount=" + "'" + productDiscount + "'" + 
-   "," + "isFeatured=" + "'" + isFeatured + "'" +
-    "," + "isOutOfStock=" + "'" + isOutOfStock + "'" + 
-    "," + "outOfStockDate=" + "'" + outOfStockDate + "'" + 
-    "," + "expDate=" + "'" + expDate + "'" + 
-    "," + "featuredDetails=" + "'" + featuredDetails + "'" + 
-    "," + "quantity=" + "'" + quantity + "'" + 
-    "," + "speciaIInstructions=" + "'" + speciaIInstructions + "'" + 
-    "," + "noOfImage=" + "'" + noOfImage + "'" + 
-    "," + "disclaimer=" + "'" + disclaimer + "'" + 
-    "," + "itemActive=" + "'" + itemActive + "'" + 
-    "," + "nutritionFacts=" + "'" + nutritionFacts + "'" + 
+  let storeID = item.getstoreID()
+  let productPrice = item.getproductPrice()
+  let productDiscount = item.getproductDiscount()
+  let productDiscountedPrice = item.getproductDiscountedPrice()
+  let isFeatured = item.getisFeatured()
+  let isOutOfStock = item.getisOutOfStock()
+  let outOfStockDate = item.getoutOfStockDate()
+  let expDate = item.getexpDate()
+  let featuredDetails = item.getfeaturedDetails()
+  let quantity = item.getquantity()
+  let speciaIInstructions = item.getspeciaIInstructions()
+  let itemBarcode = item.getitemBarcode()
+  let noOfImage = item.getnoOfImage()
+  let disclaimer = item.getdisclaimer()
+  let nutritionFacts = item.getnutritionFacts()
+  let itemActive = item.getitemActive()
+  let insertQuery = "UPDATE items SET " +
+    "productID=" + "'" + productID + "'" +
+    "," + "storeID=" + "'" + storeID + "'" +
+    "," + "productPrice=" + "'" + productPrice + "'" +
+    "," + "productDiscount=" + "'" + productDiscount + "'" +
+    "," + "isFeatured=" + "'" + isFeatured + "'" +
+    "," + "isOutOfStock=" + "'" + isOutOfStock + "'" +
+    "," + "outOfStockDate=" + "'" + outOfStockDate + "'" +
+    "," + "expDate=" + "'" + expDate + "'" +
+    "," + "featuredDetails=" + "'" + featuredDetails + "'" +
+    "," + "quantity=" + "'" + quantity + "'" +
+    "," + "speciaIInstructions=" + "'" + speciaIInstructions + "'" +
+    "," + "noOfImage=" + "'" + noOfImage + "'" +
+    "," + "disclaimer=" + "'" + disclaimer + "'" +
+    "," + "itemActive=" + "'" + itemActive + "'" +
+    "," + "nutritionFacts=" + "'" + nutritionFacts + "'" +
     "," + "itemBarcode=" + "'" + itemBarcode + "'" +
-    " WHERE itemID='"+id+"'"
+    " WHERE itemID='" + id + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -664,71 +664,71 @@ let getItem = (prop, val) => {
     connection.query("SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionFacts=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID WHERE i.itemID=" + val, function (err, result, fields) {
       if (!err) {
         if (result.length > 0) {
-     let get_ID=0
-     for(let i=0; i<result.length; i++){
-        if (get_ID != result[i].productIDD) {
-          get_ID=result[i].productIDD
-          var arr2=new Array()
-          for(let j=0; j<result.length; j++){
-            if(get_ID == result[j].piPID && result[j].itemID == result[i].itemID){
-              var ob1=new Object({
-                "productImageID" : result[j].productImageID, 
-                "productID" : result[j].piPID, 
-                "productImageURL": result[j].productImageURL, 
-              });
-              arr2.push(ob1)
+          let get_ID = 0
+          for (let i = 0; i < result.length; i++) {
+            if (get_ID != result[i].productIDD) {
+              get_ID = result[i].productIDD
+              var arr2 = new Array()
+              for (let j = 0; j < result.length; j++) {
+                if (get_ID == result[j].piPID && result[j].itemID == result[i].itemID) {
+                  var ob1 = new Object({
+                    "productImageID": result[j].productImageID,
+                    "productID": result[j].piPID,
+                    "productImageURL": result[j].productImageURL,
+                  });
+                  arr2.push(ob1)
+                }
+              }
+              var ob2 = new Object({
+                "itemID": result[i].itemID,
+                "productID": result[i].productID,
+                "productName": result[i].productName,
+                "productDescription": result[i].productDescription,
+                "subCategoryID": result[i].subCategoryID,
+                "productBarcode": result[i].productBarcode,
+                "storeID": result[i].storeID,
+                "productPrice": result[i].productPrice,
+                "productDiscount": result[i].productDiscount,
+                "productDiscountedPrice": result[i].productDiscountedPrice,
+                "isFeatured": result[i].isFeatured,
+                "isOutOfStock": result[i].isOutOfStock,
+                "outOfStockDate": result[i].outOfStockDate,
+                "expDate": result[i].expDate,
+                "featuredDetails": result[i].featuredDetails,
+                "quantity": result[i].quantity,
+                "speciaIInstructions": result[i].speciaIInstructions,
+                "itemBarcode": result[i].itemBarcode,
+                "noOfImage": result[i].noOfImage,
+                "disclaimer": result[i].disclaimer,
+                "nutritionFacts": result[i].nutritionFacts,
+                "itemActive": result[i].itemActive,
+                "servingSize": result[i].servingSize,
+                "servingPerContainer": result[i].servingPerContainer,
+                "calories": result[i].calories,
+                "fatInGm": result[i].fatInGm,
+                "saturatedFatInGm": result[i].saturatedFatInGm,
+                "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
+                "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
+                "transFatInGm": result[i].transFatInGm,
+                "protienInGm": result[i].protienInGm,
+                "cholesterol": result[i].cholesterol,
+                "sodium": result[i].sodium,
+                "potassium": result[i].potassium,
+                "totalCarbs": result[i].totalCarbs,
+                "dietaryFiber": result[i].dietaryFiber,
+                "sugar": result[i].sugar,
+                "productImages": arr2
+              })
             }
           }
-          var ob2 = new Object({
-            "itemID": result[i].itemID,
-            "productID": result[i].productID,
-            "productName": result[i].productName,
-            "productDescription": result[i].productDescription,
-            "subCategoryID": result[i].subCategoryID,
-            "productBarcode": result[i].productBarcode,
-            "storeID": result[i].storeID,
-            "productPrice": result[i].productPrice,
-            "productDiscount": result[i].productDiscount,
-            "productDiscountedPrice": result[i].productDiscountedPrice,
-            "isFeatured": result[i].isFeatured,
-            "isOutOfStock": result[i].isOutOfStock,
-            "outOfStockDate": result[i].outOfStockDate,
-            "expDate": result[i].expDate,
-            "featuredDetails": result[i].featuredDetails,
-            "quantity": result[i].quantity,
-            "speciaIInstructions": result[i].speciaIInstructions,
-            "itemBarcode": result[i].itemBarcode,
-            "noOfImage": result[i].noOfImage,
-            "disclaimer": result[i].disclaimer,
-            "nutritionFacts":result[i].nutritionFacts,
-            "itemActive": result[i].itemActive,
-            "servingSize": result[i].servingSize,
-            "servingPerContainer": result[i].servingPerContainer,
-            "calories": result[i].calories,
-            "fatInGm":result[i].fatInGm,
-            "saturatedFatInGm": result[i].saturatedFatInGm,
-            "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
-            "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-            "transFatInGm":result[i].transFatInGm,
-            "protienInGm": result[i].protienInGm,
-            "cholesterol": result[i].cholesterol,
-            "sodium": result[i].sodium,
-            "potassium": result[i].potassium,
-            "totalCarbs": result[i].totalCarbs,
-            "dietaryFiber": result[i].dietaryFiber,
-            "sugar": result[i].sugar,
-            "productImages": arr2 
-          })
-       }
-     }
-   
-     resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(ob2)))))
+
+          resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(ob2)))))
         } else {
-          var getVal=new Array()
+          var getVal = new Array()
           resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(getVal)))))
         }
 
-        
+
       }
       else reject(err);
     });
@@ -746,7 +746,7 @@ let deleteItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "DELETE FROM items WHERE itemID='" + val + "'"
     connection.query(run_query, function (err, result, fields) {
-      
+
       if (!err) {
         resolve(getItem('itemID', val))
       }
@@ -766,18 +766,18 @@ let getStoreItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionFacts=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.storeID='" + val + "'"
     connection.query(run_query, function (err, result, fields) {
-      var arr1=new Array()
-     let get_ID=0
-     for(let i=0; i<result.length; i++){
+      var arr1 = new Array()
+      let get_ID = 0
+      for (let i = 0; i < result.length; i++) {
         if (get_ID != result[i].productIDD) {
-          get_ID=result[i].productIDD
-          var arr2=new Array()
-          for(let j=0; j<result.length; j++){
-            if(get_ID == result[j].piPID && result[j].itemID == result[i].itemID){
-              var ob1=new Object({
-                "productImageID" : result[j].productImageID, 
-                "productID" : result[j].piPID, 
-                "productImageURL": result[j].productImageURL, 
+          get_ID = result[i].productIDD
+          var arr2 = new Array()
+          for (let j = 0; j < result.length; j++) {
+            if (get_ID == result[j].piPID && result[j].itemID == result[i].itemID) {
+              var ob1 = new Object({
+                "productImageID": result[j].productImageID,
+                "productID": result[j].piPID,
+                "productImageURL": result[j].productImageURL,
               });
               arr2.push(ob1)
             }
@@ -803,16 +803,16 @@ let getStoreItem = (prop, val) => {
             "itemBarcode": result[i].itemBarcode,
             "noOfImage": result[i].noOfImage,
             "disclaimer": result[i].disclaimer,
-            "nutritionFacts":result[i].nutritionFacts,
+            "nutritionFacts": result[i].nutritionFacts,
             "itemActive": result[i].itemActive,
             "servingSize": result[i].servingSize,
             "servingPerContainer": result[i].servingPerContainer,
             "calories": result[i].calories,
-            "fatInGm":result[i].fatInGm,
+            "fatInGm": result[i].fatInGm,
             "saturatedFatInGm": result[i].saturatedFatInGm,
             "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
             "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-            "transFatInGm":result[i].transFatInGm,
+            "transFatInGm": result[i].transFatInGm,
             "protienInGm": result[i].protienInGm,
             "cholesterol": result[i].cholesterol,
             "sodium": result[i].sodium,
@@ -820,14 +820,14 @@ let getStoreItem = (prop, val) => {
             "totalCarbs": result[i].totalCarbs,
             "dietaryFiber": result[i].dietaryFiber,
             "sugar": result[i].sugar,
-            "productImages": arr2 
+            "productImages": arr2
           })
-        arr1.push(ob2)
-       }
-     }
-   
-     resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
-      
+          arr1.push(ob2)
+        }
+      }
+
+      resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
+
     });
   });
 }
@@ -843,71 +843,71 @@ let getStoreAllItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionFacts=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.itemActive=1 AND i.storeID=" + val;
     connection.query(run_query, function (err, result, fields) {
-      var arr1=new Array()
-      let get_ID=0
-      for(let i=0; i<result.length; i++){
-         if (get_ID != result[i].productIDD) {
-           get_ID=result[i].productIDD
-           var arr2=new Array()
-           for(let j=0; j<result.length; j++){
-             if(get_ID == result[j].piPID && result[j].itemID == result[i].itemID){
-               var ob1=new Object({
-                 "productImageID" : result[j].productImageID, 
-                 "productID" : result[j].piPID, 
-                 "productImageURL": result[j].productImageURL, 
-               });
-               arr2.push(ob1)
-             }
-           }
-           var ob2 = new Object({
-             "itemID": result[i].itemID,
-             "productID": result[i].productID,
-             "productName": result[i].productName,
-             "productDescription": result[i].productDescription,
-             "subCategoryID": result[i].subCategoryID,
-             "productBarcode": result[i].productBarcode,
-             "storeID": result[i].storeID,
-             "productPrice": result[i].productPrice,
-             "productDiscountedPrice": result[i].productDiscountedPrice,
-             "productDiscount": result[i].productDiscount,
-             "isFeatured": result[i].isFeatured,
-             "isOutOfStock": result[i].isOutOfStock,
-             "outOfStockDate": result[i].outOfStockDate,
-             "expDate": result[i].expDate,
-             "featuredDetails": result[i].featuredDetails,
-             "quantity": result[i].quantity,
-             "speciaIInstructions": result[i].speciaIInstructions,
-             "itemBarcode": result[i].itemBarcode,
-             "noOfImage": result[i].noOfImage,
-             "disclaimer": result[i].disclaimer,
-             "nutritionFacts":result[i].nutritionFacts,
-             "itemActive": result[i].itemActive,
-             "servingSize": result[i].servingSize,
-             "servingPerContainer": result[i].servingPerContainer,
-             "calories": result[i].calories,
-             "fatInGm":result[i].fatInGm,
-             "saturatedFatInGm": result[i].saturatedFatInGm,
-             "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
-             "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-             "transFatInGm":result[i].transFatInGm,
-             "protienInGm": result[i].protienInGm,
-             "cholesterol": result[i].cholesterol,
-             "sodium": result[i].sodium,
-             "potassium": result[i].potassium,
-             "totalCarbs": result[i].totalCarbs,
-             "dietaryFiber": result[i].dietaryFiber,
-             "sugar": result[i].sugar,
-             "productImages": arr2 
-           })
-         arr1.push(ob2)
+      var arr1 = new Array()
+      let get_ID = 0
+      for (let i = 0; i < result.length; i++) {
+        if (get_ID != result[i].productIDD) {
+          get_ID = result[i].productIDD
+          var arr2 = new Array()
+          for (let j = 0; j < result.length; j++) {
+            if (get_ID == result[j].piPID && result[j].itemID == result[i].itemID) {
+              var ob1 = new Object({
+                "productImageID": result[j].productImageID,
+                "productID": result[j].piPID,
+                "productImageURL": result[j].productImageURL,
+              });
+              arr2.push(ob1)
+            }
+          }
+          var ob2 = new Object({
+            "itemID": result[i].itemID,
+            "productID": result[i].productID,
+            "productName": result[i].productName,
+            "productDescription": result[i].productDescription,
+            "subCategoryID": result[i].subCategoryID,
+            "productBarcode": result[i].productBarcode,
+            "storeID": result[i].storeID,
+            "productPrice": result[i].productPrice,
+            "productDiscountedPrice": result[i].productDiscountedPrice,
+            "productDiscount": result[i].productDiscount,
+            "isFeatured": result[i].isFeatured,
+            "isOutOfStock": result[i].isOutOfStock,
+            "outOfStockDate": result[i].outOfStockDate,
+            "expDate": result[i].expDate,
+            "featuredDetails": result[i].featuredDetails,
+            "quantity": result[i].quantity,
+            "speciaIInstructions": result[i].speciaIInstructions,
+            "itemBarcode": result[i].itemBarcode,
+            "noOfImage": result[i].noOfImage,
+            "disclaimer": result[i].disclaimer,
+            "nutritionFacts": result[i].nutritionFacts,
+            "itemActive": result[i].itemActive,
+            "servingSize": result[i].servingSize,
+            "servingPerContainer": result[i].servingPerContainer,
+            "calories": result[i].calories,
+            "fatInGm": result[i].fatInGm,
+            "saturatedFatInGm": result[i].saturatedFatInGm,
+            "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
+            "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
+            "transFatInGm": result[i].transFatInGm,
+            "protienInGm": result[i].protienInGm,
+            "cholesterol": result[i].cholesterol,
+            "sodium": result[i].sodium,
+            "potassium": result[i].potassium,
+            "totalCarbs": result[i].totalCarbs,
+            "dietaryFiber": result[i].dietaryFiber,
+            "sugar": result[i].sugar,
+            "productImages": arr2
+          })
+          arr1.push(ob2)
         }
       }
-    
+
       resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
-       
+
     });
   });
-} 
+}
 
 
 //new 
@@ -920,45 +920,45 @@ description: after query execution it will dilter data and return
 // */
 let getItemCategories = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT *, product.subCategoryID AS productSubCategoryID, subcategory.subCategoryID AS subCategoryIDD FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.subCategoryID WHERE items.itemActive=1 AND items.storeID="+val+" ORDER BY subcategory.subCategoryName ASC";
-    
+    let run_query = "SELECT *, product.subCategoryID AS productSubCategoryID, subcategory.subCategoryID AS subCategoryIDD FROM items LEFT JOIN product on product.productID=items.productID LEFT JOIN subCategory on subCategory.subCategoryID=product.subCategoryID WHERE items.itemActive=1 AND items.storeID=" + val + " ORDER BY subcategory.subCategoryName ASC";
+
     connection.query(run_query, function (err, result, fields) {
-      var arr1=new Array()
-     let get_ID=0
-     for(let i=0; i<result.length; i++){
+      var arr1 = new Array()
+      let get_ID = 0
+      for (let i = 0; i < result.length; i++) {
         if (get_ID != result[i].subCategoryIDD) {
-          get_ID=result[i].subCategoryIDD
-          var arr2=new Array()
-          for(let j=0; j<result.length; j++){
-            if(get_ID == result[j].productSubCategoryID){
-              var ob1=new Object({
-                "itemID" : result[j].itemID, 
-                "productID" : result[j].productID, 
-                "storeID": result[j].storeID, 
-                "productPrice": result[j].productPrice, 
-                "productDiscount": result[j].productDiscount, 
+          get_ID = result[i].subCategoryIDD
+          var arr2 = new Array()
+          for (let j = 0; j < result.length; j++) {
+            if (get_ID == result[j].productSubCategoryID) {
+              var ob1 = new Object({
+                "itemID": result[j].itemID,
+                "productID": result[j].productID,
+                "storeID": result[j].storeID,
+                "productPrice": result[j].productPrice,
+                "productDiscount": result[j].productDiscount,
                 "productDiscountedPrice": result[i].productDiscountedPrice,
-                "isFeatured": result[j].isFeatured, 
-                "isOutOfStock": result[j].isOutOfStock, 
-                "expDate": result[j].expDate, 
-                "featuredDetails": result[j].featuredDetails, 
-                "speciaIInstructions": result[j].speciaIInstructions, 
-                "discount": result[j].discount, 
-                "itemBarcode": result[j].itemBarcode, 
-                "noOfImage": result[j].noOfImage, 
-                "disclaimer": result[j].disclaimer, 
-                "nutritionFacts": result[j].nutritionFacts, 
-                "itemActive": result[j].itemActive, 
-                "quantity": result[j].quantity, 
-                "productID": result[j].productID, 
-                "productName": result[j].productName, 
-                "productDescription": result[j].productDescription, 
-                "subCategoryID": result[j].subCategoryID, 
-                "productBarcode": result[j].productBarcode, 
-                "subCategoryID": result[j].subCategoryID, 
-                "subCategoryName": result[j].subCategoryName, 
-                "subCategoryDescription": result[j].subCategoryDescription, 
-                "categoryID": result[j].categoryID, 
+                "isFeatured": result[j].isFeatured,
+                "isOutOfStock": result[j].isOutOfStock,
+                "expDate": result[j].expDate,
+                "featuredDetails": result[j].featuredDetails,
+                "speciaIInstructions": result[j].speciaIInstructions,
+                "discount": result[j].discount,
+                "itemBarcode": result[j].itemBarcode,
+                "noOfImage": result[j].noOfImage,
+                "disclaimer": result[j].disclaimer,
+                "nutritionFacts": result[j].nutritionFacts,
+                "itemActive": result[j].itemActive,
+                "quantity": result[j].quantity,
+                "productID": result[j].productID,
+                "productName": result[j].productName,
+                "productDescription": result[j].productDescription,
+                "subCategoryID": result[j].subCategoryID,
+                "productBarcode": result[j].productBarcode,
+                "subCategoryID": result[j].subCategoryID,
+                "subCategoryName": result[j].subCategoryName,
+                "subCategoryDescription": result[j].subCategoryDescription,
+                "categoryID": result[j].categoryID,
                 "subCategoryActive": result[j].subCategoryActive,
               });
               arr2.push(ob1)
@@ -967,14 +967,14 @@ let getItemCategories = (prop, val) => {
           var ob2 = new Object({
             "subCategoryID": result[i].subCategoryIDD,
             "subCategoryName": result[i].subCategoryName,
-            "itemsDetails": arr2 
+            "itemsDetails": arr2
           })
-        arr1.push(ob2)
-       } 
-     }
-   
-     resolve(Promise.resolve(itemCategorySerializer(JSON.parse(JSON.stringify(arr1)))))
-      
+          arr1.push(ob2)
+        }
+      }
+
+      resolve(Promise.resolve(itemCategorySerializer(JSON.parse(JSON.stringify(arr1)))))
+
     });
   });
 }
@@ -987,68 +987,68 @@ description: after query execution it will Send the data to serializer
 */
 let getFeaturedItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionFacts=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.storeID=" + val +" AND i.itemActive=1 AND i.isFeatured="+1;
+    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionFacts=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.storeID=" + val + " AND i.itemActive=1 AND i.isFeatured=" + 1;
     connection.query(run_query, function (err, result, fields) {
-      var arr1=new Array()
-      let get_ID=0
-      for(let i=0; i<result.length; i++){
-         if (get_ID != result[i].productIDD) {
-           get_ID=result[i].productIDD
-           var arr2=new Array()
-           for(let j=0; j<result.length; j++){
-             if(get_ID == result[j].piPID && result[j].itemID == result[i].itemID){
-               var ob1=new Object({
-                 "productImageID" : result[j].productImageID, 
-                 "productID" : result[j].piPID, 
-                 "productImageURL": result[j].productImageURL, 
-               });
-               arr2.push(ob1)
-             }
-           }
-           var ob2 = new Object({
-             "itemID": result[i].itemID,
-             "productID": result[i].productID,
-             "productName": result[i].productName,
-             "productDescription": result[i].productDescription,
-             "subCategoryID": result[i].subCategoryID,
-             "productBarcode": result[i].productBarcode,
-             "storeID": result[i].storeID,
-             "productPrice": result[i].productPrice,
-             "productDiscount": result[i].productDiscount,
-             "productDiscountedPrice": result[i].productDiscountedPrice,
-             "isFeatured": result[i].isFeatured,
-             "isOutOfStock": result[i].isOutOfStock,
-             "outOfStockDate": result[i].outOfStockDate,
-             "expDate": result[i].expDate,
-             "featuredDetails": result[i].featuredDetails,
-             "quantity": result[i].quantity,
-             "speciaIInstructions": result[i].speciaIInstructions,
-             "itemBarcode": result[i].itemBarcode,
-             "noOfImage": result[i].noOfImage,
-             "disclaimer": result[i].disclaimer,
-             "nutritionFacts":result[i].nutritionFacts,
-             "itemActive": result[i].itemActive,
-             "servingSize": result[i].servingSize,
-             "servingPerContainer": result[i].servingPerContainer,
-             "calories": result[i].calories,
-             "fatInGm":result[i].fatInGm,
-             "saturatedFatInGm": result[i].saturatedFatInGm,
-             "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
-             "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-             "transFatInGm":result[i].transFatInGm,
-             "protienInGm": result[i].protienInGm,
-             "cholesterol": result[i].cholesterol,
-             "sodium": result[i].sodium,
-             "potassium": result[i].potassium,
-             "totalCarbs": result[i].totalCarbs,
-             "dietaryFiber": result[i].dietaryFiber,
-             "sugar": result[i].sugar,
-             "productImages": arr2 
-           })
-         arr1.push(ob2)
+      var arr1 = new Array()
+      let get_ID = 0
+      for (let i = 0; i < result.length; i++) {
+        if (get_ID != result[i].productIDD) {
+          get_ID = result[i].productIDD
+          var arr2 = new Array()
+          for (let j = 0; j < result.length; j++) {
+            if (get_ID == result[j].piPID && result[j].itemID == result[i].itemID) {
+              var ob1 = new Object({
+                "productImageID": result[j].productImageID,
+                "productID": result[j].piPID,
+                "productImageURL": result[j].productImageURL,
+              });
+              arr2.push(ob1)
+            }
+          }
+          var ob2 = new Object({
+            "itemID": result[i].itemID,
+            "productID": result[i].productID,
+            "productName": result[i].productName,
+            "productDescription": result[i].productDescription,
+            "subCategoryID": result[i].subCategoryID,
+            "productBarcode": result[i].productBarcode,
+            "storeID": result[i].storeID,
+            "productPrice": result[i].productPrice,
+            "productDiscount": result[i].productDiscount,
+            "productDiscountedPrice": result[i].productDiscountedPrice,
+            "isFeatured": result[i].isFeatured,
+            "isOutOfStock": result[i].isOutOfStock,
+            "outOfStockDate": result[i].outOfStockDate,
+            "expDate": result[i].expDate,
+            "featuredDetails": result[i].featuredDetails,
+            "quantity": result[i].quantity,
+            "speciaIInstructions": result[i].speciaIInstructions,
+            "itemBarcode": result[i].itemBarcode,
+            "noOfImage": result[i].noOfImage,
+            "disclaimer": result[i].disclaimer,
+            "nutritionFacts": result[i].nutritionFacts,
+            "itemActive": result[i].itemActive,
+            "servingSize": result[i].servingSize,
+            "servingPerContainer": result[i].servingPerContainer,
+            "calories": result[i].calories,
+            "fatInGm": result[i].fatInGm,
+            "saturatedFatInGm": result[i].saturatedFatInGm,
+            "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
+            "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
+            "transFatInGm": result[i].transFatInGm,
+            "protienInGm": result[i].protienInGm,
+            "cholesterol": result[i].cholesterol,
+            "sodium": result[i].sodium,
+            "potassium": result[i].potassium,
+            "totalCarbs": result[i].totalCarbs,
+            "dietaryFiber": result[i].dietaryFiber,
+            "sugar": result[i].sugar,
+            "productImages": arr2
+          })
+          arr1.push(ob2)
         }
       }
-    
+
       resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
 
     });
@@ -1066,11 +1066,11 @@ let getRef_prod_fav = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT ref_prod_fav.*, ref_prod_fav.itemID AS fItemID, items.*,  nutrition.*, product.*, store.*, location.* FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID=items.itemID LEFT JOIN  nutrition on  nutrition. nutritionID=items.nutritionFacts LEFT JOIN product on product.productID=items.productID LEFT JOIN store ON items.storeID =store.storeID LEFT JOIN location ON location.locationID=store.locationID WHERE favID=" + val;
     connection.query(run_query, function (err, result, fields) {
-      
+
       if (!err) {
         let getVal = {}
         if (result.length > 0) {
-          var storeDetail=new Object({
+          var storeDetail = new Object({
             "storeID": result[0].storeID,
             "storeName": result[0].storeName,
             "emailAddress": result[0].emailAddress,
@@ -1088,7 +1088,7 @@ let getRef_prod_fav = (prop, val) => {
             "endAcceptingTime": result[0].endAcceptingTime,
             "minPickUpTime": result[0].minPickUpTime,
           })
-          var storeLocationDetail=new Object({
+          var storeLocationDetail = new Object({
             "locationID": result[0].locationID,
             "locationType": result[0].locationType,
             "address1": result[0].address1,
@@ -1284,133 +1284,133 @@ let userRef_prod_fav = (prop, val) => {
       if (!err) {
         var getVal = new Array()
         if (result.length > 0) {
-          for(var i=0; i<result.length; i++){
-              var storeDetail=new Object({
-                "storeID": result[i].storeID,
-                "storeName": result[i].storeName,
-                "emailAddress": result[i].emailAddress,
-                "storeTax": result[i].storeTax,
-                "companyID": result[i].companyID,
-                "messageFromStore": result[i].messageFromStore,
-                "orderCancellationPolicy": result[i].orderCancellationPolicy,
-                "aboutStore": result[i].aboutStore,
-                "termsAndConditions": result[i].termsAndConditions,
-                "isActive": result[i].isActive,
-                "startAcceptingTime": result[i].startAcceptingTime,
-                "storeContact": result[i].storeContact,
-                "imageURL": result[i].imageURL,
-                "logoURL": result[i].logoURL,
-                "endAcceptingTime": result[i].endAcceptingTime,
-                "minPickUpTime": result[i].minPickUpTime,
-              })
-              var storeLocationDetail=new Object({
-                "locationID": result[i].locationID,
-                "locationType": result[i].locationType,
-                "address1": result[i].address1,
-                "address2": result[i].address2,
-                "city": result[i].city,
-                "state": result[i].state,
-                "country": result[i].country,
-                "zipCode": result[i].zipCode,
-                "lat": result[i].lat,
-                "lng": result[i].lng,
-              })
-              // var productDetail=new Object({
-              //   "productID": result[i].productID,
-              //   "productName": result[i].productName,
-              //   "productDescription": result[i].productDescription,
-              //   "subCategoryID": result[i].subCategoryID,
-              //   "productBarcode": result[i].productBarcode,
-              // })
-              // var itemDetail=new Object({
-              //   "itemID": result[i].itemID,
-              //   "productID": result[i].productID,
-              //   "storeID": result[i].storeID,
-              //   "productPrice": result[i].productPrice,
-              //   "productDiscount": result[i].productDiscount,
-              //   "isFeatured=": result[i].isFeatured,
-              //   "isOutOfStock": result[i].isOutOfStock,
-              //   "outOfStockDate": result[i].outOfStockDate,
-              //   "expDate": result[i].expDate,
-              //   "featuredDetails": result[i].featuredDetails,
-              //   "quantity": result[i].quantity,
-              //   "speciaIInstructions": result[i].speciaIInstruction,
-              //   "discount": result[i].discount,
-              //   "itemBarcode": result[i].itemBarcode,
-              //   "nutritionFacts": result[i].nutritionFacts,
-              //   "noOfImage": result[i].noOfImage,
-              //   "disclaimer": result[i].disclaimer,
-              //   "itemActive": result[i].itemActiv,
-              // })
-              // var nutritionDetail=new Object({
-              //   "nutritionID": result[i].nutritionID,
-              //   "servingSize": result[i].servingSize,
-              //   "servingPerContainer": result[i].servingPerContainer,
-              //   "calories": result[i].calories,
-              //   "fatInGm": result[i].fatInGm,
-              //   "saturatedFatInGm": result[i].saturatedFatInGm,
-              //   "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
-              //   "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-              //   "transFatInGm": result[i].transFatInGm,
-              //   "protienInGm": result[i].protienInGm,
-              //   "cholesterol": result[i].cholesterol,
-              //   "sodium": result[i].sodium,
-              //   "potassium": result[i].potassium,
-              //   "totalCarbs": result[i].totalCarbs,
-              //   "dietaryFiber": result[i].dietaryFiber,
-              //   "sugar": result[i].sugar
-              // })
-              var obj = {
-                "favID": result[i].favID,
-                "userID": result[i].userID,
-                "itemID": result[i].itemID,
-                "storeDetail": storeDetail,
-                "storeLocationDetail": storeLocationDetail,
-                "productID": result[i].productID,
-            "productName": result[i].productName,
-            "productDescription": result[i].productDescription,
-            "subCategoryID": result[i].subCategoryID,
-            "productBarcode": result[i].productBarcode,
-            "itemID": result[i].itemID,
-            "productID": result[i].productID,
-            "storeID": result[i].storeID,
-            "productPrice": result[i].productPrice,
-            "productDiscount": result[i].productDiscount,
-            "isFeatured=": result[i].isFeatured,
-            "isOutOfStock": result[i].isOutOfStock,
-            "outOfStockDate": result[i].outOfStockDate,
-            "expDate": result[i].expDate,
-            "featuredDetails": result[i].featuredDetails,
-            "quantity": result[i].quantity,
-            "speciaIInstructions": result[i].speciaIInstruction,
-            "discount": result[i].discount,
-            "itemBarcode": result[i].itemBarcode,
-            "nutritionFacts": result[i].nutritionFacts,
-            "noOfImage": result[i].noOfImage,
-            "disclaimer": result[i].disclaimer,
-            "itemActive": result[i].itemActiv,
-            "nutritionID": result[i].nutritionID,
-            "servingSize": result[i].servingSize,
-            "servingPerContainer": result[i].servingPerContainer,
-            "calories": result[i].calories,
-            "fatInGm": result[i].fatInGm,
-            "saturatedFatInGm": result[i].saturatedFatInGm,
-            "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
-            "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-            "transFatInGm": result[i].transFatInGm,
-            "protienInGm": result[i].protienInGm,
-            "cholesterol": result[i].cholesterol,
-            "sodium": result[i].sodium,
-            "potassium": result[i].potassium,
-            "totalCarbs": result[i].totalCarbs,
-            "dietaryFiber": result[i].dietaryFiber,
-            "sugar": result[i].sugar
-                // "productDetail": productDetail,
-                // "itemDetail": itemDetail,
-                // "nutritionDetail": nutritionDetail,
-              }
-              getVal.push(obj)
+          for (var i = 0; i < result.length; i++) {
+            var storeDetail = new Object({
+              "storeID": result[i].storeID,
+              "storeName": result[i].storeName,
+              "emailAddress": result[i].emailAddress,
+              "storeTax": result[i].storeTax,
+              "companyID": result[i].companyID,
+              "messageFromStore": result[i].messageFromStore,
+              "orderCancellationPolicy": result[i].orderCancellationPolicy,
+              "aboutStore": result[i].aboutStore,
+              "termsAndConditions": result[i].termsAndConditions,
+              "isActive": result[i].isActive,
+              "startAcceptingTime": result[i].startAcceptingTime,
+              "storeContact": result[i].storeContact,
+              "imageURL": result[i].imageURL,
+              "logoURL": result[i].logoURL,
+              "endAcceptingTime": result[i].endAcceptingTime,
+              "minPickUpTime": result[i].minPickUpTime,
+            })
+            var storeLocationDetail = new Object({
+              "locationID": result[i].locationID,
+              "locationType": result[i].locationType,
+              "address1": result[i].address1,
+              "address2": result[i].address2,
+              "city": result[i].city,
+              "state": result[i].state,
+              "country": result[i].country,
+              "zipCode": result[i].zipCode,
+              "lat": result[i].lat,
+              "lng": result[i].lng,
+            })
+            // var productDetail=new Object({
+            //   "productID": result[i].productID,
+            //   "productName": result[i].productName,
+            //   "productDescription": result[i].productDescription,
+            //   "subCategoryID": result[i].subCategoryID,
+            //   "productBarcode": result[i].productBarcode,
+            // })
+            // var itemDetail=new Object({
+            //   "itemID": result[i].itemID,
+            //   "productID": result[i].productID,
+            //   "storeID": result[i].storeID,
+            //   "productPrice": result[i].productPrice,
+            //   "productDiscount": result[i].productDiscount,
+            //   "isFeatured=": result[i].isFeatured,
+            //   "isOutOfStock": result[i].isOutOfStock,
+            //   "outOfStockDate": result[i].outOfStockDate,
+            //   "expDate": result[i].expDate,
+            //   "featuredDetails": result[i].featuredDetails,
+            //   "quantity": result[i].quantity,
+            //   "speciaIInstructions": result[i].speciaIInstruction,
+            //   "discount": result[i].discount,
+            //   "itemBarcode": result[i].itemBarcode,
+            //   "nutritionFacts": result[i].nutritionFacts,
+            //   "noOfImage": result[i].noOfImage,
+            //   "disclaimer": result[i].disclaimer,
+            //   "itemActive": result[i].itemActiv,
+            // })
+            // var nutritionDetail=new Object({
+            //   "nutritionID": result[i].nutritionID,
+            //   "servingSize": result[i].servingSize,
+            //   "servingPerContainer": result[i].servingPerContainer,
+            //   "calories": result[i].calories,
+            //   "fatInGm": result[i].fatInGm,
+            //   "saturatedFatInGm": result[i].saturatedFatInGm,
+            //   "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
+            //   "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
+            //   "transFatInGm": result[i].transFatInGm,
+            //   "protienInGm": result[i].protienInGm,
+            //   "cholesterol": result[i].cholesterol,
+            //   "sodium": result[i].sodium,
+            //   "potassium": result[i].potassium,
+            //   "totalCarbs": result[i].totalCarbs,
+            //   "dietaryFiber": result[i].dietaryFiber,
+            //   "sugar": result[i].sugar
+            // })
+            var obj = {
+              "favID": result[i].favID,
+              "userID": result[i].userID,
+              "itemID": result[i].itemID,
+              "storeDetail": storeDetail,
+              "storeLocationDetail": storeLocationDetail,
+              "productID": result[i].productID,
+              "productName": result[i].productName,
+              "productDescription": result[i].productDescription,
+              "subCategoryID": result[i].subCategoryID,
+              "productBarcode": result[i].productBarcode,
+              "itemID": result[i].itemID,
+              "productID": result[i].productID,
+              "storeID": result[i].storeID,
+              "productPrice": result[i].productPrice,
+              "productDiscount": result[i].productDiscount,
+              "isFeatured=": result[i].isFeatured,
+              "isOutOfStock": result[i].isOutOfStock,
+              "outOfStockDate": result[i].outOfStockDate,
+              "expDate": result[i].expDate,
+              "featuredDetails": result[i].featuredDetails,
+              "quantity": result[i].quantity,
+              "speciaIInstructions": result[i].speciaIInstruction,
+              "discount": result[i].discount,
+              "itemBarcode": result[i].itemBarcode,
+              "nutritionFacts": result[i].nutritionFacts,
+              "noOfImage": result[i].noOfImage,
+              "disclaimer": result[i].disclaimer,
+              "itemActive": result[i].itemActiv,
+              "nutritionID": result[i].nutritionID,
+              "servingSize": result[i].servingSize,
+              "servingPerContainer": result[i].servingPerContainer,
+              "calories": result[i].calories,
+              "fatInGm": result[i].fatInGm,
+              "saturatedFatInGm": result[i].saturatedFatInGm,
+              "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
+              "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
+              "transFatInGm": result[i].transFatInGm,
+              "protienInGm": result[i].protienInGm,
+              "cholesterol": result[i].cholesterol,
+              "sodium": result[i].sodium,
+              "potassium": result[i].potassium,
+              "totalCarbs": result[i].totalCarbs,
+              "dietaryFiber": result[i].dietaryFiber,
+              "sugar": result[i].sugar
+              // "productDetail": productDetail,
+              // "itemDetail": itemDetail,
+              // "nutritionDetail": nutritionDetail,
             }
+            getVal.push(obj)
+          }
 
           resolve(Promise.resolve(favouriteSerializer(JSON.parse(JSON.stringify(getVal)))))
         } else {
@@ -1418,7 +1418,7 @@ let userRef_prod_fav = (prop, val) => {
           resolve(Promise.resolve(favouriteSerializer(JSON.parse(JSON.stringify(getVal)))))
         }
 
-        
+
       }
       else reject(err);
 
@@ -1440,133 +1440,133 @@ let userStoreRef_prod_fav = (prop, val, prop2, val2) => {
       if (!err) {
         var getVal = new Array()
         if (result.length > 0) {
-          for(var i=0; i<result.length; i++){
-              var storeDetail=new Object({
-                "storeID": result[i].storeID,
-                "storeName": result[i].storeName,
-                "emailAddress": result[i].emailAddress,
-                "storeTax": result[i].storeTax,
-                "companyID": result[i].companyID,
-                "messageFromStore": result[i].messageFromStore,
-                "orderCancellationPolicy": result[i].orderCancellationPolicy,
-                "aboutStore": result[i].aboutStore,
-                "termsAndConditions": result[i].termsAndConditions,
-                "isActive": result[i].isActive,
-                "startAcceptingTime": result[i].startAcceptingTime,
-                "storeContact": result[i].storeContact,
-                "imageURL": result[i].imageURL,
-                "logoURL": result[i].logoURL,
-                "endAcceptingTime": result[i].endAcceptingTime,
-                "minPickUpTime": result[i].minPickUpTime,
-              })
-              var storeLocationDetail=new Object({
-                "locationID": result[i].locationID,
-                "locationType": result[i].locationType,
-                "address1": result[i].address1,
-                "address2": result[i].address2,
-                "city": result[i].city,
-                "state": result[i].state,
-                "country": result[i].country,
-                "zipCode": result[i].zipCode,
-                "lat": result[i].lat,
-                "lng": result[i].lng,
-              })
-              // var productDetail=new Object({
-              //   "productID": result[i].productID,
-              //   "productName": result[i].productName,
-              //   "productDescription": result[i].productDescription,
-              //   "subCategoryID": result[i].subCategoryID,
-              //   "productBarcode": result[i].productBarcode,
-              // })
-              // var itemDetail=new Object({
-              //   "itemID": result[i].itemID,
-              //   "productID": result[i].productID,
-              //   "storeID": result[i].storeID,
-              //   "productPrice": result[i].productPrice,
-              //   "productDiscount": result[i].productDiscount,
-              //   "isFeatured=": result[i].isFeatured,
-              //   "isOutOfStock": result[i].isOutOfStock,
-              //   "outOfStockDate": result[i].outOfStockDate,
-              //   "expDate": result[i].expDate,
-              //   "featuredDetails": result[i].featuredDetails,
-              //   "quantity": result[i].quantity,
-              //   "speciaIInstructions": result[i].speciaIInstruction,
-              //   "discount": result[i].discount,
-              //   "itemBarcode": result[i].itemBarcode,
-              //   "nutritionFacts": result[i].nutritionFacts,
-              //   "noOfImage": result[i].noOfImage,
-              //   "disclaimer": result[i].disclaimer,
-              //   "itemActive": result[i].itemActiv,
-              // })
-              // var nutritionDetail=new Object({
-              //   "nutritionID": result[i].nutritionID,
-              //   "servingSize": result[i].servingSize,
-              //   "servingPerContainer": result[i].servingPerContainer,
-              //   "calories": result[i].calories,
-              //   "fatInGm": result[i].fatInGm,
-              //   "saturatedFatInGm": result[i].saturatedFatInGm,
-              //   "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
-              //   "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-              //   "transFatInGm": result[i].transFatInGm,
-              //   "protienInGm": result[i].protienInGm,
-              //   "cholesterol": result[i].cholesterol,
-              //   "sodium": result[i].sodium,
-              //   "potassium": result[i].potassium,
-              //   "totalCarbs": result[i].totalCarbs,
-              //   "dietaryFiber": result[i].dietaryFiber,
-              //   "sugar": result[i].sugar
-              // })
-              var obj = {
-                "favID": result[i].favID,
-                "userID": result[i].userID,
-                "itemID": result[i].itemID,
-                "storeDetail": storeDetail,
-                "storeLocationDetail": storeLocationDetail,
-                "productID": result[i].productID,
-                "productName": result[i].productName,
-                "productDescription": result[i].productDescription,
-                "subCategoryID": result[i].subCategoryID,
-                "productBarcode": result[i].productBarcode,
-                "itemID": result[i].itemID,
-                "productID": result[i].productID,
-                "storeID": result[i].storeID,
-                "productPrice": result[i].productPrice,
-                "productDiscount": result[i].productDiscount,
-                "isFeatured=": result[i].isFeatured,
-                "isOutOfStock": result[i].isOutOfStock,
-                "outOfStockDate": result[i].outOfStockDate,
-                "expDate": result[i].expDate,
-                "featuredDetails": result[i].featuredDetails,
-                "quantity": result[i].quantity,
-                "speciaIInstructions": result[i].speciaIInstruction,
-                "discount": result[i].discount,
-                "itemBarcode": result[i].itemBarcode,
-                "nutritionFacts": result[i].nutritionFacts,
-                "noOfImage": result[i].noOfImage,
-                "disclaimer": result[i].disclaimer,
-                "itemActive": result[i].itemActiv,
-                "nutritionID": result[i].nutritionID,
-                "servingSize": result[i].servingSize,
-                "servingPerContainer": result[i].servingPerContainer,
-                "calories": result[i].calories,
-                "fatInGm": result[i].fatInGm,
-                "saturatedFatInGm": result[i].saturatedFatInGm,
-                "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
-                "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
-                "transFatInGm": result[i].transFatInGm,
-                "protienInGm": result[i].protienInGm,
-                "cholesterol": result[i].cholesterol,
-                "sodium": result[i].sodium,
-                "potassium": result[i].potassium,
-                "totalCarbs": result[i].totalCarbs,
-                "dietaryFiber": result[i].dietaryFiber,
-                "sugar": result[i].sugar
-                // "productDetail": productDetail,
-                // "itemDetail": itemDetail,
-                // "nutritionDetail": nutritionDetail,
-              }
-              getVal.push(obj)
+          for (var i = 0; i < result.length; i++) {
+            var storeDetail = new Object({
+              "storeID": result[i].storeID,
+              "storeName": result[i].storeName,
+              "emailAddress": result[i].emailAddress,
+              "storeTax": result[i].storeTax,
+              "companyID": result[i].companyID,
+              "messageFromStore": result[i].messageFromStore,
+              "orderCancellationPolicy": result[i].orderCancellationPolicy,
+              "aboutStore": result[i].aboutStore,
+              "termsAndConditions": result[i].termsAndConditions,
+              "isActive": result[i].isActive,
+              "startAcceptingTime": result[i].startAcceptingTime,
+              "storeContact": result[i].storeContact,
+              "imageURL": result[i].imageURL,
+              "logoURL": result[i].logoURL,
+              "endAcceptingTime": result[i].endAcceptingTime,
+              "minPickUpTime": result[i].minPickUpTime,
+            })
+            var storeLocationDetail = new Object({
+              "locationID": result[i].locationID,
+              "locationType": result[i].locationType,
+              "address1": result[i].address1,
+              "address2": result[i].address2,
+              "city": result[i].city,
+              "state": result[i].state,
+              "country": result[i].country,
+              "zipCode": result[i].zipCode,
+              "lat": result[i].lat,
+              "lng": result[i].lng,
+            })
+            // var productDetail=new Object({
+            //   "productID": result[i].productID,
+            //   "productName": result[i].productName,
+            //   "productDescription": result[i].productDescription,
+            //   "subCategoryID": result[i].subCategoryID,
+            //   "productBarcode": result[i].productBarcode,
+            // })
+            // var itemDetail=new Object({
+            //   "itemID": result[i].itemID,
+            //   "productID": result[i].productID,
+            //   "storeID": result[i].storeID,
+            //   "productPrice": result[i].productPrice,
+            //   "productDiscount": result[i].productDiscount,
+            //   "isFeatured=": result[i].isFeatured,
+            //   "isOutOfStock": result[i].isOutOfStock,
+            //   "outOfStockDate": result[i].outOfStockDate,
+            //   "expDate": result[i].expDate,
+            //   "featuredDetails": result[i].featuredDetails,
+            //   "quantity": result[i].quantity,
+            //   "speciaIInstructions": result[i].speciaIInstruction,
+            //   "discount": result[i].discount,
+            //   "itemBarcode": result[i].itemBarcode,
+            //   "nutritionFacts": result[i].nutritionFacts,
+            //   "noOfImage": result[i].noOfImage,
+            //   "disclaimer": result[i].disclaimer,
+            //   "itemActive": result[i].itemActiv,
+            // })
+            // var nutritionDetail=new Object({
+            //   "nutritionID": result[i].nutritionID,
+            //   "servingSize": result[i].servingSize,
+            //   "servingPerContainer": result[i].servingPerContainer,
+            //   "calories": result[i].calories,
+            //   "fatInGm": result[i].fatInGm,
+            //   "saturatedFatInGm": result[i].saturatedFatInGm,
+            //   "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
+            //   "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
+            //   "transFatInGm": result[i].transFatInGm,
+            //   "protienInGm": result[i].protienInGm,
+            //   "cholesterol": result[i].cholesterol,
+            //   "sodium": result[i].sodium,
+            //   "potassium": result[i].potassium,
+            //   "totalCarbs": result[i].totalCarbs,
+            //   "dietaryFiber": result[i].dietaryFiber,
+            //   "sugar": result[i].sugar
+            // })
+            var obj = {
+              "favID": result[i].favID,
+              "userID": result[i].userID,
+              "itemID": result[i].itemID,
+              "storeDetail": storeDetail,
+              "storeLocationDetail": storeLocationDetail,
+              "productID": result[i].productID,
+              "productName": result[i].productName,
+              "productDescription": result[i].productDescription,
+              "subCategoryID": result[i].subCategoryID,
+              "productBarcode": result[i].productBarcode,
+              "itemID": result[i].itemID,
+              "productID": result[i].productID,
+              "storeID": result[i].storeID,
+              "productPrice": result[i].productPrice,
+              "productDiscount": result[i].productDiscount,
+              "isFeatured=": result[i].isFeatured,
+              "isOutOfStock": result[i].isOutOfStock,
+              "outOfStockDate": result[i].outOfStockDate,
+              "expDate": result[i].expDate,
+              "featuredDetails": result[i].featuredDetails,
+              "quantity": result[i].quantity,
+              "speciaIInstructions": result[i].speciaIInstruction,
+              "discount": result[i].discount,
+              "itemBarcode": result[i].itemBarcode,
+              "nutritionFacts": result[i].nutritionFacts,
+              "noOfImage": result[i].noOfImage,
+              "disclaimer": result[i].disclaimer,
+              "itemActive": result[i].itemActiv,
+              "nutritionID": result[i].nutritionID,
+              "servingSize": result[i].servingSize,
+              "servingPerContainer": result[i].servingPerContainer,
+              "calories": result[i].calories,
+              "fatInGm": result[i].fatInGm,
+              "saturatedFatInGm": result[i].saturatedFatInGm,
+              "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
+              "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
+              "transFatInGm": result[i].transFatInGm,
+              "protienInGm": result[i].protienInGm,
+              "cholesterol": result[i].cholesterol,
+              "sodium": result[i].sodium,
+              "potassium": result[i].potassium,
+              "totalCarbs": result[i].totalCarbs,
+              "dietaryFiber": result[i].dietaryFiber,
+              "sugar": result[i].sugar
+              // "productDetail": productDetail,
+              // "itemDetail": itemDetail,
+              // "nutritionDetail": nutritionDetail,
             }
+            getVal.push(obj)
+          }
 
           resolve(Promise.resolve(favouriteSerializer(JSON.parse(JSON.stringify(getVal)))))
         } else {
@@ -1574,10 +1574,10 @@ let userStoreRef_prod_fav = (prop, val, prop2, val2) => {
           resolve(Promise.resolve(favouriteSerializer(JSON.parse(JSON.stringify(getVal)))))
         }
 
-        
+
       }
       else reject(err);
-      
+
     })
   })
 }
@@ -1595,7 +1595,7 @@ let get_nutrition = (prop, val) => {
         let getVal = {}
         if (result.length > 0) {
           getVal = {
-            "nutritionID":result[0].nutritionID,
+            "nutritionID": result[0].nutritionID,
             "servingSize": result[0].servingSize,
             "servingPerContainer": result[0].servingPerContainer,
             "calories": result[0].calories,
@@ -1647,22 +1647,22 @@ let add_nutrition = (nutritionInfo) => {
   let totalCarbs = nutritions.totalCarbs()
   let dietaryFiber = nutritions.dietaryFiber()
   let sugar = nutritions.sugar()
-  
-  let insertQuery = "INSERT INTO nutrition SET servingSize='" + servingSize + 
-    "',servingPerContainer='" + servingPerContainer + 
-    "',calories='" + calories + 
-    "',fatInGm='" + fatInGm + 
-    "',saturatedFatInGm='" + saturatedFatInGm + 
-    "',polyunsaturatedFatInGm='" + polyunsaturatedFatInGm + 
-    "',monounsaturatedFatInGm='" + monounsaturatedFatInGm + 
-    "',transFatInGm='" + transFatInGm + 
-    "',protienInGm='" + protienInGm + 
-    "',cholesterol='" + cholesterol + 
-    "',sodium='" + sodium + 
-    "',potassium='" + potassium + 
-    "',totalCarbs='" + totalCarbs + 
-    "',dietaryFiber='" + dietaryFiber + 
-    "',sugar='" + sugar + 
+
+  let insertQuery = "INSERT INTO nutrition SET servingSize='" + servingSize +
+    "',servingPerContainer='" + servingPerContainer +
+    "',calories='" + calories +
+    "',fatInGm='" + fatInGm +
+    "',saturatedFatInGm='" + saturatedFatInGm +
+    "',polyunsaturatedFatInGm='" + polyunsaturatedFatInGm +
+    "',monounsaturatedFatInGm='" + monounsaturatedFatInGm +
+    "',transFatInGm='" + transFatInGm +
+    "',protienInGm='" + protienInGm +
+    "',cholesterol='" + cholesterol +
+    "',sodium='" + sodium +
+    "',potassium='" + potassium +
+    "',totalCarbs='" + totalCarbs +
+    "',dietaryFiber='" + dietaryFiber +
+    "',sugar='" + sugar +
     "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
@@ -1701,22 +1701,22 @@ let edit_nutrition = (id, transProdInfo) => {
   let dietaryFiber = nutritions.dietaryFiber()
   let sugar = nutritions.sugar()
 
-  let insertQuery = "UPDATE nutrition SET servingSize='" + servingSize + 
-    "',servingPerContainer='" + servingPerContainer + 
-    "',calories='" + calories + 
-    "',fatInGm='" + fatInGm + 
-    "',saturatedFatInGm='" + saturatedFatInGm + 
-    "',polyunsaturatedFatInGm='" + polyunsaturatedFatInGm + 
-    "',monounsaturatedFatInGm='" + monounsaturatedFatInGm + 
-    "',transFatInGm='" + transFatInGm + 
-    "',protienInGm='" + protienInGm + 
-    "',cholesterol='" + cholesterol + 
-    "',sodium='" + sodium + 
-    "',potassium='" + potassium + 
-    "',totalCarbs='" + totalCarbs + 
-    "',dietaryFiber='" + dietaryFiber + 
-    "',sugar='" + sugar + 
-    "' WHERE nutritionID='"+id+"'"
+  let insertQuery = "UPDATE nutrition SET servingSize='" + servingSize +
+    "',servingPerContainer='" + servingPerContainer +
+    "',calories='" + calories +
+    "',fatInGm='" + fatInGm +
+    "',saturatedFatInGm='" + saturatedFatInGm +
+    "',polyunsaturatedFatInGm='" + polyunsaturatedFatInGm +
+    "',monounsaturatedFatInGm='" + monounsaturatedFatInGm +
+    "',transFatInGm='" + transFatInGm +
+    "',protienInGm='" + protienInGm +
+    "',cholesterol='" + cholesterol +
+    "',sodium='" + sodium +
+    "',potassium='" + potassium +
+    "',totalCarbs='" + totalCarbs +
+    "',dietaryFiber='" + dietaryFiber +
+    "',sugar='" + sugar +
+    "' WHERE nutritionID='" + id + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {

@@ -5,32 +5,14 @@
 */
 
 const mysql = require('mysql')
+require('dotenv').config()
 
-
-// const db = mysql.createConnection({
-//     // host: 'localhost',
-//     // user: 'root',
-//     // password: '',
-//     // database: 'node_grocery2'
-//     host: 'us-cdbr-east-02.cleardb.com',
-//     user: 'bb5e40a33386b1',
-//     password: '8981812c',
-//     database: 'heroku_2e9b6dd752ebf23',
-//     port: 3306
-// })
-
-// db.connect((err => {
-//     if (err) {
-//         throw err
-//     }
-//     console.log("mysql database connected")
-// }))
 var db  = mysql.createPool({
     connectionLimit : 10,
-    host            : 'us-cdbr-east-02.cleardb.com',
-    user            : 'bb5e40a33386b1',
-    password        : '8981812c',
-    database        : 'heroku_2e9b6dd752ebf23'
+    host            : process.env.MYSQL_HOST,
+    user            : process.env.MYSQL_USER,
+    password        : process.env.MYSQL_PASSWORD,
+    database        : process.env.MYSQL_DATABASE
   });
 db.Promise = global.Promise;
 global.db = db
