@@ -8,6 +8,8 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const routes = require('./routes')
+var cors = require('cors')
+app.use(cors())
 
 //requiring dotenv file so we can access all variables using process.env.VARIABLE
 require('dotenv').config()
