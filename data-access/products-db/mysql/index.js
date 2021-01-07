@@ -474,8 +474,8 @@ description: after query execution it will Send the data to serializer
 */
 let getItems = () => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionFacts=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID"
-    // console.log(run_query)
+    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID"
+    console.log(run_query)
     connection.query(run_query, function (err, result, fields) {
       // console.log(result)
       var arr1 = new Array()
@@ -511,11 +511,11 @@ let getItems = () => {
             "expDate": result[i].expDate,
             "featuredDetails": result[i].featuredDetails,
             "quantity": result[i].quantity,
-            "speciaIInstructions": result[i].speciaIInstructions,
+            // "speciaIInstructions": result[i].speciaIInstructions,
             "itemBarcode": result[i].itemBarcode,
             "noOfImage": result[i].noOfImage,
             "disclaimer": result[i].disclaimer,
-            "nutritionFacts": result[i].nutritionFacts,
+            "nutritionID": result[i].nutritionID,
             "itemActive": result[i].itemActive,
             "servingSize": result[i].servingSize,
             "servingPerContainer": result[i].servingPerContainer,
@@ -565,28 +565,29 @@ let addItem = (itemInfo) => {
   let expDate = item.getexpDate()
   let featuredDetails = item.getfeaturedDetails()
   let quantity = item.getquantity()
-  let speciaIInstructions = item.getspeciaIInstructions()
+  // let speciaIInstructions = item.getspeciaIInstructions()
   let itemBarcode = item.getitemBarcode()
   let noOfImage = item.getnoOfImage()
   let disclaimer = item.getdisclaimer()
-  let nutritionFacts = item.getnutritionFacts()
+  let nutritionID = item.getnutritionID()
   let itemActive = item.getitemActive()
   let insertQuery = "INSERT INTO items SET " +
     "productID=" + "'" + productID + "'" +
     "," + "storeID=" + "'" + storeID + "'" +
     "," + "productPrice=" + "'" + productPrice + "'" +
     "," + "productDiscount=" + "'" + productDiscount + "'" +
+    "," + "productDiscountedPrice=" + "'" + productDiscountedPrice + "'" +
     "," + "isFeatured=" + "'" + isFeatured + "'" +
     "," + "isOutOfStock=" + "'" + isOutOfStock + "'" +
     "," + "outOfStockDate=" + "'" + outOfStockDate + "'" +
     "," + "expDate=" + "'" + expDate + "'" +
     "," + "featuredDetails=" + "'" + featuredDetails + "'" +
     "," + "quantity=" + "'" + quantity + "'" +
-    "," + "speciaIInstructions=" + "'" + speciaIInstructions + "'" +
+    // "," + "speciaIInstructions=" + "'" + speciaIInstructions + "'" +
     "," + "noOfImage=" + "'" + noOfImage + "'" +
     "," + "disclaimer=" + "'" + disclaimer + "'" +
     "," + "itemActive=" + "'" + itemActive + "'" +
-    "," + "nutritionFacts=" + "'" + nutritionFacts + "'" +
+    "," + "nutritionID=" + "'" + nutritionID + "'" +
     "," + "itemBarcode=" + "'" + itemBarcode + "'"
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
@@ -617,28 +618,29 @@ let editItem = (id, itemInfo) => {
   let expDate = item.getexpDate()
   let featuredDetails = item.getfeaturedDetails()
   let quantity = item.getquantity()
-  let speciaIInstructions = item.getspeciaIInstructions()
+  // let speciaIInstructions = item.getspeciaIInstructions()
   let itemBarcode = item.getitemBarcode()
   let noOfImage = item.getnoOfImage()
   let disclaimer = item.getdisclaimer()
-  let nutritionFacts = item.getnutritionFacts()
+  let nutritionID = item.getnutritionID()
   let itemActive = item.getitemActive()
   let insertQuery = "UPDATE items SET " +
     "productID=" + "'" + productID + "'" +
     "," + "storeID=" + "'" + storeID + "'" +
     "," + "productPrice=" + "'" + productPrice + "'" +
     "," + "productDiscount=" + "'" + productDiscount + "'" +
+    "," + "productDiscountedPrice=" + "'" + productDiscountedPrice + "'" +
     "," + "isFeatured=" + "'" + isFeatured + "'" +
     "," + "isOutOfStock=" + "'" + isOutOfStock + "'" +
     "," + "outOfStockDate=" + "'" + outOfStockDate + "'" +
     "," + "expDate=" + "'" + expDate + "'" +
     "," + "featuredDetails=" + "'" + featuredDetails + "'" +
     "," + "quantity=" + "'" + quantity + "'" +
-    "," + "speciaIInstructions=" + "'" + speciaIInstructions + "'" +
+    // "," + "speciaIInstructions=" + "'" + speciaIInstructions + "'" +
     "," + "noOfImage=" + "'" + noOfImage + "'" +
     "," + "disclaimer=" + "'" + disclaimer + "'" +
     "," + "itemActive=" + "'" + itemActive + "'" +
-    "," + "nutritionFacts=" + "'" + nutritionFacts + "'" +
+    "," + "nutritionID=" + "'" + nutritionID + "'" +
     "," + "itemBarcode=" + "'" + itemBarcode + "'" +
     " WHERE itemID='" + id + "'"
   return new Promise(function (resolve, reject) {
@@ -661,7 +663,7 @@ description: after query execution it will Send the data to serializer
 */
 let getItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    connection.query("SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionFacts=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID WHERE i.itemID=" + val, function (err, result, fields) {
+    connection.query("SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID WHERE i.itemID=" + val, function (err, result, fields) {
       if (!err) {
         if (result.length > 0) {
           let get_ID = 0
@@ -679,6 +681,7 @@ let getItem = (prop, val) => {
                   arr2.push(ob1)
                 }
               }
+              // console.log(result[i].productDiscountedPrice)
               var ob2 = new Object({
                 "itemID": result[i].itemID,
                 "productID": result[i].productID,
@@ -696,11 +699,11 @@ let getItem = (prop, val) => {
                 "expDate": result[i].expDate,
                 "featuredDetails": result[i].featuredDetails,
                 "quantity": result[i].quantity,
-                "speciaIInstructions": result[i].speciaIInstructions,
+                // "speciaIInstructions": result[i].speciaIInstructions,
                 "itemBarcode": result[i].itemBarcode,
                 "noOfImage": result[i].noOfImage,
                 "disclaimer": result[i].disclaimer,
-                "nutritionFacts": result[i].nutritionFacts,
+                "nutritionID": result[i].nutritionID,
                 "itemActive": result[i].itemActive,
                 "servingSize": result[i].servingSize,
                 "servingPerContainer": result[i].servingPerContainer,
@@ -764,13 +767,16 @@ description: after query execution it will Send the data to serializer
 */
 let getStoreItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionFacts=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.storeID='" + val + "'"
+    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.storeID='" + val + "'"
+    // console.log(run_query)
     connection.query(run_query, function (err, result, fields) {
+      // console.log(result)
       var arr1 = new Array()
       let get_ID = 0
       for (let i = 0; i < result.length; i++) {
         if (get_ID != result[i].productIDD) {
           get_ID = result[i].productIDD
+          console.log(get_ID)
           var arr2 = new Array()
           for (let j = 0; j < result.length; j++) {
             if (get_ID == result[j].piPID && result[j].itemID == result[i].itemID) {
@@ -799,11 +805,11 @@ let getStoreItem = (prop, val) => {
             "expDate": result[i].expDate,
             "featuredDetails": result[i].featuredDetails,
             "quantity": result[i].quantity,
-            "speciaIInstructions": result[i].speciaIInstructions,
+            // "speciaIInstructions": result[i].speciaIInstructions,
             "itemBarcode": result[i].itemBarcode,
             "noOfImage": result[i].noOfImage,
             "disclaimer": result[i].disclaimer,
-            "nutritionFacts": result[i].nutritionFacts,
+            "nutritionID": result[i].nutritionID,
             "itemActive": result[i].itemActive,
             "servingSize": result[i].servingSize,
             "servingPerContainer": result[i].servingPerContainer,
@@ -841,7 +847,7 @@ description: after query execution it will Send the data to serializer
 */
 let getStoreAllItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionFacts=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.itemActive=1 AND i.storeID=" + val;
+    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.itemActive=1 AND i.storeID=" + val;
     connection.query(run_query, function (err, result, fields) {
       var arr1 = new Array()
       let get_ID = 0
@@ -876,11 +882,11 @@ let getStoreAllItem = (prop, val) => {
             "expDate": result[i].expDate,
             "featuredDetails": result[i].featuredDetails,
             "quantity": result[i].quantity,
-            "speciaIInstructions": result[i].speciaIInstructions,
+            // "speciaIInstructions": result[i].speciaIInstructions,
             "itemBarcode": result[i].itemBarcode,
             "noOfImage": result[i].noOfImage,
             "disclaimer": result[i].disclaimer,
-            "nutritionFacts": result[i].nutritionFacts,
+            "nutritionID": result[i].nutritionID,
             "itemActive": result[i].itemActive,
             "servingSize": result[i].servingSize,
             "servingPerContainer": result[i].servingPerContainer,
@@ -942,12 +948,12 @@ let getItemCategories = (prop, val) => {
                 "isOutOfStock": result[j].isOutOfStock,
                 "expDate": result[j].expDate,
                 "featuredDetails": result[j].featuredDetails,
-                "speciaIInstructions": result[j].speciaIInstructions,
+                // "speciaIInstructions": result[j].speciaIInstructions,
                 "discount": result[j].discount,
                 "itemBarcode": result[j].itemBarcode,
                 "noOfImage": result[j].noOfImage,
                 "disclaimer": result[j].disclaimer,
-                "nutritionFacts": result[j].nutritionFacts,
+                "nutritionID": result[j].nutritionID,
                 "itemActive": result[j].itemActive,
                 "quantity": result[j].quantity,
                 "productID": result[j].productID,
@@ -987,7 +993,7 @@ description: after query execution it will Send the data to serializer
 */
 let getFeaturedItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionFacts=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.storeID=" + val + " AND i.itemActive=1 AND i.isFeatured=" + 1;
+    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.storeID=" + val + " AND i.itemActive=1 AND i.isFeatured=" + 1;
     connection.query(run_query, function (err, result, fields) {
       var arr1 = new Array()
       let get_ID = 0
@@ -1022,11 +1028,11 @@ let getFeaturedItem = (prop, val) => {
             "expDate": result[i].expDate,
             "featuredDetails": result[i].featuredDetails,
             "quantity": result[i].quantity,
-            "speciaIInstructions": result[i].speciaIInstructions,
+            // "speciaIInstructions": result[i].speciaIInstructions,
             "itemBarcode": result[i].itemBarcode,
             "noOfImage": result[i].noOfImage,
             "disclaimer": result[i].disclaimer,
-            "nutritionFacts": result[i].nutritionFacts,
+            "nutritionID": result[i].nutritionID,
             "itemActive": result[i].itemActive,
             "servingSize": result[i].servingSize,
             "servingPerContainer": result[i].servingPerContainer,
@@ -1064,7 +1070,7 @@ description: after query execution it will Send the data to serializer
 */
 let getRef_prod_fav = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT ref_prod_fav.*, ref_prod_fav.itemID AS fItemID, items.*,  nutrition.*, product.*, store.*, location.* FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID=items.itemID LEFT JOIN  nutrition on  nutrition. nutritionID=items.nutritionFacts LEFT JOIN product on product.productID=items.productID LEFT JOIN store ON items.storeID =store.storeID LEFT JOIN location ON location.locationID=store.locationID WHERE favID=" + val;
+    let run_query = "SELECT ref_prod_fav.*, ref_prod_fav.itemID AS fItemID, items.*,  nutrition.*, product.*, store.*, location.* FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID=items.itemID LEFT JOIN  nutrition on  nutrition. nutritionID=items.nutritionID LEFT JOIN product on product.productID=items.productID LEFT JOIN store ON items.storeID =store.storeID LEFT JOIN location ON location.locationID=store.locationID WHERE favID=" + val;
     connection.query(run_query, function (err, result, fields) {
 
       if (!err) {
@@ -1167,10 +1173,10 @@ let getRef_prod_fav = (prop, val) => {
             "expDate": result[0].expDate,
             "featuredDetails": result[0].featuredDetails,
             "quantity": result[0].quantity,
-            "speciaIInstructions": result[0].speciaIInstruction,
+            // "speciaIInstructions": result[0].speciaIInstruction,
             "discount": result[0].discount,
             "itemBarcode": result[0].itemBarcode,
-            "nutritionFacts": result[0].nutritionFacts,
+            "nutritionID": result[0].nutritionID,
             "noOfImage": result[0].noOfImage,
             "disclaimer": result[0].disclaimer,
             "itemActive": result[0].itemActiv,
@@ -1277,7 +1283,7 @@ Output: array of fav items of user
 description: after query execution it will Send the data to serializer
 */
 let userRef_prod_fav = (prop, val) => {
-  let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN store on items.storeID = store.storeID LEFT JOIN nutrition on nutrition.nutritionID=items.nutritionFacts  LEFT JOIN location ON location.locationID=store.locationID where ref_prod_fav.userID=" + val
+  let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN store on items.storeID = store.storeID LEFT JOIN nutrition on nutrition.nutritionID=items.nutritionID  LEFT JOIN location ON location.locationID=store.locationID where ref_prod_fav.userID=" + val
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (err, result) => {
 
@@ -1382,10 +1388,10 @@ let userRef_prod_fav = (prop, val) => {
               "expDate": result[i].expDate,
               "featuredDetails": result[i].featuredDetails,
               "quantity": result[i].quantity,
-              "speciaIInstructions": result[i].speciaIInstruction,
+              // "speciaIInstructions": result[i].speciaIInstruction,
               "discount": result[i].discount,
               "itemBarcode": result[i].itemBarcode,
-              "nutritionFacts": result[i].nutritionFacts,
+              "nutritionID": result[i].nutritionID,
               "noOfImage": result[i].noOfImage,
               "disclaimer": result[i].disclaimer,
               "itemActive": result[i].itemActiv,
@@ -1434,7 +1440,7 @@ Output: array of fav items of user of specific store
 description: after query execution it will Send the data to serializer
 */
 let userStoreRef_prod_fav = (prop, val, prop2, val2) => {
-  let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN nutrition on nutrition.nutritionID=items.nutritionFacts LEFT JOIN store on items.storeID = store.storeID  LEFT JOIN location ON location.locationID=store.locationID where ref_prod_fav.userID=" + val + " AND items.storeID=" + val2;
+  let insertQuery = "SELECT * FROM ref_prod_fav LEFT JOIN items on ref_prod_fav.itemID = items.itemID LEFT JOIN product on product.productID = items.productID LEFT JOIN nutrition on nutrition.nutritionID=items.nutritionID LEFT JOIN store on items.storeID = store.storeID  LEFT JOIN location ON location.locationID=store.locationID where ref_prod_fav.userID=" + val + " AND items.storeID=" + val2;
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (err, result) => {
       if (!err) {
@@ -1538,10 +1544,10 @@ let userStoreRef_prod_fav = (prop, val, prop2, val2) => {
               "expDate": result[i].expDate,
               "featuredDetails": result[i].featuredDetails,
               "quantity": result[i].quantity,
-              "speciaIInstructions": result[i].speciaIInstruction,
+              // "speciaIInstructions": result[i].speciaIInstruction,
               "discount": result[i].discount,
               "itemBarcode": result[i].itemBarcode,
-              "nutritionFacts": result[i].nutritionFacts,
+              "nutritionID": result[i].nutritionID,
               "noOfImage": result[i].noOfImage,
               "disclaimer": result[i].disclaimer,
               "itemActive": result[i].itemActiv,

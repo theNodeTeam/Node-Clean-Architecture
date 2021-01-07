@@ -19,12 +19,12 @@ let buildMakeItem = function(itemValidator) {
     expDate,
     featuredDetails,
     quantity,
-    speciaIInstructions,
+    // speciaIInstructions,
     // discount,
     itemBarcode,
     noOfImage,
     disclaimer,
-    nutritionFacts,
+    nutritionID,
     itemActive
   } = {}) => {
     let {error} = itemValidator({
@@ -39,12 +39,12 @@ let buildMakeItem = function(itemValidator) {
       expDate,
       featuredDetails,
       quantity,
-      speciaIInstructions,
+      // speciaIInstructions,
       // discount,
       itemBarcode,
       noOfImage,
       disclaimer,
-      nutritionFacts,
+      nutritionID,
       itemActive
     })
     if (error) throw new Error(error)
@@ -61,11 +61,11 @@ let buildMakeItem = function(itemValidator) {
       getexpDate: () => expDate,
       getfeaturedDetails: () => featuredDetails,
       getquantity: () => quantity,
-      getspeciaIInstructions: () => speciaIInstructions,
+      // getspeciaIInstructions: () => speciaIInstructions,
       getitemBarcode: () => itemBarcode,
       getnoOfImage: () => noOfImage,
       getdisclaimer: () => disclaimer,
-      getnutritionFacts: () => nutritionFacts,
+      getnutritionID: () => nutritionID,
       getitemActive: () => itemActive
     }
   }
