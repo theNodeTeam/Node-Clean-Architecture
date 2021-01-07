@@ -481,11 +481,11 @@ let getItems = () => {
       var arr1 = new Array()
       let get_ID = 0
       for (let i = 0; i < result.length; i++) {
-        if (get_ID != result[i].productIDD) {
-          get_ID = result[i].productIDD
+        if (get_ID != result[i].itemID) {
+          get_ID = result[i].itemID
           var arr2 = new Array()
           for (let j = 0; j < result.length; j++) {
-            if (get_ID == result[j].piPID && result[j].itemID == result[i].itemID) {
+            if (result[j].itemID == result[i].itemID) {
               var ob1 = new Object({
                 "productImageID": result[j].productImageID,
                 "productID": result[j].piPID,
@@ -768,18 +768,19 @@ description: after query execution it will Send the data to serializer
 let getStoreItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
     let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.storeID='" + val + "'"
-    // console.log(run_query)
+    console.log(run_query)
     connection.query(run_query, function (err, result, fields) {
       // console.log(result)
       var arr1 = new Array()
       let get_ID = 0
       for (let i = 0; i < result.length; i++) {
-        if (get_ID != result[i].productIDD) {
-          get_ID = result[i].productIDD
-          console.log(get_ID)
+        // console.log(result[i].productIDD)
+        if (get_ID != result[i].itemID) {
+          get_ID = result[i].itemID
+          
           var arr2 = new Array()
           for (let j = 0; j < result.length; j++) {
-            if (get_ID == result[j].piPID && result[j].itemID == result[i].itemID) {
+            if (result[j].itemID == result[i].itemID) {
               var ob1 = new Object({
                 "productImageID": result[j].productImageID,
                 "productID": result[j].piPID,
@@ -847,16 +848,17 @@ description: after query execution it will Send the data to serializer
 */
 let getStoreAllItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
-    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.itemActive=1 AND i.storeID=" + val;
+    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.itemActive=true AND i.storeID=" + val;
+    console.log(run_query)
     connection.query(run_query, function (err, result, fields) {
       var arr1 = new Array()
       let get_ID = 0
       for (let i = 0; i < result.length; i++) {
-        if (get_ID != result[i].productIDD) {
-          get_ID = result[i].productIDD
+        if (get_ID != result[i].itemID) {
+          get_ID = result[i].itemID
           var arr2 = new Array()
           for (let j = 0; j < result.length; j++) {
-            if (get_ID == result[j].piPID && result[j].itemID == result[i].itemID) {
+            if (result[j].itemID == result[i].itemID) {
               var ob1 = new Object({
                 "productImageID": result[j].productImageID,
                 "productID": result[j].piPID,
@@ -998,11 +1000,11 @@ let getFeaturedItem = (prop, val) => {
       var arr1 = new Array()
       let get_ID = 0
       for (let i = 0; i < result.length; i++) {
-        if (get_ID != result[i].productIDD) {
-          get_ID = result[i].productIDD
+        if (get_ID != result[i].itemID) {
+          get_ID = result[i].itemID
           var arr2 = new Array()
           for (let j = 0; j < result.length; j++) {
-            if (get_ID == result[j].piPID && result[j].itemID == result[i].itemID) {
+            if (result[j].itemID == result[i].itemID) {
               var ob1 = new Object({
                 "productImageID": result[j].productImageID,
                 "productID": result[j].piPID,
