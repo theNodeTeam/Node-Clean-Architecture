@@ -24,5 +24,5 @@ module.exports = Joi.object().keys({
   noOfImage: Joi.number().error(() => 'noOfImage must be a number'),
   disclaimer: Joi.string().error(() => 'disclaimer must be a string'),
   nutritionID: Joi.string().error(() => 'nutritionID must be a string'),
-  itemActive: Joi.boolean().error(() => 'itemActive must be a boolean')
+  itemActive: Joi.number().error(() => 'itemActive must be a number')
 })
