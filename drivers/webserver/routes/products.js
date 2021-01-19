@@ -233,6 +233,15 @@ products.getStoreAllItem = (req, res, next) => {
     .catch(next)
 }
 
+//function to items of store 
+products.getStoreAllNonFeatureItem = (req, res, next) => {
+  ProductsDb.getStoreAllNonFeatureItem('id', req.params.id)
+    .then(data => {
+      res.send(data)
+    })
+    .catch(next)
+}
+
 //function to get all featured items
 products.getFeaturedItem = (req, res, next) => {
   ProductsDb.getFeaturedItem('id', req.params.id)

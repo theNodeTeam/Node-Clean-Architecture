@@ -922,6 +922,87 @@ let getStoreAllItem = (prop, val) => {
 }
 
 
+
+/*
+objective: function to items of store 
+Input: storeID in params.
+Output: array of items of selected store
+description: after query execution it will Send the data to serializer
+*/
+let getStoreAllNonFeatureItem = (prop, val) => {
+  return new Promise(function (resolve, reject) {
+    let run_query = "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*, cate.*,sub_cate.* FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID LEFT JOIN subCategory AS sub_cate ON sub_cate.subCategoryID=p.subCategoryID LEFT JOIN category AS cate ON cate.categoryID=sub_cate.categoryID  WHERE i.itemActive=1 AND i.isFeatured=1 AND i.storeID=" + val;
+    console.log(run_query)
+    connection.query(run_query, function (err, result, fields) {
+      var arr1 = new Array()
+      let get_ID = 0
+      for (let i = 0; i < result.length; i++) {
+        if (get_ID != result[i].itemID) {
+          get_ID = result[i].itemID
+          var arr2 = new Array()
+          for (let j = 0; j < result.length; j++) {
+            if (result[j].itemID == result[i].itemID) {
+              var ob1 = new Object({
+                "productImageID": result[j].productImageID,
+                "productID": result[j].piPID,
+                "productImageURL": result[j].productImageURL,
+              });
+              arr2.push(ob1)
+            }
+          }
+          var ob2 = new Object({
+            "itemID": result[i].itemID,
+            "productID": result[i].productID,
+            "productName": result[i].productName,
+            "productDescription": result[i].productDescription,
+            "subCategoryID": result[i].subCategoryID,
+            "categoryID": result[i].categoryID,
+            "subCategoryName": result[i].subCategoryName,
+            "categoryName": result[i].categoryName,
+            "productBarcode": result[i].productBarcode,
+            "storeID": result[i].storeID,
+            "productPrice": result[i].productPrice,
+            "productDiscountedPrice": result[i].productDiscountedPrice,
+            "productDiscount": result[i].productDiscount,
+            "isFeatured": result[i].isFeatured,
+            "isOutOfStock": result[i].isOutOfStock,
+            "outOfStockDate": result[i].outOfStockDate,
+            "expDate": result[i].expDate,
+            "featuredDetails": result[i].featuredDetails,
+            "quantity": result[i].quantity,
+            // "speciaIInstructions": result[i].speciaIInstructions,
+            "itemBarcode": result[i].itemBarcode,
+            "noOfImage": result[i].noOfImage,
+            "disclaimer": result[i].disclaimer,
+            "nutritionID": result[i].nutritionID,
+            "itemActive": result[i].itemActive,
+            "servingSize": result[i].servingSize,
+            "servingPerContainer": result[i].servingPerContainer,
+            "calories": result[i].calories,
+            "fatInGm": result[i].fatInGm,
+            "saturatedFatInGm": result[i].saturatedFatInGm,
+            "polyunsaturatedFatInGm": result[i].polyunsaturatedFatInGm,
+            "monounsaturatedFatInGm": result[i].monounsaturatedFatInGm,
+            "transFatInGm": result[i].transFatInGm,
+            "protienInGm": result[i].protienInGm,
+            "cholesterol": result[i].cholesterol,
+            "sodium": result[i].sodium,
+            "potassium": result[i].potassium,
+            "totalCarbs": result[i].totalCarbs,
+            "dietaryFiber": result[i].dietaryFiber,
+            "sugar": result[i].sugar,
+            "productImages": arr2
+          })
+          arr1.push(ob2)
+        }
+      }
+
+      resolve(Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))))
+
+    });
+  });
+}
+
 //new 
 
 /*
@@ -1785,6 +1866,7 @@ module.exports = {
   deleteItem,
   getStoreItem,
   getStoreAllItem,
+  getStoreAllNonFeatureItem,
   getFeaturedItem,
   getRef_prod_fav,
   addRef_prod_fav,

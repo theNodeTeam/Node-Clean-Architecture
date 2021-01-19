@@ -50,6 +50,7 @@ router
   .delete("/v1/item/:id", products.deleteItem)
   .get("/v1/item/store/:id", products.getStoreItem)
   .get("/v1/all/item/store/:id", products.getStoreAllItem)
+  .get("/v1/all/item/nonFeature/store/:id", products.getStoreAllNonFeatureItem)
   .get("/v1/item/featured/:id", products.getFeaturedItem)
 
 //favourite products
