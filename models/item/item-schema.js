@@ -23,6 +23,6 @@ module.exports = Joi.object().keys({
   itemBarcode: Joi.number().error(() => 'itemBarcode must be a number'),
   noOfImage: Joi.number().error(() => 'noOfImage must be a number'),
   disclaimer: Joi.string().error(() => 'disclaimer must be a string'),
-  nutritionID: Joi.string().error(() => 'nutritionID must be a string'),
+  nutritionID: Joi.number().error(() => 'nutritionID must be a number'),
   itemActive: Joi.number().error(() => 'itemActive must be a number')
 })

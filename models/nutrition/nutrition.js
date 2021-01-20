@@ -8,7 +8,7 @@
 
 let buildMakeNutrition = function(nutritionValidator) {
   return ({
-    nutritionID,
+    // nutritionID,
     servingSize,
     servingPerContainer,
     calories,
@@ -26,7 +26,7 @@ let buildMakeNutrition = function(nutritionValidator) {
     sugar
   } = {}) => {
     let {error} = nutritionValidator({
-      nutritionID,
+      // nutritionID,
       servingSize,
       servingPerContainer,
       calories,
@@ -46,7 +46,7 @@ let buildMakeNutrition = function(nutritionValidator) {
     if (error) throw new Error(error)
 
     return {
-      nutritionID: () => nutritionID,
+      // nutritionID: () => nutritionID,
       servingSize: () => servingSize,
       servingPerContainer: () => servingPerContainer,
       calories: () => calories,

@@ -1724,6 +1724,7 @@ Output: object of new nutrition
 description: after query execution it will call get_nutrition  function
 */
 let add_nutrition = (nutritionInfo) => {
+  console.log(nutritionInfo);
   let nutritions = makeNutrition(nutritionInfo)
   let servingSize = nutritions.servingSize()
   let servingPerContainer = nutritions.servingPerContainer()
@@ -1777,7 +1778,7 @@ description: after query execution it will call get_nutrition function
 let edit_nutrition = (id, transProdInfo) => {
   let nutritions = makeNutrition(transProdInfo)
 
-  let nutritionID = nutritions.nutritionID()
+  // let nutritionID = nutritions.nutritionID()
   let servingSize = nutritions.servingSize()
   let servingPerContainer = nutritions.servingPerContainer()
   let calories = nutritions.calories()

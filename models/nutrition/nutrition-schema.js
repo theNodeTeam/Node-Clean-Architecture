@@ -8,7 +8,7 @@
 let Joi = require('joi')
 
 module.exports = Joi.object().keys({
-  nutritionID: Joi.string().required().error(() => 'nutritionID must be a string'),
+  // nutritionID: Joi.string().required().error(() => 'nutritionID must be a string'),
   servingSize: Joi.string().error(() => 'servingSize must be a string'),
   servingPerContainer: Joi.string().error(() => 'servingPerContainer must be a string'),
   calories: Joi.string().error(() => 'calories must be a string'),
