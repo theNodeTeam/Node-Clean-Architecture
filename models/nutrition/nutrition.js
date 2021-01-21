@@ -5,8 +5,7 @@
     next File: nutrition > nutrition-schema
 */
 
-
-let buildMakeNutrition = function(nutritionValidator) {
+let buildMakeNutrition = function (nutritionValidator) {
   return ({
     // nutritionID,
     servingSize,
@@ -23,7 +22,7 @@ let buildMakeNutrition = function(nutritionValidator) {
     potassium,
     totalCarbs,
     dietaryFiber,
-    sugar
+    sugar,
   } = {}) => {
     let {error} = nutritionValidator({
       // nutritionID,
@@ -41,9 +40,9 @@ let buildMakeNutrition = function(nutritionValidator) {
       potassium,
       totalCarbs,
       dietaryFiber,
-      sugar
-    })
-    if (error) throw new Error(error)
+      sugar,
+    });
+    if (error) throw new Error(error);
 
     return {
       // nutritionID: () => nutritionID,
@@ -61,9 +60,9 @@ let buildMakeNutrition = function(nutritionValidator) {
       potassium: () => potassium,
       totalCarbs: () => totalCarbs,
       dietaryFiber: () => dietaryFiber,
-      sugar: () => sugar
-    }
-  }
-}
+      sugar: () => sugar,
+    };
+  };
+};
 
-module.exports = buildMakeNutrition
+module.exports = buildMakeNutrition;

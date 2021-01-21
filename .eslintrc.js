@@ -3,6 +3,6 @@ module.exports = {
   extends: ['@react-native-community', 'prettier'],
   plugins: ['prettier'],
   rules: {
-    'react/no-did-update-set-state': 'off'
-  }
+    'react/no-did-update-set-state': 'off',
+  },
 };
