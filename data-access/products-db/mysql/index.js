@@ -978,10 +978,13 @@ description: after query execution it will Send the data to serializer
 */
 let getStoreItem = (prop, val) => {
   return new Promise(function (resolve, reject) {
+    // let run_query =
+    //   "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.storeID='" +
+    //   val +
+    //   "'";
     let run_query =
-      "SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.storeID='" +
-      val +
-      "'";
+    'SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*, cate.*,sub_cate.* FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID LEFT JOIN subCategory AS sub_cate ON sub_cate.subCategoryID=p.subCategoryID LEFT JOIN category AS cate ON cate.categoryID=sub_cate.categoryID  WHERE i.storeID=' +
+    val;
     console.log(run_query, 'S');
     connection.query(run_query, function (err, result, fields) {
       // console.log(result)
