@@ -1984,7 +1984,7 @@ Output: object of new nutrition
 description: after query execution it will call get_nutrition  function
 */
 let add_nutrition = (nutritionInfo) => {
-  console.log(nutritionInfo);
+  console.log(nutritionInfo,"S");
   let nutritions = makeNutrition(nutritionInfo);
   let servingSize = nutritions.servingSize();
   let servingPerContainer = nutritions.servingPerContainer();
