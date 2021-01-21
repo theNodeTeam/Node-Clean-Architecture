@@ -746,6 +746,7 @@ Output: object of updated item
 description: after query execution it call getItem function
 */
 let editItem = (id, itemInfo) => {
+  console.log(itemInfo,"itemInfo");
   let item = makeItem(itemInfo);
   let productID = item.getproductID();
   let storeID = item.getstoreID();

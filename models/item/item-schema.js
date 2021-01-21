@@ -8,10 +8,10 @@
 let Joi = require('joi');
 
 module.exports = Joi.object().keys({
-  productID: Joi.string()
+  productID: Joi.number()
     .required()
-    .error(() => 'productID must be a string'),
-  storeID: Joi.string().error(() => 'storeID must be a string'),
+    .error(() => 'productID must be a number'),
+  storeID: Joi.number().error(() => 'storeID must be a number'),
   productPrice: Joi.number().error(() => 'productPrice must be a number'),
   productDiscount: Joi.number().error(() => 'productDiscount must be a number'),
   productDiscountedPrice: Joi.number().error(
