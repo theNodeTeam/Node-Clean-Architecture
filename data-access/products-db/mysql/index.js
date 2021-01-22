@@ -1947,7 +1947,7 @@ let userStoreRef_prod_fav = (prop, val, prop2, val2) => {
             //   "potassium": result[i].potassium,
             //   "totalCarbs": result[i].totalCarbs,
             //   "dietaryFiber": result[i].dietaryFiber,
-            //   "sugar": result[i].sugar
+            //   "sugar": result[i].sugar 
             // })
             var obj = {
               favID: result[i].favID,
