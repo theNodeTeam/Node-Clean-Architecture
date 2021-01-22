@@ -52,7 +52,8 @@ router
   .get("/v1/all/item/store/:id", products.getStoreAllItem)
   .get("/v1/all/item/nonFeature/store/:id", products.getStoreAllNonFeatureItem)
   .get("/v1/item/featured/:id", products.getFeaturedItem)
-
+  .get("/v1/item/nonfeatured/:id", products.getNonFeaturedItem)
+  
 //favourite products
 router
   .get("/v1/ref_prod_fav/:id", products.getRef_prod_fav)

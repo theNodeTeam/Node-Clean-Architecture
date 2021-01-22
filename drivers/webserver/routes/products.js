@@ -251,6 +251,15 @@ products.getFeaturedItem = (req, res, next) => {
     .catch(next)
 }
 
+//function to get all non featured items
+products.getNonFeaturedItem = (req, res, next) => {
+  ProductsDb.getNonFeaturedItem('id', req.params.id)
+    .then(data => {
+      res.send(data)
+    })
+    .catch(next)
+}
+
 
 //function to get favorite product
 products.getRef_prod_fav = (req, res, next) => {

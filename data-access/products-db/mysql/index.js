@@ -1382,6 +1382,88 @@ let getFeaturedItem = (prop, val) => {
   });
 };
 
+
+/*
+objective: function to get all featured items
+Input: storeID in params.
+Output: array of all featured item of that store
+description: after query execution it will Send the data to serializer
+*/
+let getNonFeaturedItem = (prop, val) => {
+  return new Promise(function (resolve, reject) {
+    let run_query =
+      'SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*  FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID  WHERE i.storeID=' +
+      val +
+      ' AND i.itemActive=1 AND i.isFeatured=' +
+      0;
+    connection.query(run_query, function (err, result, fields) {
+      var arr1 = new Array();
+      let get_ID = 0;
+      for (let i = 0; i < result.length; i++) {
+        if (get_ID != result[i].itemID) {
+          get_ID = result[i].itemID;
+          var arr2 = new Array();
+          for (let j = 0; j < result.length; j++) {
+            if (result[j].itemID == result[i].itemID) {
+              var ob1 = new Object({
+                productImageID: result[j].productImageID,
+                productID: result[j].piPID,
+                productImageURL: result[j].productImageURL,
+              });
+              arr2.push(ob1);
+            }
+          }
+          var ob2 = new Object({
+            itemID: result[i].itemID,
+            productID: result[i].productID,
+            productName: result[i].productName,
+            productDescription: result[i].productDescription,
+            subCategoryID: result[i].subCategoryID,
+            productBarcode: result[i].productBarcode,
+            storeID: result[i].storeID,
+            productPrice: result[i].productPrice,
+            productDiscount: result[i].productDiscount,
+            productDiscountedPrice: result[i].productDiscountedPrice,
+            isFeatured: result[i].isFeatured,
+            isOutOfStock: result[i].isOutOfStock,
+            outOfStockDate: result[i].outOfStockDate,
+            expDate: result[i].expDate,
+            featuredDetails: result[i].featuredDetails,
+            quantity: result[i].quantity,
+            // "speciaIInstructions": result[i].speciaIInstructions,
+            itemBarcode: result[i].itemBarcode,
+            noOfImage: result[i].noOfImage,
+            disclaimer: result[i].disclaimer,
+            nutritionID: result[i].nutritionID,
+            itemActive: result[i].itemActive,
+            servingSize: result[i].servingSize,
+            servingPerContainer: result[i].servingPerContainer,
+            calories: result[i].calories,
+            fatInGm: result[i].fatInGm,
+            saturatedFatInGm: result[i].saturatedFatInGm,
+            polyunsaturatedFatInGm: result[i].polyunsaturatedFatInGm,
+            monounsaturatedFatInGm: result[i].monounsaturatedFatInGm,
+            transFatInGm: result[i].transFatInGm,
+            protienInGm: result[i].protienInGm,
+            cholesterol: result[i].cholesterol,
+            sodium: result[i].sodium,
+            potassium: result[i].potassium,
+            totalCarbs: result[i].totalCarbs,
+            dietaryFiber: result[i].dietaryFiber,
+            sugar: result[i].sugar,
+            productImages: arr2,
+          });
+          arr1.push(ob2);
+        }
+      }
+
+      resolve(
+        Promise.resolve(itemsSerializer(JSON.parse(JSON.stringify(arr1)))),
+      );
+    });
+  });
+};
+
 /*
 objective: function to get favorite product
 Input: favID in params.
@@ -2165,6 +2247,7 @@ module.exports = {
   getStoreAllItem,
   getStoreAllNonFeatureItem,
   getFeaturedItem,
+  getNonFeaturedItem,
   getRef_prod_fav,
   addRef_prod_fav,
   editRef_prod_fav,
