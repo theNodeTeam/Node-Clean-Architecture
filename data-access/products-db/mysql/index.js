@@ -590,7 +590,7 @@ let getItems = () => {
             featuredDetails: result[i].featuredDetails,
             quantity: result[i].quantity,
             // "speciaIInstructions": result[i].speciaIInstructions,
-            // itemBarcode: result[i].itemBarcode,
+            itemBarcode: result[i].itemBarcode,
             noOfImage: result[i].noOfImage,
             disclaimer: result[i].disclaimer,
             nutritionID: result[i].nutritionID,
@@ -643,7 +643,7 @@ let addItem = (itemInfo) => {
   let featuredDetails = item.getfeaturedDetails();
   let quantity = item.getquantity();
   // let speciaIInstructions = item.getspeciaIInstructions()
-  // let itemBarcode = item.getitemBarcode();
+  let itemBarcode = item.getitemBarcode();
   let noOfImage = item.getnoOfImage();
   let disclaimer = item.getdisclaimer();
   let nutritionID = item.getnutritionID();
@@ -724,14 +724,12 @@ let addItem = (itemInfo) => {
     'nutritionID=' +
     "'" +
     nutritionID +
-    "'" 
-    // +
-    // ',' +
-    // 'itemBarcode=' +
-    // "'" +
-    // itemBarcode +
-    // "'"
-    ;
+    "'" +
+    ',' +
+    'itemBarcode=' +
+    "'" +
+    itemBarcode +
+    "'";
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -762,7 +760,7 @@ let editItem = (id, itemInfo) => {
   let featuredDetails = item.getfeaturedDetails();
   let quantity = item.getquantity();
   // let speciaIInstructions = item.getspeciaIInstructions()
-  // let itemBarcode = item.getitemBarcode();
+  let itemBarcode = item.getitemBarcode();
   let noOfImage = item.getnoOfImage();
   let disclaimer = item.getdisclaimer();
   let nutritionID = item.getnutritionID();
@@ -843,17 +841,15 @@ let editItem = (id, itemInfo) => {
     'nutritionID=' +
     "'" +
     nutritionID +
-    "'"
-    //  +
-    // ',' +
-    // 'itemBarcode=' +
-    // "'" +
-    // itemBarcode +
-    // "'" +
-    // " WHERE itemID='" +
-    // id +
-    // "'"
-    ;
+    "'" +
+    ',' +
+    'itemBarcode=' +
+    "'" +
+    itemBarcode +
+    "'" +
+    " WHERE itemID='" +
+    id +
+    "'";
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -915,7 +911,7 @@ let getItem = (prop, val) => {
                   featuredDetails: result[i].featuredDetails,
                   quantity: result[i].quantity,
                   // "speciaIInstructions": result[i].speciaIInstructions,
-                  // itemBarcode: result[i].itemBarcode,
+                  itemBarcode: result[i].itemBarcode,
                   noOfImage: result[i].noOfImage,
                   disclaimer: result[i].disclaimer,
                   nutritionID: result[i].nutritionID,
@@ -1031,7 +1027,7 @@ let getStoreItem = (prop, val) => {
             featuredDetails: result[i].featuredDetails,
             quantity: result[i].quantity,
             // "speciaIInstructions": result[i].speciaIInstructions,
-            // itemBarcode: result[i].itemBarcode,
+            itemBarcode: result[i].itemBarcode,
             noOfImage: result[i].noOfImage,
             disclaimer: result[i].disclaimer,
             nutritionID: result[i].nutritionID,
@@ -1114,7 +1110,7 @@ let getStoreAllItem = (prop, val) => {
             featuredDetails: result[i].featuredDetails,
             quantity: result[i].quantity,
             // "speciaIInstructions": result[i].speciaIInstructions,
-            // itemBarcode: result[i].itemBarcode,
+            itemBarcode: result[i].itemBarcode,
             noOfImage: result[i].noOfImage,
             disclaimer: result[i].disclaimer,
             nutritionID: result[i].nutritionID,
@@ -1197,7 +1193,7 @@ let getStoreAllNonFeatureItem = (prop, val) => {
             featuredDetails: result[i].featuredDetails,
             quantity: result[i].quantity,
             // "speciaIInstructions": result[i].speciaIInstructions,
-            // itemBarcode: result[i].itemBarcode,
+            itemBarcode: result[i].itemBarcode,
             noOfImage: result[i].noOfImage,
             disclaimer: result[i].disclaimer,
             nutritionID: result[i].nutritionID,
@@ -1267,7 +1263,7 @@ let getItemCategories = (prop, val) => {
                 featuredDetails: result[j].featuredDetails,
                 // "speciaIInstructions": result[j].speciaIInstructions,
                 discount: result[j].discount,
-                // itemBarcode: result[j].itemBarcode,
+                itemBarcode: result[j].itemBarcode,
                 noOfImage: result[j].noOfImage,
                 disclaimer: result[j].disclaimer,
                 nutritionID: result[j].nutritionID,
@@ -1353,7 +1349,7 @@ let getFeaturedItem = (prop, val) => {
             featuredDetails: result[i].featuredDetails,
             quantity: result[i].quantity,
             // "speciaIInstructions": result[i].speciaIInstructions,
-            // itemBarcode: result[i].itemBarcode,
+            itemBarcode: result[i].itemBarcode,
             noOfImage: result[i].noOfImage,
             disclaimer: result[i].disclaimer,
             nutritionID: result[i].nutritionID,
@@ -1435,7 +1431,7 @@ let getNonFeaturedItem = (prop, val) => {
             featuredDetails: result[i].featuredDetails,
             quantity: result[i].quantity,
             // "speciaIInstructions": result[i].speciaIInstructions,
-            // itemBarcode: result[i].itemBarcode,
+            itemBarcode: result[i].itemBarcode,
             noOfImage: result[i].noOfImage,
             disclaimer: result[i].disclaimer,
             nutritionID: result[i].nutritionID,
@@ -1582,7 +1578,7 @@ let getRef_prod_fav = (prop, val) => {
             quantity: result[0].quantity,
             // "speciaIInstructions": result[0].speciaIInstruction,
             discount: result[0].discount,
-            // itemBarcode: result[0].itemBarcode,
+            itemBarcode: result[0].itemBarcode,
             nutritionID: result[0].nutritionID,
             noOfImage: result[0].noOfImage,
             disclaimer: result[0].disclaimer,
@@ -1814,7 +1810,7 @@ let userRef_prod_fav = (prop, val) => {
               quantity: result[i].quantity,
               // "speciaIInstructions": result[i].speciaIInstruction,
               discount: result[i].discount,
-              // itemBarcode: result[i].itemBarcode,
+              itemBarcode: result[i].itemBarcode,
               nutritionID: result[i].nutritionID,
               noOfImage: result[i].noOfImage,
               disclaimer: result[i].disclaimer,
@@ -1977,7 +1973,7 @@ let userStoreRef_prod_fav = (prop, val, prop2, val2) => {
               quantity: result[i].quantity,
               // "speciaIInstructions": result[i].speciaIInstruction,
               discount: result[i].discount,
-              // itemBarcode: result[i].itemBarcode,
+              itemBarcode: result[i].itemBarcode,
               nutritionID: result[i].nutritionID,
               noOfImage: result[i].noOfImage,
               disclaimer: result[i].disclaimer,
