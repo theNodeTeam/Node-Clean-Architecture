@@ -17,8 +17,8 @@ module.exports = Joi.object().keys({
   productDiscountedPrice: Joi.number().error(
     () => 'productDiscountedPrice must be a number',
   ),
-  isFeatured: Joi.boolean().allow("").optional().error(() => 'isFeatured must be a boolean'),
-  isOutOfStock: Joi.boolean().allow("").optional().error(() => 'isOutOfStock must be a boolean'),
+  isFeatured: Joi.number().allow("").optional().error(() => 'isFeatured must be a number'),
+  isOutOfStock: Joi.number().allow("").optional().error(() => 'isOutOfStock must be a number'),
   outOfStockDate: Joi.string().allow('').optional().error(() => 'outOfStockDate must be a string'),
   expDate: Joi.string().allow('').optional().error(() => 'expDate must be a string'),
   featuredDetails: Joi.string().error(() => 'featuredDetails must be a string'),
