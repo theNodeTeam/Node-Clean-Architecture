@@ -12,7 +12,7 @@ const _serializeSingle = (subCategory) => {
     subCategoryName: subCategory.subCategoryName,
     subCategoryDescription: subCategory.subCategoryDescription,
     categoryID: subCategory.categoryID,
-    subCategoryActive: category.subCategoryActive,
+    subCategoryActive: subCategory.subCategoryActive,
   };
 };
 

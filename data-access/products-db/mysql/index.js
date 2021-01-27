@@ -441,7 +441,7 @@ Output: object of new created subCategory
 description: after query execution it will call the getSubCategory function
 */
 let addSubCategory = (subCategoryInfo) => {
-  console.log('subCategoryInfo', subCategoryInfo);
+  console.log('subCategoryInfo11', subCategoryInfo);
   let subCategory = makeSubCategory(subCategoryInfo);
   let scName = subCategory.getSubCategoryName();
   let scDescription = subCategory.getSubCategoryDescription();
@@ -461,6 +461,7 @@ let addSubCategory = (subCategoryInfo) => {
   console.log("insertQuery",insertQuery);
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
+      console.log(error, result);
       if (!error) {
         resolve(getSubCategory('subCategoryID', result.insertId));
       } else return error;
@@ -498,10 +499,12 @@ Output: object of subcategory
 description: after query execution it will Send the data to serializer
 */
 let getSubCategory = (prop, val) => {
+  console.log("getSubCategory");
   return new Promise(function (resolve, reject) {
     connection.query(
       'SELECT * FROM subcategory WHERE subCategoryID=' + val,
       function (err, result, fields) {
+        console.log("err, result",err, result);
         if (!err) {
           let getVal = {};
           if (result.length > 0) {
@@ -516,6 +519,7 @@ let getSubCategory = (prop, val) => {
           } else {
             getVal = {};
           }
+          console.log("getVal",getVal);
 
           resolve(
             Promise.resolve(
@@ -539,7 +543,7 @@ let editSubCategory = (id, subCategoryInfo) => {
   let scName = subCategory.getSubCategoryName();
   let scDescription = subCategory.getSubCategoryDescription();
   let sccategoryID = subCategory.getCategoryID();
-  let subCategoryActive = category.subCategoryActive();
+  let subCategoryActive = subCategory.subCategoryActive();
 
   let insertQuery =
     "UPDATE subcategory SET subCategoryName='" +
