@@ -446,7 +446,7 @@ let addSubCategory = (subCategoryInfo) => {
   let scName = subCategory.getSubCategoryName();
   let scDescription = subCategory.getSubCategoryDescription();
   let categoryID = subCategory.getCategoryID();
-  // let subCategoryActive = category.subCategoryActive();
+  let subCategoryActive = subCategory.subCategoryActive();
 
   let insertQuery =
     "INSERT INTO subcategory SET subCategoryName='" +
@@ -455,8 +455,8 @@ let addSubCategory = (subCategoryInfo) => {
     scDescription +
     "',categoryID='" +
     categoryID +
-    // "', subCategoryActive='" +
-    // subCategoryActive +
+    "', subCategoryActive='" +
+    subCategoryActive +
     "'";
   console.log("insertQuery",insertQuery);
   return new Promise(function (resolve, reject) {
