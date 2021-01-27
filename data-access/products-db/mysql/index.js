@@ -458,7 +458,7 @@ let addSubCategory = (subCategoryInfo) => {
     "', subCategoryActive='" +
     subCategoryActive +
     "'";
-
+  console.log("insertQuery",insertQuery);
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
