@@ -441,6 +441,7 @@ Output: object of new created subCategory
 description: after query execution it will call the getSubCategory function
 */
 let addSubCategory = (subCategoryInfo) => {
+  console.log('subCategoryInfo', subCategoryInfo);
   let subCategory = makeSubCategory(subCategoryInfo);
   let scName = subCategory.getSubCategoryName();
   let scDescription = subCategory.getSubCategoryDescription();
