@@ -188,12 +188,13 @@ let addCategory = (categoryInfo) => {
   let category = makeCategory(categoryInfo);
   let cName = category.getCategoryName();
   let cDescription = category.getCategoryDescription();
+  let categoryActive = category.categoryActive();
   let insertQuery =
     "INSERT INTO category SET categoryName='" +
     cName +
     "',categoryDescription='" +
     cDescription +
-    "'";
+    "',categoryActive='"+categoryActive+"'";
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -268,11 +269,14 @@ let editCategory = (id, categoryInfo) => {
   let category = makeCategory(categoryInfo);
   let cName = category.getCategoryName();
   let cDescription = category.getCategoryDescription();
+  let categoryActive = category.categoryActive();
+
   let insertQuery =
     "UPDATE category SET categoryName='" +
     cName +
     "',categoryDescription='" +
     cDescription +
+    "',categoryActive='"+categoryActive+
     "' WHERE categoryID='" +
     id +
     "'";
@@ -434,9 +438,12 @@ description: after query execution it will call the getSubCategory function
 */
 let addSubCategory = (subCategoryInfo) => {
   let subCategory = makeSubCategory(subCategoryInfo);
-  scName = subCategory.getSubCategoryName();
-  scDescription = subCategory.getSubCategoryDescription();
-  categoryID = subCategory.getCategoryID();
+  let scName = subCategory.getSubCategoryName();
+  let scDescription = subCategory.getSubCategoryDescription();
+  let categoryID = subCategory.getCategoryID();
+  let subCategoryActive = category.subCategoryActive();
+
+
   let insertQuery =
     "INSERT INTO subcategory SET subCategoryName='" +
     scName +
@@ -444,7 +451,8 @@ let addSubCategory = (subCategoryInfo) => {
     scDescription +
     "',categoryID='" +
     categoryID +
-    "'";
+    "', subCategoryActive='"+subCategoryActive+"'";
+
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -521,9 +529,11 @@ description: after query execution it will call the getSubCategory function
 */
 let editSubCategory = (id, subCategoryInfo) => {
   let subCategory = makeSubCategory(subCategoryInfo);
-  scName = subCategory.getSubCategoryName();
-  scDescription = subCategory.getSubCategoryDescription();
-  sccategoryID = subCategory.getCategoryID();
+  let scName = subCategory.getSubCategoryName();
+  let scDescription = subCategory.getSubCategoryDescription();
+  let sccategoryID = subCategory.getCategoryID();
+  let subCategoryActive = category.subCategoryActive();
+
   let insertQuery =
     "UPDATE subcategory SET subCategoryName='" +
     scName +
@@ -531,6 +541,7 @@ let editSubCategory = (id, subCategoryInfo) => {
     scDescription +
     "',categoryID='" +
     sccategoryID +
+    "', subCategoryActive='"+subCategoryActive+
     "' WHERE subCategoryID='" +
     id +
     "'";
@@ -873,6 +884,7 @@ let getItem = (prop, val) => {
       function (err, result, fields) {
         if (!err) {
           if (result.length > 0) {
+            console.log("ITEM",result);
             let get_ID = 0;
             for (let i = 0; i < result.length; i++) {
               if (get_ID != result[i].productIDD) {

@@ -11,12 +11,14 @@ let buildMakeSubCategory = function(subCategoryValidator) {
     subCategoryName,
     subCategoryDescription,
     categoryID,
+    subCategoryActive
     // productID
   } = {}) => {
     let {error} = subCategoryValidator({
       subCategoryName, 
       subCategoryDescription, 
       categoryID,
+      subCategoryActive
       // productID
     })
     if (error) throw new Error(error)
@@ -25,6 +27,7 @@ let buildMakeSubCategory = function(subCategoryValidator) {
       getSubCategoryName: () => subCategoryName,
       getSubCategoryDescription: () => subCategoryDescription,
       getCategoryID: () => categoryID,
+      subCategoryActive: () => subCategoryActive
       // getProductID: () => productID
     }
   }

@@ -8,14 +8,16 @@
 let buildMakeCategory = function(categoryValidator) {
   return ({
     categoryName,
-    categoryDescription
+    categoryDescription,
+    categoryActive
   } = {}) => {
-    let {error} = categoryValidator({categoryName, categoryDescription})
+    let {error} = categoryValidator({categoryName, categoryDescription, categoryActive})
     if (error) throw new Error(error)
 
     return {
       getCategoryName: () => categoryName,
-      getCategoryDescription: () => categoryDescription
+      getCategoryDescription: () => categoryDescription,
+      categoryActive: () => categoryActive
     }
   }
 }
