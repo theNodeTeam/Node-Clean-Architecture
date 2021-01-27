@@ -242,6 +242,7 @@ let getCategory = (prop, val) => {
               categoryID: result[0].categoryID,
               categoryName: result[0].categoryName,
               categoryDescription: result[0].categoryDescription,
+              categoryActive: result[0].categoryActive
             };
           } else {
             getVal = {};
@@ -505,6 +506,7 @@ let getSubCategory = (prop, val) => {
               subCategoryDescription: result[0].subCategoryDescription,
               categoryID: result[0].categoryID,
               productID: result[0].productID,
+              subCategoryActive: result[0].subCategoryActive
             };
           } else {
             getVal = {};

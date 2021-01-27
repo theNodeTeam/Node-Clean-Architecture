@@ -11,7 +11,8 @@ const _serializeSingle = (subCategory) => {
       'subCategoryID': subCategory.subCategoryID,
       'subCategoryName': subCategory.subCategoryName,
       'subCategoryDescription': subCategory.subCategoryDescription,
-      'categoryID': subCategory.categoryID
+      'categoryID': subCategory.categoryID,
+      'subCategoryActive': category.subCategoryActive
     };
   };
   

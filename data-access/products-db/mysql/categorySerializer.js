@@ -10,7 +10,8 @@ const _serializeSingle = (category) => {
     return {
       'categoryID': category.categoryID,
       'categoryName': category.categoryName,
-      'categoryDescription': category.categoryDescription
+      'categoryDescription': category.categoryDescription,
+      'categoryActive': category.categoryActive
     };
   };
   
