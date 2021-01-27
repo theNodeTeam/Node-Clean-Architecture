@@ -194,7 +194,9 @@ let addCategory = (categoryInfo) => {
     cName +
     "',categoryDescription='" +
     cDescription +
-    "',categoryActive='"+categoryActive+"'";
+    "',categoryActive='" +
+    categoryActive +
+    "'";
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
       if (!error) {
@@ -242,7 +244,7 @@ let getCategory = (prop, val) => {
               categoryID: result[0].categoryID,
               categoryName: result[0].categoryName,
               categoryDescription: result[0].categoryDescription,
-              categoryActive: result[0].categoryActive
+              categoryActive: result[0].categoryActive,
             };
           } else {
             getVal = {};
@@ -277,7 +279,8 @@ let editCategory = (id, categoryInfo) => {
     cName +
     "',categoryDescription='" +
     cDescription +
-    "',categoryActive='"+categoryActive+
+    "',categoryActive='" +
+    categoryActive +
     "' WHERE categoryID='" +
     id +
     "'";
@@ -444,7 +447,6 @@ let addSubCategory = (subCategoryInfo) => {
   let categoryID = subCategory.getCategoryID();
   let subCategoryActive = category.subCategoryActive();
 
-
   let insertQuery =
     "INSERT INTO subcategory SET subCategoryName='" +
     scName +
@@ -452,7 +454,9 @@ let addSubCategory = (subCategoryInfo) => {
     scDescription +
     "',categoryID='" +
     categoryID +
-    "', subCategoryActive='"+subCategoryActive+"'";
+    "', subCategoryActive='" +
+    subCategoryActive +
+    "'";
 
   return new Promise(function (resolve, reject) {
     connection.query(insertQuery, (error, result) => {
@@ -506,7 +510,7 @@ let getSubCategory = (prop, val) => {
               subCategoryDescription: result[0].subCategoryDescription,
               categoryID: result[0].categoryID,
               productID: result[0].productID,
-              subCategoryActive: result[0].subCategoryActive
+              subCategoryActive: result[0].subCategoryActive,
             };
           } else {
             getVal = {};
@@ -543,7 +547,8 @@ let editSubCategory = (id, subCategoryInfo) => {
     scDescription +
     "',categoryID='" +
     sccategoryID +
-    "', subCategoryActive='"+subCategoryActive+
+    "', subCategoryActive='" +
+    subCategoryActive +
     "' WHERE subCategoryID='" +
     id +
     "'";
@@ -759,7 +764,7 @@ Output: object of updated item
 description: after query execution it call getItem function
 */
 let editItem = (id, itemInfo) => {
-  console.log(itemInfo,"itemInfo");
+  console.log(itemInfo, 'itemInfo');
   let item = makeItem(itemInfo);
   let productID = item.getproductID();
   let storeID = item.getstoreID();
@@ -886,7 +891,7 @@ let getItem = (prop, val) => {
       function (err, result, fields) {
         if (!err) {
           if (result.length > 0) {
-            console.log("ITEM",result);
+            console.log('ITEM', result);
             let get_ID = 0;
             for (let i = 0; i < result.length; i++) {
               if (get_ID != result[i].productIDD) {
@@ -997,8 +1002,8 @@ let getStoreItem = (prop, val) => {
     //   val +
     //   "'";
     let run_query =
-    'SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*, cate.*,sub_cate.* FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID LEFT JOIN subCategory AS sub_cate ON sub_cate.subCategoryID=p.subCategoryID LEFT JOIN category AS cate ON cate.categoryID=sub_cate.categoryID  WHERE i.storeID=' +
-    val;
+      'SELECT p.productID AS productIDD,  product_images.productID AS piPID, product_images.productImageID , product_images.productImageURL, i.*,  p.* , nutrition.*, cate.*,sub_cate.* FROM items AS i LEFT JOIN product AS p on p.productID=i.productID LEFT JOIN nutrition ON i.nutritionID=nutrition.nutritionID LEFT JOIN product_images on p.productID=product_images.productID LEFT JOIN subCategory AS sub_cate ON sub_cate.subCategoryID=p.subCategoryID LEFT JOIN category AS cate ON cate.categoryID=sub_cate.categoryID  WHERE i.storeID=' +
+      val;
     console.log(run_query, 'S');
     connection.query(run_query, function (err, result, fields) {
       // console.log(result)
@@ -1395,7 +1400,6 @@ let getFeaturedItem = (prop, val) => {
     });
   });
 };
-
 
 /*
 objective: function to get all featured items
@@ -1961,7 +1965,7 @@ let userStoreRef_prod_fav = (prop, val, prop2, val2) => {
             //   "potassium": result[i].potassium,
             //   "totalCarbs": result[i].totalCarbs,
             //   "dietaryFiber": result[i].dietaryFiber,
-            //   "sugar": result[i].sugar 
+            //   "sugar": result[i].sugar
             // })
             var obj = {
               favID: result[i].favID,
@@ -2087,7 +2091,7 @@ Output: object of new nutrition
 description: after query execution it will call get_nutrition  function
 */
 let add_nutrition = (nutritionInfo) => {
-  console.log(nutritionInfo,"S");
+  console.log(nutritionInfo, 'S');
   let nutritions = makeNutrition(nutritionInfo);
   let servingSize = nutritions.servingSize();
   let servingPerContainer = nutritions.servingPerContainer();
