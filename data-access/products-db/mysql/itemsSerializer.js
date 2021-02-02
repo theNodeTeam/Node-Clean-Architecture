@@ -27,7 +27,7 @@ const _serializeSingle = (item) => {
       'expDate': item.expDate,
       'featuredDetails': item.featuredDetails,
       'quantity': item.quantity,
-      // 'speciaIInstructions': item.speciaIInstructions,
+      'speciaIInstructions': item.porductSpeciaIInstructions,
       // 'discount': item.discount,
       'itemBarcode': item.itemBarcode,
       'noOfImage': item.noOfImage,
