@@ -653,6 +653,7 @@ Output: object of new item
 description: after query execution it will call the getItem function
 */
 let addItem = (itemInfo) => {
+  console.log("item",itemInfo);
   let item = makeItem(itemInfo);
   let productID = item.getproductID();
   let storeID = item.getstoreID();
