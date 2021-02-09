@@ -1599,7 +1599,7 @@ let getRef_prod_fav = (prop, val) => {
             storeID: result[0].storeID,
             productPrice: result[0].productPrice,
             productDiscount: result[0].productDiscount,
-            'isFeatured=': result[0].isFeatured,
+            isFeatured: result[0].isFeatured,
             isOutOfStock: result[0].isOutOfStock,
             outOfStockDate: result[0].outOfStockDate,
             expDate: result[0].expDate,
