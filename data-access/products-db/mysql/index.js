@@ -1740,7 +1740,7 @@ let userRef_prod_fav = (prop, val) => {
         var getVal = new Array();
         if (result.length > 0) {
           for (var i = 0; i < result.length; i++) {
-            console.log("object",i,result[i]);
+            // console.log("object ",i,result[i]);
 
             var storeDetail = new Object({
               storeID: result[i].storeID,
@@ -1845,7 +1845,7 @@ let userRef_prod_fav = (prop, val) => {
               nutritionID: result[i].nutritionID,
               noOfImage: result[i].noOfImage,
               disclaimer: result[i].disclaimer,
-              itemActive: result[i].itemActiv,
+              itemActive: result[i].itemActiv, 
               nutritionID: result[i].nutritionID,
               servingSize: result[i].servingSize,
               servingPerContainer: result[i].servingPerContainer,
