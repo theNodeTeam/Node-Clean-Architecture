@@ -7,6 +7,7 @@
 
 // this function maps the field of database to our fields
 const _serializeSingle = (item) => {
+  console.log("ii",item);
     return {
       'favID': item.favID,
       'userID': item.userID,

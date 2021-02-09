@@ -1740,6 +1740,8 @@ let userRef_prod_fav = (prop, val) => {
         var getVal = new Array();
         if (result.length > 0) {
           for (var i = 0; i < result.length; i++) {
+            console.log("object",i,result[i]);
+
             var storeDetail = new Object({
               storeID: result[i].storeID,
               storeName: result[i].storeName,
@@ -1837,7 +1839,7 @@ let userRef_prod_fav = (prop, val) => {
               expDate: result[i].expDate,
               featuredDetails: result[i].featuredDetails,
               quantity: result[i].quantity,
-              porductSpeciaIInstructions: result[i].speciaIInstruction,
+              porductSpeciaIInstructions: result[i].speciaIInstructions,
               discount: result[i].discount,
               itemBarcode: result[i].itemBarcode,
               nutritionID: result[i].nutritionID,
